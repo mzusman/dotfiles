@@ -20,5 +20,10 @@ map("t", "<esc>", "<C-\\><C-n>", { desc = "jk", silent = true })
 map({ "i", "t" }, "jk", "<esc>", { desc = "jk", silent = true })
 map({ "n", "t" }, "<C-j>", "<C-d>", { desc = "jk", silent = true })
 map({ "n", "t" }, "<C-k>", "<C-u>", { desc = "jk", silent = true })
-map("n", "j", "jzz", { desc = "jk", silent = true })
-map("n", "k", "kzz", { desc = "jk", silent = true })
+map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+map({ "i", "n" }, "<esc>", "<cmd>nohlsearch<cr><esc>", { desc = "Escape & clear highlighted search" })
+
+-- map("n", "j", "jzz", { desc = "jk", silent = true })
+-- map("n", "k", "kzz", { desc = "jk", silent = true })
+--
