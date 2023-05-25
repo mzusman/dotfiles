@@ -7,7 +7,21 @@ return {
     config = true,
     keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
   },
-
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      timeout = 0,
+      animate = false,
+      top_down = true,
+      render = "minimal",
+      max_height = function()
+        return math.floor(vim.o.lines * 0.40)
+      end,
+      max_width = function()
+        return math.floor(vim.o.columns * 0.40)
+      end,
+    },
+  },
   {
     "ThePrimeagen/refactoring.nvim",
     keys = {
@@ -69,6 +83,28 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     cmd = "Neotree",
+    keys = {
+      {
+        "<leader>fe",
+        function()
+          require("neo-tree.command").execute({
+            toggle = true,
+            position = "float",
+            dir = require("lazyvim.util").get_root(),
+          })
+        end,
+        desc = "Explorer NeoTree (root dir)",
+      },
+      {
+        "<leader>fE",
+        function()
+          require("neo-tree.command").execute({ toggle = true, position = "float", dir = vim.loop.cwd() })
+        end,
+        desc = "Explorer NeoTree (cwd)",
+      },
+      { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
+      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+    },
     deactivate = function()
       -- Callback function to deactivate the plugin when necessary.
       vim.cmd([[ Neotree close]])
