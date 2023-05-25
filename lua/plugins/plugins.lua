@@ -2,6 +2,15 @@ return {
 
   -- better diffing
   {
+    "hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-emoji" },
+    ---@param opts cmp.ConfigSchema
+    opts = function(_, opts)
+      local cmp = require("cmp")
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
+    end,
+  },
+  {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
     config = true,
@@ -96,7 +105,7 @@ return {
     cmd = "Neotree",
     keys = {
       {
-        "<leader>fe",
+        "<leader>fE",
         function()
           require("neo-tree.command").execute({
             toggle = true,
@@ -107,14 +116,14 @@ return {
         desc = "Explorer NeoTree (root dir)",
       },
       {
-        "<leader>fE",
+        "<leader>fe",
         function()
-          require("neo-tree.command").execute({ toggle = true, position = "float", dir = vim.loop.cwd() })
+          require("neo-tree.command").execute({ toggle = true, reveal = true, position = "float", dir = vim.loop.cwd() })
         end,
         desc = "Explorer NeoTree (cwd)",
       },
-      { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
-      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (root dir)", remap = true },
+      { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (cwd)", remap = true },
     },
     deactivate = function()
       -- Callback function to deactivate the plugin when necessary.
@@ -139,11 +148,47 @@ return {
     },
   },
   { "catppuccin/nvim", name = "catppuccin" },
+  { "nyoom-engineering/oxocarbon.nvim" },
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    theme = "tokyonight",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      -- configurations go here
+    },
+  },
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
+    },
+  },
+  {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    opts = {
+      contrast = "hard", -- can be "hard", "soft" or empty string
+    },
+  },
+
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin-mocha",
+      updatetime = 200,
+      colorscheme = "tokyonight-night",
+      background = "dark",
     },
   },
 }
