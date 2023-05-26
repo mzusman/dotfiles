@@ -43,6 +43,7 @@ return {
         noremap = true,
         silent = true,
         expr = false,
+        desc = "Refactor",
       },
     },
     opts = {},
@@ -58,14 +59,15 @@ return {
       },
     },
   },
-
+  { "ludovicchabant/vim-gutentags" },
   {
     "simrat39/symbols-outline.nvim",
     keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
     config = true,
   },
+
   {
-    "telescope.nvim",
+    "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
@@ -74,6 +76,15 @@ return {
       end,
     },
     keys = {
+      { "<leader><space>", "<cmd>Telescope tags<CR>", desc = "tags" },
+      { "<leader>gc", "<cmd>Telescope git_bcommits<CR>", desc = "buffer commits" },
+      {
+        "<tab>",
+        function()
+          require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true })
+        end,
+        desc = "last buffers",
+      },
       {
         "<leader>fP",
         function()
@@ -93,11 +104,16 @@ return {
       },
     },
   },
+  { "junegunn/fzf" },
 
   {
     -- Plugin for a better & quicker "Escape" mechanism.
     "max397574/better-escape.nvim",
     event = "InsertLeavePre",
+  },
+  {
+    "RRethy/vim-illuminate",
+    opts = { delay = 50 },
   },
 
   {

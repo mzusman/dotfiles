@@ -14,7 +14,7 @@ local function map(mode, lhs, rhs, opts)
   end
 end
 
-map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
+-- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 map("n", "<leader>t", "<cmd>terminal<cr>")
 map("t", "<esc>", "<C-\\><C-n>", { desc = "jk", silent = true })
 map({ "i", "t" }, "jk", "<esc>", { desc = "jk", silent = true })
