@@ -35,7 +35,7 @@ return {
     "ThePrimeagen/refactoring.nvim",
     keys = {
       {
-        "<leader>r",
+        "<leader>cf",
         function()
           require("refactoring").select_refactor()
         end,
@@ -165,6 +165,8 @@ return {
     },
   },
   { "catppuccin/nvim", name = "catppuccin" },
+  { "dracula/vim" },
+
   { "nyoom-engineering/oxocarbon.nvim" },
   {
     "utilyre/barbecue.nvim",
@@ -197,7 +199,7 @@ return {
     "LazyVim/LazyVim",
     opts = {
       updatetime = 200,
-      colorscheme = "tokyonight-night",
+      colorscheme = "tokyonight",
       background = "dark",
     },
   },
