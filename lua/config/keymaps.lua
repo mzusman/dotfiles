@@ -16,6 +16,10 @@ end
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 map("n", "<leader><space>", "<cmd>Tags<cr>")
+map("n", "<leader>ff", "<cmd>GFiles<cr>")
+map("n", "<leader>fF", "<cmd>Files<cr>")
+map("n", "<tab>", "<cmd>Buffers<cr>")
+map("n", "<leader>fr", "<cmd>History<cr>")
 map("n", "<leader>t", "<cmd>terminal<cr>")
 map("t", "<esc>", "<C-\\><C-n>", { desc = "jk", silent = true })
 map({ "i", "t" }, "jk", "<esc>", { desc = "jk", silent = true })

@@ -78,13 +78,13 @@ return {
     keys = {
       { "<leader><space>", "<cmd>Telescope tags<CR>", desc = "tags" },
       { "<leader>gc", "<cmd>Telescope git_bcommits<CR>", desc = "buffer commits" },
-      {
-        "<tab>",
-        function()
-          require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true })
-        end,
-        desc = "last buffers",
-      },
+      -- {
+      -- "<tab>",
+      -- function()
+      -- require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true })
+      -- end,
+      -- desc = "last buffers",
+      -- },
       {
         "<leader>fP",
         function()
@@ -97,8 +97,16 @@ return {
     },
     opts = {
       defaults = {
-        layout_strategy = "horizontal",
-        layout_config = { prompt_position = "top" },
+        layout_strategy = "vertical",
+
+        layout_config = {
+          vertical = {
+            width = 0.95,
+            height = 0.95,
+            preview_height = 0.5,
+          },
+          prompt_position = "top",
+        },
         sorting_strategy = "ascending",
         winblend = 0,
       },
