@@ -176,6 +176,8 @@ return {
   { "dracula/vim" },
 
   { "nyoom-engineering/oxocarbon.nvim" },
+  { "NLKNguyen/papercolor-theme" },
+
   {
     "utilyre/barbecue.nvim",
     name = "barbecue",
@@ -207,8 +209,8 @@ return {
     "LazyVim/LazyVim",
     opts = {
       updatetime = 200,
-      colorscheme = "tokyonight",
-      background = "dark",
+      colorscheme = "PaperColor",
+      background = "light",
     },
   },
 }
