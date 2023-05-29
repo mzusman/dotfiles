@@ -209,7 +209,7 @@ return {
     "LazyVim/LazyVim",
     opts = {
       updatetime = 200,
-      colorscheme = "PaperColor",
+      colorscheme = "dracula",
       background = "light",
     },
   },
