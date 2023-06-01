@@ -28,6 +28,7 @@ map({ "n", "t" }, "<C-k>", "<C-u>", { desc = "jk", silent = true })
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "i", "n" }, "<esc>", "<cmd>nohlsearch<cr><esc>", { desc = "Escape & clear highlighted search" })
+map({ "i", "n" }, "<leader>so", "<cmd>source %<cr>", { desc = "Refresh vim" })
 
 -- map("n", "j", "jzz", { desc = "jk", silent = true })
 -- map("n", "k", "kzz", { desc = "jk", silent = true })

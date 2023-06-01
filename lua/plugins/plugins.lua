@@ -12,7 +12,7 @@ return {
   },
   {
     "sindrets/diffview.nvim",
-    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+    cmd = { "DiffviewFileHistory", "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
     config = true,
     keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
   },
@@ -124,7 +124,9 @@ return {
     "RRethy/vim-illuminate",
     opts = { delay = 50 },
   },
-
+  {
+    "tpope/vim-fugitive",
+  },
   {
     "nvim-neo-tree/neo-tree.nvim",
     cmd = "Neotree",
