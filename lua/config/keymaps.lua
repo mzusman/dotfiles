@@ -14,7 +14,29 @@ local function map(mode, lhs, rhs, opts)
   end
 end
 
+local function showFugitiveGit()
+  if vim.fn.FugitiveHead() ~= "" then
+    vim.cmd([[
+    Git
+    " wincmd H  " Open Git window in vertical split
+    " setlocal winfixwidth
+    " vertical resize 31
+    " setlocal winfixwidth
+    setlocal nonumber
+    setlocal norelativenumber
+    ]])
+  end
+end
+local function toggleFugitiveGit()
+  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then
+    vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git//$') ]])
+  else
+    showFugitiveGit()
+  end
+end
+
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
+map("n", "<leader>gg", toggleFugitiveGit)
 map("n", "<leader><space>", "<cmd>Tags<cr>")
 map("n", "<leader>ff", "<cmd>GFiles<cr>")
 map("n", "<leader>fF", "<cmd>Files<cr>")
@@ -25,10 +47,12 @@ map("t", "<esc>", "<C-\\><C-n>", { desc = "jk", silent = true })
 map({ "i", "t" }, "jk", "<esc>", { desc = "jk", silent = true })
 map({ "n", "t" }, "<C-j>", "<C-d>zz", { desc = "jk", silent = true })
 map({ "n", "t" }, "<C-k>", "<C-u>zz", { desc = "jk", silent = true })
-map("n", "j", "v:count == 0 ? 'gjzz' : 'jzz'", { expr = true, silent = true })
-map("n", "k", "v:count == 0 ? 'gkzz' : 'kzz'", { expr = true, silent = true })
+map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "i", "n" }, "<esc>", "<cmd>nohlsearch<cr><esc>", { desc = "Escape & clear highlighted search" })
-map({ "i", "n" }, "<leader>so", "<cmd>source %<cr>", { desc = "Refresh vim" })
+map({ "n" }, "<leader>so", "<cmd>source %<cr>", { desc = "Refresh vim" })
+map({ "n" }, "n", "nzzzv", { desc = "Next " })
+map({ "n" }, "N", "Nzzzv", { desc = "Next " })
 
 -- map("n", "j", "jzz", { desc = "jk", silent = true })
 -- map("n", "k", "kzz", { desc = "jk", silent = true })
