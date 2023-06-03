@@ -77,14 +77,14 @@ return {
     },
     keys = {
       { "<leader><space>", "<cmd>Telescope tags<CR>", desc = "tags" },
-      { "<leader>gc", "<cmd>Telescope git_bcommits<CR>", desc = "buffer commits" },
-      -- {
-      -- "<tab>",
-      -- function()
-      -- require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true })
-      -- end,
-      -- desc = "last buffers",
-      -- },
+      -- { "<leader>gc", "<cmd>Telescope git_bcommits<CR>", desc = "buffer commits" },
+      {
+        "<tab>",
+        function()
+          require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
+        end,
+        desc = "last buffers",
+      },
       {
         "<leader>fP",
         function()
@@ -96,6 +96,12 @@ return {
       },
     },
     opts = {
+      pickers = {
+        buffers = {
+          -- sort_lastused = true,
+          sort_mru = true,
+        },
+      },
       defaults = {
         layout_strategy = "vertical",
 
@@ -124,9 +130,8 @@ return {
     "RRethy/vim-illuminate",
     opts = { delay = 50 },
   },
-  {
-    "tpope/vim-fugitive",
-  },
+  { "tpope/vim-dispatch" },
+  { "tpope/vim-fugitive" },
   {
     "nvim-neo-tree/neo-tree.nvim",
     cmd = "Neotree",
