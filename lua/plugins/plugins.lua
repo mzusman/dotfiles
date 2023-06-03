@@ -96,12 +96,6 @@ return {
       },
     },
     opts = {
-      pickers = {
-        buffers = {
-          -- sort_lastused = true,
-          sort_mru = true,
-        },
-      },
       defaults = {
         layout_strategy = "vertical",
 
@@ -208,6 +202,23 @@ return {
     priority = 1000,
     opts = {
       contrast = "hard", -- can be "hard", "soft" or empty string
+    },
+  },
+  { "tpope/vim-surround" },
+  { "ggandor/leap.nvim", enabled = false },
+  { "ggandor/flit.nvim", enabled = false },
+  {
+    "echasnovski/mini.surround",
+    enabled = false,
+    opts = {
+      mappings = {
+        add = "ta",
+        find = "tf",
+        find_left = "tF",
+        highlight = "th",
+        replace = "tr",
+        update_n_lines = "tn",
+      },
     },
   },
 
