@@ -18,6 +18,14 @@ return {
   },
   { "HiPhish/jinja.vim" },
   { "ekalinin/Dockerfile.vim" },
+  { "preservim/vim-markdown", ft = "markdown", dependencies = { "godlygeek/tabular" } },
+  {
+    "axkirillov/hbac.nvim",
+    config = function()
+      require("hbac").setup()
+    end,
+  },
+
   {
     "rcarriga/nvim-notify",
     opts = {
