@@ -5,8 +5,8 @@
 --
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.yaml" },
-  command = "call jinja#AdjustFiletype()",
+  pattern = { "*Dockerfile*" },
+  command = "set ft=Dockerfile",
 })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {

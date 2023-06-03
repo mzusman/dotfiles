@@ -17,6 +17,7 @@ return {
     keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
   },
   { "HiPhish/jinja.vim" },
+  { "ekalinin/Dockerfile.vim" },
   {
     "rcarriga/nvim-notify",
     opts = {

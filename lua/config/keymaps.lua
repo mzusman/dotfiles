@@ -57,7 +57,7 @@ map({ "i", "n" }, "<esc>", "<cmd>nohlsearch<cr><esc>", { desc = "Escape & clear 
 map({ "n" }, "<leader>so", "<cmd>source %<cr>", { desc = "Refresh vim" })
 map({ "n" }, "n", "nzzzv", { desc = "Next " })
 map({ "n" }, "N", "Nzzzv", { desc = "Next " })
-vim.keymap.set({ "n" }, "<leader>(", "ysiw(", { desc = "Next ", silent = true })
+-- vim.keymap.set({ "n" }, "<leader>(", "ysiw(", { desc = "Next ", silent = true })
 
 -- map("n", "j", "jzz", { desc = "jk", silent = true })
 -- map("n", "k", "kzz", { desc = "jk", silent = true })
