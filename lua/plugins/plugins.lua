@@ -18,7 +18,6 @@ return {
   },
   { "HiPhish/jinja.vim" },
   { "ekalinin/Dockerfile.vim" },
-<<<<<<< HEAD
   { "preservim/vim-markdown", ft = "markdown", dependencies = { "godlygeek/tabular" } },
   {
     "axkirillov/hbac.nvim",
@@ -27,9 +26,7 @@ return {
     end,
   },
 
-=======
   { "Glench/Vim-Jinja2-Syntax" },
->>>>>>> c0321e45bd02cd05d02e929f18acbd07b81c0d12
   {
     "rcarriga/nvim-notify",
     opts = {
