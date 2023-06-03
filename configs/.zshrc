@@ -100,7 +100,72 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+source ~/.ai21_zshrc
 alias vim=nvim
+alias fzf="fzf --bind 'ctrl-r:reload(ps -ef)' --header 'Press CTRL-R to reload' \
+             --header-lines=1 --layout=reverse"
+alias vim="nvim"
+alias gcp="gsutil -m cp -r "
+alias gmv="gsutil -m mv "
+alias grm="gsutil -m rm -r "
+alias gcat="gsutil cat "
+alias cls="ai21 kubectl-clusters --all"
+alias viz="vim ~/.zshrc"
+alias apply="source ~/.zshrc"
+alias cb="pbcopy"
+alias w="watch -n 0.5"
+
+jobs(){kubectl get jobs -A --no-headers -o custom-columns=":metadata.name" | fzf -m}
+wjobs(){kubectl get jobs -A --no-headers -o wide | fzf -m}
+wjob(){kubectl get jobs -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe job.batch/A}
+wjob2(){kubectl get jobs -A --no-headers -o wide | fzf }
+job(){kubectl get jobs -A --no-headers -o custom-columns=":metadata.name" | fzf }
+
+pods(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf -m }
+wpod(){kubectl get pods -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe pod/A}
+wpod2(){kubectl get pods -A --no-headers -o wide | fzf }
+wpods(){kubectl get pods -A --no-headers -o wide | fzf -m}
+pod(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf }
+
+portf(){POD=$(wpod2)
+	namespace=`echo $POD | awk '{print $1}'`
+	name=`echo $POD | awk '{print $2}'`
+	kubectl port-forward $name --namespace=$namespace $1:$2 }
+
+jlogs(){
+	JOB=$(wjob2)
+	namespace=`echo $JOB | awk '{print $1}'`
+	name=`echo $JOB | awk '{print $2}'`
+	kubectl logs job.batch/$name --namespace=$namespace | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+}
+
+logs(){
+	POD=$(wpod2)
+	namespace=`echo $POD | awk '{print $1}'`
+	name=`echo $POD | awk '{print $2}'`
+	kubectl logs $name --namespace=$namespace | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+}
+
+flogs(){ 
+	POD=$(wpod2)
+	namespace=`echo $POD | awk '{print $1}'`
+	name=`echo $POD | awk '{print $2}'`
+	kubectl logs -f $name --namespace=$namespace $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+	}
+dpod(){kubectl delete pod -A `pod $1`}
+djob(){kubectl delete job `job $1`}
+djobs(){wjobs $1 | awk '{print $2}' | xargs kubectl delete job }
+dpods(){pods $1 | xargs kubectl delete pod }
+dpod(){pods $1 | xargs kubectl delete pod }
+h(){history | grep $1 | tail -10}
+vol(){osascript -e "set Volume $1"}
+pclean(){pip uninstall -y -r <(pip freeze)}
+kssh(){kubectl exec --stdin --tty `pod $1` -- /bin/bash}
+cssh(){portf $1 9999 22 &;sleep 10;ssh root@127.0.0.1 -p 9999}
+mon(){clear;while $1 $2; do sleep 2;clear; done}
+qq(){ while true; do clear; date; "$@" ; sleep 5; done; }
+gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
+
 
 
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
@@ -132,6 +197,3 @@ if [ -f '/Users/morzusman/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/morzu
 if [ -f '/Users/morzusman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/morzusman/google-cloud-sdk/completion.zsh.inc'; fi
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
