@@ -35,6 +35,11 @@ local function toggleFugitiveGit()
   end
 end
 
+map("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
+map("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
+
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 map("n", "<leader>gg", toggleFugitiveGit)
 map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
