@@ -3,10 +3,14 @@
 -- Add any additional autocmds here
 --
 --
-
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*Dockerfile*" },
   command = "set ft=Dockerfile",
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.yaml" },
+  command = "set ft=jinja",
 })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {

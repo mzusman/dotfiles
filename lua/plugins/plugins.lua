@@ -18,6 +18,7 @@ return {
   },
   { "HiPhish/jinja.vim" },
   { "ekalinin/Dockerfile.vim" },
+  { "Glench/Vim-Jinja2-Syntax" },
   {
     "rcarriga/nvim-notify",
     opts = {
