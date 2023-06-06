@@ -37,7 +37,7 @@ end
 
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
-map("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- map("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
@@ -45,7 +45,7 @@ map("n", "<leader>gg", toggleFugitiveGit)
 map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
 map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
-map("n", "<leader>gl", "<cmd>DiffviewFileHistory<cr>")
+map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
 map("n", "<leader><space>", "<cmd>Tags<cr>")
 -- map("n", "<leader>ff", "<cmd>GFiles<cr>")
 -- map("n", "<leader>fF", "<cmd>Files<cr>")
@@ -63,6 +63,20 @@ map({ "n" }, "<leader>so", "<cmd>source %<cr>", { desc = "Refresh vim" })
 map({ "n" }, "n", "nzzzv", { desc = "Next " })
 map({ "n" }, "N", "Nzzzv", { desc = "Next " })
 
+-- Don't yank on delete char
+map("v", "p", '"_dP', { silent = true })
+map("n", "<Leader>pr", "<cmd>lua require('spectre').open_visual({select_word=true})<CR>", { silent = true })
+map("v", "<Leader>pr", "<cmd>lua require('spectre').open_visual()<CR>")
+map("n", "vv", "0v$", { silent = true })
+map("v", "j", "jzz", { silent = true })
+map("v", "k", "kzz", { silent = true })
+
 -- map("n", "j", "jzz", { desc = "jk", silent = true })
 -- map("n", "k", "kzz", { desc = "jk", silent = true })
 --
+--
+
+map("n", "x", '"_x', { silent = true })
+map("n", "X", '"_X', { silent = true })
+map("v", "x", '"_x', { silent = true })
+map("v", "X", '"_X', { silent = true })
