@@ -42,6 +42,7 @@ map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 map("n", "<leader>gg", toggleFugitiveGit)
+map("n", "<leader>gb", "<cmd>Telescope git_branches<cr>")
 map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
 map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })

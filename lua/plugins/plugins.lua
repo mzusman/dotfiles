@@ -153,6 +153,7 @@ return {
     },
     opts = {
       defaults = {
+        preview = false,
         layout_strategy = "vertical",
 
         layout_config = {
