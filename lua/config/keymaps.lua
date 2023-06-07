@@ -46,7 +46,6 @@ map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.
 map("n", "<leader>gg", toggleFugitiveGit)
 map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
 map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
--- vim.keymap.del("n", "<leader>gc")
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
 -- map("n", "<leader>ff", "<cmd>GFiles<cr>")
