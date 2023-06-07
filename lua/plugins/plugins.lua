@@ -32,13 +32,19 @@ return {
           -- https://github.com/nvim-neorg/neorg/blob/main/lua/neorg/modules/core/keybinds/keybinds.lua
           config = {
             default_keybinds = true,
-            neorg_leader = "<Leader><Leader>",
+            neorg_leader = "<Leader>",
           },
         },
+        ["core.promo"] = {},
+        ["core.itero"] = {},
+        ["core.esupports.metagen"] = {},
+
+        ["core.esupports.indent"] = {},
+        ["core.qol.todo_items"] = {},
         ["core.dirman"] = {
           config = {
             workspaces = {
-              notes = "~/Documents/notes",
+              notes = "~/projects/org-mode",
             },
           },
         },
@@ -71,6 +77,7 @@ return {
     end,
   },
 
+  { "tpope/vim-unimpaired" },
   { "Glench/Vim-Jinja2-Syntax" },
   {
     "rcarriga/nvim-notify",
@@ -132,8 +139,8 @@ return {
       end,
     },
     keys = {
-      { "<leader><space>", "<cmd>Telescope tags<CR>", desc = "tags" },
-      -- { "<leader>gc", "<cmd>Telescope git_bcommits<CR>", desc = "buffer commits" },
+      -- { "<leader><space>", "<cmd>Telescope tags<CR>", desc = "tags" },
+      { "<leader>gc", false },
       {
         "<tab>",
         function()
