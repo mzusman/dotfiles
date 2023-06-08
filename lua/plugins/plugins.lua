@@ -17,6 +17,7 @@ return {
     opts = {
       load = {
         ["core.defaults"] = {},
+        ["core.qol.todo_items"] = {},
         ["core.completion"] = {
           config = {
             engine = "nvim-cmp",
