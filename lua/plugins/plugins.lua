@@ -44,7 +44,8 @@ return {
         ["core.dirman"] = {
           config = {
             workspaces = {
-              notes = "~/projects/org-mode",
+              personal = "~/projects/notes/personal",
+              work = "~/projects/notes/work",
             },
           },
         },
