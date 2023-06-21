@@ -35,6 +35,17 @@ local function toggleFugitiveGit()
   end
 end
 
+function fuzzyFindFiles()
+  require("telescope.builtin").grep_string({
+    path_display = { "smart" },
+    only_sort_text = true,
+    word_match = "-w",
+    search = "",
+  })
+end
+
+vim.keymap.set("n", "Q", "<nop>")
+
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 map("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
@@ -49,6 +60,7 @@ map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
 map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
+map("n", "<leader>fs", "<cmd>lua fuzzyFindFiles{}<cr>")
 -- map("n", "<leader>ff", "<cmd>GFiles<cr>")
 -- map("n", "<leader>fF", "<cmd>Files<cr>")
 -- map("n", "<tab>", "<cmd>Telescope buffers<cr>")
@@ -61,7 +73,7 @@ map({ "n", "t" }, "<C-k>", "<C-u>zz", { desc = "jk", silent = true })
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "i", "n" }, "<esc>", "<cmd>nohlsearch<cr><esc>", { desc = "Escape & clear highlighted search" })
-map({ "n" }, "<leader>so", "<cmd>source %<cr>", { desc = "Refresh vim" })
+map({ "n" }, "<leader>o", "<cmd>source %<cr>", { desc = "Refresh vim" })
 map({ "n" }, "n", "nzzzv", { desc = "Next " })
 map({ "n" }, "N", "Nzzzv", { desc = "Next " })
 
