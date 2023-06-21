@@ -35,6 +35,13 @@ local function toggleFugitiveGit()
   end
 end
 
+local function projects()
+  vim.cmd(
+    -- "call fzf#run({'source': 'find ~/projects -maxdepth 1 -mindepth 1 -type d| sort -n', 'sink': 'FZF', 'down': '40%'})"
+    "call fzf#run({'source': 'ls -dt ~/projects/*', 'sink': 'FZF', 'down': '40%'})"
+  )
+end
+
 function fuzzyFindFiles()
   require("telescope.builtin").grep_string({
     path_display = { "smart" },
@@ -52,10 +59,12 @@ map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 map("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
+
 -- vim.keymap.del("n", "<leader>so")
 -- map("n", "<leader>so", "<cmd>source %<cr>")
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
+map("n", "<leader>fp", projects)
 map("n", "<leader>gg", toggleFugitiveGit)
 map("n", "<leader>gb", "<cmd>Telescope git_branches<cr>")
 map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
@@ -64,9 +73,10 @@ map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
 map("n", "<leader>fs", "<cmd>RG<cr>")
 -- map("n", "<leader>ff", "<cmd>GFiles<cr>")
--- map("n", "<leader>fF", "<cmd>Files<cr>")
+map("n", "<leader><space>", "<cmd>Files<cr>")
 map("n", "<tab>", "<cmd>Buffers<cr>")
-map("n", "<space><space>", "<cmd>GFiles<cr>")
+-- map("n", "<leader><space>", )
+-- map("n", "<leader>ff", git_ls)
 
 -- map("n", "<leader>fr", "<cmd>History<cr>")
 -- map("n", "<leader>t", "<cmd>terminal<cr>")
