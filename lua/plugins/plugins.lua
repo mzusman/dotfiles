@@ -17,6 +17,7 @@ return {
     opts = {
       load = {
         ["core.defaults"] = {},
+        ["core.qol.todo_items"] = {},
         ["core.completion"] = {
           config = {
             engine = "nvim-cmp",
@@ -44,7 +45,8 @@ return {
         ["core.dirman"] = {
           config = {
             workspaces = {
-              notes = "~/projects/org-mode",
+              personal = "~/projects/notes/personal",
+              work = "~/projects/notes/work",
             },
           },
         },
