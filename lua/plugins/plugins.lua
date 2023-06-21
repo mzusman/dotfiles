@@ -73,9 +73,21 @@ return {
   { "ekalinin/Dockerfile.vim" },
   { "preservim/vim-markdown", ft = "markdown", dependencies = { "godlygeek/tabular" } },
   {
+    "gbprod/substitute.nvim",
+    config = function()
+      require("substitute").setup({
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      })
+    end,
+  },
+  {
     "axkirillov/hbac.nvim",
     config = function()
-      require("hbac").setup()
+      require("hbac").setup({
+        threshold = 20, -- hbac will start closing unedited buffers once that number is reached
+      })
     end,
   },
 
@@ -124,7 +136,6 @@ return {
       },
     },
   },
-  { "ludovicchabant/vim-gutentags" },
   {
     "simrat39/symbols-outline.nvim",
     keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
@@ -141,15 +152,15 @@ return {
       end,
     },
     keys = {
-      -- { "<leader><space>", "<cmd>Telescope tags<CR>", desc = "tags" },
       { "<leader>gc", false },
-      {
-        "<tab>",
-        function()
-          require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
-        end,
-        desc = "last buffers",
-      },
+      { "<leader><space>", false },
+      -- {
+      -- "<tab>",
+      -- function()
+      -- require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
+      -- end,
+      -- desc = "last buffers",
+      -- },
       {
         "<leader>fP",
         function()
@@ -162,6 +173,7 @@ return {
     },
     opts = {
       defaults = {
+        file_ignore_patterns = { "tags" },
         preview = false,
         layout_strategy = "vertical",
 
@@ -239,16 +251,10 @@ return {
       },
     },
   },
-  { "catppuccin/nvim", name = "catppuccin" },
-  { "dracula/vim" },
-
-  { "nyoom-engineering/oxocarbon.nvim" },
-  { "NLKNguyen/papercolor-theme" },
-
   {
     "utilyre/barbecue.nvim",
     name = "barbecue",
-    theme = "tokyonight",
+    theme = "grubbox",
     version = "*",
     dependencies = {
       "SmiteshP/nvim-navic",
@@ -257,11 +263,6 @@ return {
     opts = {
       -- configurations go here
     },
-  },
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
   },
   {
     "ellisonleao/gruvbox.nvim",

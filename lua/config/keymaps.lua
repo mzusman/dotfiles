@@ -45,6 +45,8 @@ function fuzzyFindFiles()
 end
 
 vim.keymap.set("n", "Q", "<nop>")
+vim.keymap.set("t", "<S-tab>", "<C-n>")
+vim.keymap.set("t", "<tab>", "<C-p>")
 
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
@@ -60,10 +62,12 @@ map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
 map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
-map("n", "<leader>fs", "<cmd>lua fuzzyFindFiles{}<cr>")
+map("n", "<leader>fs", "<cmd>RG<cr>")
 -- map("n", "<leader>ff", "<cmd>GFiles<cr>")
 -- map("n", "<leader>fF", "<cmd>Files<cr>")
--- map("n", "<tab>", "<cmd>Telescope buffers<cr>")
+map("n", "<tab>", "<cmd>Buffers<cr>")
+map("n", "<space><space>", "<cmd>GFiles<cr>")
+
 -- map("n", "<leader>fr", "<cmd>History<cr>")
 -- map("n", "<leader>t", "<cmd>terminal<cr>")
 map("t", "<esc>", "<C-\\><C-n>", { desc = "jk", silent = true })
@@ -73,11 +77,7 @@ map({ "n", "t" }, "<C-k>", "<C-u>zz", { desc = "jk", silent = true })
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "i", "n" }, "<esc>", "<cmd>nohlsearch<cr><esc>", { desc = "Escape & clear highlighted search" })
-<<<<<<< HEAD
-map({ "n" }, "<leader>o", "<cmd>source %<cr>", { desc = "Refresh vim" })
-=======
-map({ "n" }, "<leader>so", "<cmd>source %<cr><cmd>echo 'Sourced'<cr>", { desc = "Refresh vim" })
->>>>>>> 8377132e3da4869cc8ccbfc8c8b261c8252e6f07
+map({ "n" }, "<leader>o", "<cmd>source %<cr><cmd>echo 'Sourced'<cr>", { desc = "Refresh vim" })
 map({ "n" }, "n", "nzzzv", { desc = "Next " })
 map({ "n" }, "N", "Nzzzv", { desc = "Next " })
 map("n", "<C-f>", "<cmd>silent !tmux neww sh ~/.config/nvim/configs/tmux-sessionizer<CR>")
@@ -90,12 +90,11 @@ map("n", "vv", "0v$", { silent = true })
 map("v", "j", "jzz", { silent = true })
 map("v", "k", "kzz", { silent = true })
 
+vim.keymap.set("n", "s", require("substitute").operator, { noremap = true })
+vim.keymap.set("n", "ss", require("substitute").line, { noremap = true })
+vim.keymap.set("n", "S", require("substitute").eol, { noremap = true })
+vim.keymap.set("x", "s", require("substitute").visual, { noremap = true })
 -- map("n", "j", "jzz", { desc = "jk", silent = true })
 -- map("n", "k", "kzz", { desc = "jk", silent = true })
 --
 --
-
-map("n", "x", '"_x', { silent = true })
-map("n", "X", '"_X', { silent = true })
-map("v", "x", '"_x', { silent = true })
-map("v", "X", '"_X', { silent = true })
