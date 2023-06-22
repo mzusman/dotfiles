@@ -102,8 +102,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source ~/.ai21_zshrc
 alias vim=nvim
-alias fzf="fzf --bind 'ctrl-r:reload(ps -ef)' --header 'Press CTRL-R to reload' \
-             --header-lines=1 --layout=reverse"
 alias vim="nvim"
 alias gcp="gsutil -m cp -r "
 alias gmv="gsutil -m mv "
@@ -114,16 +112,29 @@ alias viz="vim ~/.zshrc"
 alias apply="source ~/.zshrc"
 alias cb="pbcopy"
 alias w="watch -n 0.5"
+_fzf(){
+  fzf --bind 'ctrl-r:reload('$FZF_COMMAND')' --header 'Press CTRL-R to reload' \
+             --header-lines=1 --layout=reverse
+}
+_fzfm(){
+  fzf -m --bind 'ctrl-r:reload('$FZF_COMMAND')' --header 'Press CTRL-R to reload' \
+             --header-lines=1 --layout=reverse
+}
 
-jobs(){kubectl get jobs -A --no-headers -o custom-columns=":metadata.name" | fzf -m}
-wjobs(){kubectl get jobs -A --no-headers -o wide | fzf -m}
+jobs(){
+  export FZF_COMMAND='kubectl get jobs -A --no-headers -o custom-columns=":metadata.name"' 
+  _fzfm}
+wjobs(){
+  export FZF_COMMAND='kubectl get jobs -A --no-headers -o wide'
+  kubectl get jobs -A --no-headers -o wide | _fzfm}
 wjob(){kubectl get jobs -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe job.batch/A}
-wjob2(){kubectl get jobs -A --no-headers -o wide | fzf }
+wjob2(){FZF_COMMAND='kubectl get jobs -A --no-headers -o wide' fzf }
 job(){kubectl get jobs -A --no-headers -o custom-columns=":metadata.name" | fzf }
 
 pods(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf -m }
 wpod(){kubectl get pods -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe pod/A}
-wpod2(){kubectl get pods -A --no-headers -o wide | fzf }
+wpod2(){export FZF_COMMAND='kubectl get pods -A --no-headers -o wide' 
+  kubectl get pods -A --no-headers -o wide | _fzf }
 wpods(){kubectl get pods -A --no-headers -o wide | fzf -m}
 pod(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf }
 
@@ -199,3 +210,81 @@ export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
