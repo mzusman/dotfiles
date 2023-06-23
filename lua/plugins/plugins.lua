@@ -191,6 +191,26 @@ return {
     },
   },
   { "junegunn/fzf.vim" },
+
+  {
+    "echasnovski/mini.align",
+    version = false,
+    config = function()
+      require("mini.align").setup({})
+    end,
+  },
+
+  {
+    "echasnovski/mini.files",
+    config = function()
+      require("mini.files").setup({
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      })
+    end,
+    version = false,
+  },
   { "junegunn/fzf" },
 
   {
@@ -198,6 +218,7 @@ return {
     "max397574/better-escape.nvim",
     event = "InsertLeavePre",
   },
+
   {
     "RRethy/vim-illuminate",
     opts = { delay = 50 },
@@ -207,6 +228,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     cmd = "Neotree",
+    enabled = false,
     keys = {
       {
         "<leader>fE",
@@ -264,6 +286,7 @@ return {
       -- configurations go here
     },
   },
+
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
@@ -271,6 +294,7 @@ return {
       contrast = "hard", -- can be "hard", "soft" or empty string
     },
   },
+
   { "tpope/vim-surround" },
   { "ggandor/leap.nvim", enabled = false },
   { "ggandor/flit.nvim", enabled = false },

@@ -61,7 +61,7 @@ map("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
 
 -- vim.keymap.del("n", "<leader>so")
--- map("n", "<leader>so", "<cmd>source %<cr>")
+map("n", "<leader>e", "<cmd>:lua MiniFiles.open()<cr>")
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 map("n", "<leader>fp", projects)
