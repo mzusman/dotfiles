@@ -1,58 +1,58 @@
 return {
-  {
-    "nvim-neorg/neorg",
-    ft = "norg",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-cmp",
-      "nvim-lua/plenary.nvim",
-    },
-    build = ":Neorg sync-parsers",
-    cmd = "Neorg",
-    -- lazy adds:
-    --   config = function(_, opts)
-    --     require("<plugin>").setup(opts)
-    --   end
-    opts = {
-      load = {
-        ["core.defaults"] = {},
-        ["core.qol.todo_items"] = {},
-        ["core.completion"] = {
-          config = {
-            engine = "nvim-cmp",
-            name = "[Norg]",
-          },
-        },
-        ["core.integrations.nvim-cmp"] = {},
-        ["core.concealer"] = {
-          config = { icon_preset = "diamond" },
-        },
-        ["core.export"] = {},
-        ["core.keybinds"] = {
-          -- https://github.com/nvim-neorg/neorg/blob/main/lua/neorg/modules/core/keybinds/keybinds.lua
-          config = {
-            default_keybinds = true,
-            neorg_leader = "<Leader>",
-          },
-        },
-        ["core.promo"] = {},
-        ["core.itero"] = {},
-        ["core.esupports.metagen"] = {},
-
-        ["core.esupports.indent"] = {},
-        ["core.qol.todo_items"] = {},
-        ["core.dirman"] = {
-          config = {
-            workspaces = {
-              personal = "~/projects/notes/personal",
-              work = "~/projects/notes/work",
-            },
-          },
-        },
-      },
-    },
-  },
+  -- {
+  --   "nvim-neorg/neorg",
+  --   ft = "norg",
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "nvim-treesitter/nvim-treesitter-textobjects",
+  --     "nvim-cmp",
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   build = ":Neorg sync-parsers",
+  --   cmd = "Neorg",
+  --   -- lazy adds:
+  --   --   config = function(_, opts)
+  --   --     require("<plugin>").setup(opts)
+  --   --   end
+  --   opts = {
+  --     load = {
+  --       ["core.defaults"] = {},
+  --       ["core.qol.todo_items"] = {},
+  --       ["core.completion"] = {
+  --         config = {
+  --           engine = "nvim-cmp",
+  --           name = "[Norg]",
+  --         },
+  --       },
+  --       ["core.integrations.nvim-cmp"] = {},
+  --       ["core.concealer"] = {
+  --         config = { icon_preset = "diamond" },
+  --       },
+  --       ["core.export"] = {},
+  --       ["core.keybinds"] = {
+  --         -- https://github.com/nvim-neorg/neorg/blob/main/lua/neorg/modules/core/keybinds/keybinds.lua
+  --         config = {
+  --           default_keybinds = true,
+  --           neorg_leader = "<Leader>",
+  --         },
+  --       },
+  --       ["core.promo"] = {},
+  --       ["core.itero"] = {},
+  --       ["core.esupports.metagen"] = {},
+  --
+  --       ["core.esupports.indent"] = {},
+  --       ["core.qol.todo_items"] = {},
+  --       ["core.dirman"] = {
+  --         config = {
+  --           workspaces = {
+  --             personal = "~/projects/notes/personal",
+  --             work = "~/projects/notes/work",
+  --           },
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
   -- better diffing
   {
     "hrsh7th/nvim-cmp",
@@ -69,9 +69,10 @@ return {
     config = true,
     keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
   },
-  { "HiPhish/jinja.vim" },
+  -- { "HiPhish/jinja.vim" },
   { "ekalinin/Dockerfile.vim" },
   { "preservim/vim-markdown", ft = "markdown", dependencies = { "godlygeek/tabular" } },
+
   {
     "gbprod/substitute.nvim",
     config = function()
@@ -128,6 +129,9 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      opts = {
+        inlay_hints = { enabled = true },
+      },
       diagnostics = { virtual_text = { prefix = "icons" } },
       setup = {
         clangd = function(_, opts)
@@ -136,12 +140,12 @@ return {
       },
     },
   },
-  {
-    "simrat39/symbols-outline.nvim",
-    keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
-    config = true,
-  },
-
+  -- {
+  --   "simrat39/symbols-outline.nvim",
+  --   keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+  --   config = true,
+  -- },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -153,14 +157,15 @@ return {
     },
     keys = {
       { "<leader>gc", false },
+      { "<leader>fp", false },
       { "<leader><space>", false },
-      -- {
-      -- "<tab>",
-      -- function()
-      -- require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
-      -- end,
-      -- desc = "last buffers",
-      -- },
+      {
+        "<tab>",
+        function()
+          require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
+        end,
+        desc = "last buffers",
+      },
       {
         "<leader>fP",
         function()
@@ -191,6 +196,17 @@ return {
     },
   },
   { "junegunn/fzf.vim" },
+  {
+    "TimUntersberger/neogit",
+    dependencies = "nvim-lua/plenary.nvim",
+    opts = {
+      disable_builtin_notifications = false,
+      auto_show_console = false,
+      integrations = {
+        diffview = true,
+      },
+    },
+  },
 
   {
     "echasnovski/mini.align",
@@ -199,31 +215,26 @@ return {
       require("mini.align").setup({})
     end,
   },
-
   {
     "echasnovski/mini.files",
-    config = function()
-      require("mini.files").setup({
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      })
-    end,
-    version = false,
+    opts = {
+      windows = {
+        preview = false,
+      },
+      options = {
+        -- Whether to use for editing directories
+        -- Disabled by default in LazyVim because neo-tree is used for that
+        use_as_default_explorer = true,
+      },
+    },
   },
-  { "junegunn/fzf" },
 
-  {
-    -- Plugin for a better & quicker "Escape" mechanism.
-    "max397574/better-escape.nvim",
-    event = "InsertLeavePre",
-  },
+  { "junegunn/fzf" },
 
   {
     "RRethy/vim-illuminate",
     opts = { delay = 50 },
   },
-  { "tpope/vim-dispatch" },
   { "tpope/vim-fugitive" },
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -273,19 +284,19 @@ return {
       },
     },
   },
-  {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    theme = "grubbox",
-    version = "*",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    opts = {
-      -- configurations go here
-    },
-  },
+  -- {
+  --   "utilyre/barbecue.nvim",
+  --   name = "barbecue",
+  --   theme = "grubbox",
+  --   version = "*",
+  --   dependencies = {
+  --     "SmiteshP/nvim-navic",
+  --     "nvim-tree/nvim-web-devicons", -- optional dependency
+  --   },
+  --   opts = {
+  --     -- configurations go here
+  --   },
+  -- },
 
   {
     "ellisonleao/gruvbox.nvim",
@@ -295,30 +306,65 @@ return {
     },
   },
 
-  { "tpope/vim-surround" },
   { "ggandor/leap.nvim", enabled = false },
   { "ggandor/flit.nvim", enabled = false },
   {
-    "echasnovski/mini.surround",
+    "ahmedkhalf/project.nvim",
     enabled = false,
-    opts = {
-      mappings = {
-        add = "ta",
-        find = "tf",
-        find_left = "tF",
-        highlight = "th",
-        replace = "tr",
-        update_n_lines = "tn",
-      },
+    opts = {},
+    event = "VeryLazy",
+    config = function(_, opts)
+      require("project_nvim").setup(opts)
+      require("telescope").load_extension("projects")
+    end,
+    keys = {
+      { "<leader>fp", false },
     },
   },
 
+  { "kkharji/sqlite.lua" },
+  { "EdenEast/nightfox.nvim" }, -- lazy
+
+  { "haystackandroid/rusticated" },
+
+  {
+    "prochri/telescope-all-recent.nvim",
+    config = function()
+      require("telescope-all-recent").setup({
+        -- your config goes here
+      })
+    end,
+  },
+  { "pbrisbin/vim-colors-off" },
+  { "luisiacc/gruvbox-baby" },
+  { "rebelot/kanagawa.nvim" },
+  {
+    "Wansmer/treesj",
+    keys = { "<leader>m", "<leader>j", "<leader>s" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("treesj").setup({--[[ your config ]]
+      })
+    end,
+  },
+
+  {
+    "smjonas/inc-rename.nvim",
+    config = function()
+      require("inc_rename").setup()
+    end,
+  },
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
+  },
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      updatetime = 200,
-      colorscheme = "gruvbox",
+      colorscheme = "kanagawa",
     },
   },
 }

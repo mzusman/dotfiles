@@ -12,8 +12,8 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*.yaml" },
   command = "set ft=jinja",
 })
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-  pattern = { "*" },
-  command = "set nofoldenable foldmethod=manual foldlevelstart=99",
-})
+--
+-- vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+--   pattern = { "*" },
+--   command = "set nofoldenable foldmethod=manual foldlevelstart=99",
+-- })
