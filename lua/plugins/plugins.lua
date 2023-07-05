@@ -83,6 +83,16 @@ return {
       })
     end,
   },
+  { "rockerBOO/boo-colorscheme-nvim" },
+  { "nyoom-engineering/oxocarbon.nvim" },
+  { "dasupradyumna/midnight.nvim", lazy = false, priority = 1000 },
+
+  {
+    "ethanholz/nvim-lastplace",
+    config = function()
+      require("nvim-lastplace").setup({})
+    end,
+  },
   {
     "axkirillov/hbac.nvim",
     config = function()
@@ -130,9 +140,9 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       opts = {
-        inlay_hints = { enabled = true },
+        inlay_hints = { enabled = false },
       },
-      diagnostics = { virtual_text = { prefix = "icons" } },
+      diagnostics = { virtual_text = false },
       setup = {
         clangd = function(_, opts)
           opts.capabilities.offsetEncoding = { "utf-16" }
@@ -199,6 +209,7 @@ return {
   {
     "TimUntersberger/neogit",
     dependencies = "nvim-lua/plenary.nvim",
+    version = false,
     opts = {
       disable_builtin_notifications = false,
       auto_show_console = false,
@@ -207,7 +218,7 @@ return {
       },
     },
   },
-
+  { "folke/noice.nvim", enabled = false },
   {
     "echasnovski/mini.align",
     version = false,
@@ -326,7 +337,7 @@ return {
   { "EdenEast/nightfox.nvim" }, -- lazy
 
   { "haystackandroid/rusticated" },
-
+  { "yorik1984/newpaper.nvim" },
   {
     "prochri/telescope-all-recent.nvim",
     config = function()
@@ -364,7 +375,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "kanagawa",
+      colorscheme = "newpaper",
     },
   },
 }

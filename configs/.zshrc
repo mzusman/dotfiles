@@ -205,3 +205,5 @@ if [ -f '/Users/morzusman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word
