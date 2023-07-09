@@ -142,7 +142,6 @@ return {
       opts = {
         inlay_hints = { enabled = false },
       },
-      diagnostics = { virtual_text = false },
       setup = {
         clangd = function(_, opts)
           opts.capabilities.offsetEncoding = { "utf-16" }
@@ -309,6 +308,7 @@ return {
   --   },
   -- },
 
+  { "rose-pine/neovim", name = "rose-pine" },
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
@@ -365,17 +365,11 @@ return {
       require("inc_rename").setup()
     end,
   },
-  {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    config = function()
-      require("lsp_lines").setup()
-    end,
-  },
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "newpaper",
+      colorscheme = "rose-pine",
     },
   },
 }
