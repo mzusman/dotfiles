@@ -284,6 +284,28 @@ return {
     end,
   },
   {
+    "ThePrimeagen/harpoon",
+  },
+  { "anuvyklack/middleclass" },
+  { "anuvyklack/animation.nvim" },
+  {
+    "anuvyklack/windows.nvim",
+    config = function()
+      vim.o.winminwidth = 5
+      vim.o.winwidth = 5
+      vim.o.equalalways = false
+      require("windows").setup({
+        autowidth = {
+          enable = true,
+          winwidth = 5,
+          filetype = {
+            help = 2,
+          },
+        },
+      })
+    end,
+  },
+  {
     "Wansmer/treesj",
     keys = { "<leader>m", "<leader>j", "<leader>s" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
