@@ -8,6 +8,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   command = "set ft=Dockerfile",
 })
 
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+  pattern = { "*" },
+  command = "set nofoldenable foldmethod=manual foldlevelstart=99",
+})
+
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*.yaml" },
   command = "set ft=jinja",

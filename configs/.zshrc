@@ -106,12 +106,14 @@ alias vim="nvim"
 alias gcp="gsutil -m cp -r "
 alias gmv="gsutil -m mv "
 alias grm="gsutil -m rm -r "
+alias krsync="sh ~/.config/nvim/configs/krsync.sh"
 alias gcat="gsutil cat "
 alias cls="ai21 kubectl-clusters --all"
 alias viz="vim ~/.zshrc"
 alias apply="source ~/.zshrc"
 alias cb="pbcopy"
 alias w="watch -n 0.5"
+
 _fzf(){
   fzf --bind 'ctrl-r:reload('$FZF_COMMAND')' --header 'Press CTRL-R to reload' \
              --header-lines=1 --layout=reverse
@@ -176,6 +178,24 @@ cssh(){portf $1 9999 22 &;sleep 10;ssh root@127.0.0.1 -p 9999}
 mon(){clear;while $1 $2; do sleep 2;clear; done}
 qq(){ while true; do clear; date; "$@" ; sleep 5; done; }
 gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
+
+_podsync(){
+  krsync -av --progress --stats -azP --exclude={'*.git','tags*','*.pyc','*pycache*','*.mpypy*'} $1 $3:$2
+}
+
+podsync(){
+  POD=$(wpod2)
+	name=`echo $POD | awk '{print $2}'`
+  _podsync $1 $2 $name
+}
+
+cpodsync(){
+  POD=$(wpod2)
+	name=`echo $POD | awk '{print $2}'`
+  ind=$1
+  outd=$2
+  fswatch -o $1 | while read f; do _podsync $ind $outd $name; done;
+}
 
 set rtp+=/opt/homebrew/opt/fzf
 

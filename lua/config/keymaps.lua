@@ -55,9 +55,13 @@ vim.keymap.set("n", "<leader>rn", ":IncRename ")
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("t", "<S-tab>", "<C-n>")
 vim.keymap.set("t", "<tab>", "<C-p>")
+vim.keymap.set("t", "<S-j>", "<C-n>")
+vim.keymap.set("t", "<S-k>", "<C-p>")
 
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
+map("n", "<S-h>", "^", { desc = "Prev buffer" })
+map("n", "<S-l>", "$", { desc = "Next buffer" })
 map("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
 

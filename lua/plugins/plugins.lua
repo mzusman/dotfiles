@@ -1,92 +1,54 @@
 return {
-  -- {
-  --   "nvim-neorg/neorg",
-  --   ft = "norg",
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     "nvim-treesitter/nvim-treesitter-textobjects",
-  --     "nvim-cmp",
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  --   build = ":Neorg sync-parsers",
-  --   cmd = "Neorg",
-  --   -- lazy adds:
-  --   --   config = function(_, opts)
-  --   --     require("<plugin>").setup(opts)
-  --   --   end
-  --   opts = {
-  --     load = {
-  --       ["core.defaults"] = {},
-  --       ["core.qol.todo_items"] = {},
-  --       ["core.completion"] = {
-  --         config = {
-  --           engine = "nvim-cmp",
-  --           name = "[Norg]",
-  --         },
-  --       },
-  --       ["core.integrations.nvim-cmp"] = {},
-  --       ["core.concealer"] = {
-  --         config = { icon_preset = "diamond" },
-  --       },
-  --       ["core.export"] = {},
-  --       ["core.keybinds"] = {
-  --         -- https://github.com/nvim-neorg/neorg/blob/main/lua/neorg/modules/core/keybinds/keybinds.lua
-  --         config = {
-  --           default_keybinds = true,
-  --           neorg_leader = "<Leader>",
-  --         },
-  --       },
-  --       ["core.promo"] = {},
-  --       ["core.itero"] = {},
-  --       ["core.esupports.metagen"] = {},
-  --
-  --       ["core.esupports.indent"] = {},
-  --       ["core.qol.todo_items"] = {},
-  --       ["core.dirman"] = {
-  --         config = {
-  --           workspaces = {
-  --             personal = "~/projects/notes/personal",
-  --             work = "~/projects/notes/work",
-  --           },
-  --         },
-  --       },
-  --     },
-  --   },
-  -- },
-  -- better diffing
   {
     "hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-emoji" },
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       local cmp = require("cmp")
-      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
+        {
+          name = "emoji",
+        },
+        name = "spell",
+        option = {
+          keep_all_entries = false,
+          enable_in_context = function()
+            return true
+          end,
+        },
+      }))
     end,
   },
   {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewFileHistory", "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
     config = true,
-    keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
+    keys = {
+      {
+        "<leader>gd",
+        "<cmd>DiffviewOpen<cr>",
+        desc = "DiffView",
+      },
+      {
+        "<leader>gl",
+        "<cmd>DiffviewFileHistory %<cr>",
+        desc = "DiffView",
+      },
+    },
   },
-  -- { "HiPhish/jinja.vim" },
+  { "dhruvasagar/vim-table-mode" },
   { "ekalinin/Dockerfile.vim" },
-  { "preservim/vim-markdown", ft = "markdown", dependencies = { "godlygeek/tabular" } },
-
+  {
+    "preservim/vim-markdown",
+    ft = "markdown",
+    dependencies = { "godlygeek/tabular" },
+  },
   {
     "gbprod/substitute.nvim",
     config = function()
-      require("substitute").setup({
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      })
+      require("substitute").setup({})
     end,
   },
-  { "rockerBOO/boo-colorscheme-nvim" },
-  { "nyoom-engineering/oxocarbon.nvim" },
-  { "dasupradyumna/midnight.nvim", lazy = false, priority = 1000 },
-
   {
     "ethanholz/nvim-lastplace",
     config = function()
@@ -97,7 +59,7 @@ return {
     "axkirillov/hbac.nvim",
     config = function()
       require("hbac").setup({
-        threshold = 20, -- hbac will start closing unedited buffers once that number is reached
+        threshold = 30, -- hbac will start closing unedited buffers once that number is reached
       })
     end,
   },
@@ -123,7 +85,7 @@ return {
     "ThePrimeagen/refactoring.nvim",
     keys = {
       {
-        "<leader>cf",
+        "<leader>cx",
         function()
           require("refactoring").select_refactor()
         end,
@@ -139,6 +101,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      autoformat = true,
       opts = {
         inlay_hints = { enabled = false },
       },
@@ -149,12 +112,6 @@ return {
       },
     },
   },
-  -- {
-  --   "simrat39/symbols-outline.nvim",
-  --   keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
-  --   config = true,
-  -- },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -188,13 +145,10 @@ return {
     opts = {
       defaults = {
         file_ignore_patterns = { "tags" },
-        preview = false,
         layout_strategy = "vertical",
 
         layout_config = {
           vertical = {
-            width = 0.95,
-            height = 0.95,
             preview_height = 0.5,
           },
           prompt_position = "top",
@@ -204,7 +158,10 @@ return {
       },
     },
   },
+  { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
+  { "folke/flash.nvim", enabled = false },
+  { "tpope/vim-repeat" },
   {
     "TimUntersberger/neogit",
     dependencies = "nvim-lua/plenary.nvim",
@@ -238,8 +195,6 @@ return {
       },
     },
   },
-
-  { "junegunn/fzf" },
 
   {
     "RRethy/vim-illuminate",
@@ -294,21 +249,6 @@ return {
       },
     },
   },
-  -- {
-  --   "utilyre/barbecue.nvim",
-  --   name = "barbecue",
-  --   theme = "grubbox",
-  --   version = "*",
-  --   dependencies = {
-  --     "SmiteshP/nvim-navic",
-  --     "nvim-tree/nvim-web-devicons", -- optional dependency
-  --   },
-  --   opts = {
-  --     -- configurations go here
-  --   },
-  -- },
-
-  { "rose-pine/neovim", name = "rose-pine" },
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
@@ -334,9 +274,6 @@ return {
   },
 
   { "kkharji/sqlite.lua" },
-  { "EdenEast/nightfox.nvim" }, -- lazy
-
-  { "haystackandroid/rusticated" },
   { "yorik1984/newpaper.nvim" },
   {
     "prochri/telescope-all-recent.nvim",
@@ -346,9 +283,6 @@ return {
       })
     end,
   },
-  { "pbrisbin/vim-colors-off" },
-  { "luisiacc/gruvbox-baby" },
-  { "rebelot/kanagawa.nvim" },
   {
     "Wansmer/treesj",
     keys = { "<leader>m", "<leader>j", "<leader>s" },
@@ -369,7 +303,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine",
+      colorscheme = "gruvbox",
     },
   },
 }
