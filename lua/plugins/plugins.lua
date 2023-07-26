@@ -37,6 +37,7 @@ return {
     },
   },
   { "dhruvasagar/vim-table-mode" },
+  { "ThePrimeagen/harpoon" },
   { "ekalinin/Dockerfile.vim" },
   {
     "preservim/vim-markdown",
