@@ -111,8 +111,11 @@ alias gcat="gsutil cat "
 alias cls="ai21 kubectl-clusters --all"
 alias viz="vim ~/.zshrc"
 alias apply="source ~/.zshrc"
-alias cb="pbcopy"
 alias w="watch -n 0.5"
+
+cb(){
+  echo $@ | pbcopy
+}
 
 _fzf(){
   fzf --bind 'ctrl-r:reload('$FZF_COMMAND')' --header 'Press CTRL-R to reload' \
