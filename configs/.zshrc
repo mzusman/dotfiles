@@ -143,6 +143,12 @@ wpod2(){export FZF_COMMAND='kubectl get pods -A --no-headers -o wide'
 wpods(){kubectl get pods -A --no-headers -o wide | fzf -m}
 pod(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf }
 
+wnode(){kubectl get nodes -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe node/A}
+wnode2(){export FZF_COMMAND='kubectl get pods -A --no-headers -o wide' 
+  kubectl get nodes -A --no-headers -o wide | _fzf }
+wnodes(){kubectl get nodes -A --no-headers -o wide | fzf -m}
+node(){kubectl get nodes -A --no-headers -o custom-columns=":metadata.name" | fzf }
+
 portf(){POD=$(wpod2)
 	namespace=`echo $POD | awk '{print $1}'`
 	name=`echo $POD | awk '{print $2}'`
@@ -183,7 +189,8 @@ qq(){ while true; do clear; date; "$@" ; sleep 5; done; }
 gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 
 _podsync(){
-  krsync -av --progress --stats -azP --exclude={'*.git','tags*','*.pyc','*pycache*','*.mpypy*'} $1 $3:$2
+  echo "Syncing $1 to $2 , pod: $3"
+  krsync -av --exclude={'*.git','tags*','*.pyc','*pycache*','*.mypy_cache/*','triton','*FasterTransformer*'} $1 $3:$2
 }
 
 podsync(){
@@ -197,6 +204,7 @@ cpodsync(){
 	name=`echo $POD | awk '{print $2}'`
   ind=$1
   outd=$2
+  _podsync $ind $outd $name
   fswatch -o $1 | while read f; do _podsync $ind $outd $name; done;
 }
 

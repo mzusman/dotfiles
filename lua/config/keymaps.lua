@@ -51,6 +51,12 @@ function fuzzyFindFiles()
   })
 end
 
+local Workspace = require("projections.workspace")
+-- Add workspace command
+vim.api.nvim_create_user_command("AddWorkspace", function()
+  Workspace.add(vim.loop.cwd())
+end, {})
+
 vim.keymap.set("n", "<leader>rn", ":IncRename ")
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("t", "<S-tab>", "<C-n>")
@@ -74,8 +80,8 @@ map("n", "<leader>E", function()
 end)
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
-map("n", "<leader>fp", projects)
-map("n", "<leader>gg", "<cmd>Neogit<cr>")
+-- map("n", "<leader>fp", projects)
+map("n", "<leader>gg", "<cmd>Neogit cwd=%:p:h<cr>")
 map("n", "<leader>gb", "<cmd>Telescope git_branches<cr>")
 map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
 map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
@@ -86,12 +92,26 @@ map("n", "<leader>fs", "<cmd>RG<cr>")
 map("n", "<leader><space>", "<cmd>Telescope find_files<cr>")
 map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
 map("n", "§", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>")
+-- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
+vim.keymap.set("n", "zR", require("ufo").openAllFolds)
+vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
+vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
+vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+-- vim.keymap.set("n", "K", function()
+-- local winid = require("ufo").peekFoldedLinesUnderCursor()
+-- if not winid then
+-- choose one of coc.nvim and nvim lsp
+-- vim.fn.CocActionAsync("definitionHover") -- coc.nvim
+-- vim.lsp.buf.hover()
+-- end
+-- end)
 -- map("n", "<tab>", "<cmd>Buffers<cr>")
 -- map("n", "<leader><space>", )
 -- map("n", "<leader>ff", git_ls)
 
 -- map("n", "<leader>fr", "<cmd>History<cr>")
 -- map("n", "<leader>t", "<cmd>terminal<cr>")
+
 map("t", "<esc>", "<C-\\><C-n>", { desc = "jk", silent = true })
 map({ "i", "t" }, "jk", "<esc>", { desc = "jk", silent = true })
 map({ "n", "t" }, "<C-j>", "<C-d>zz", { desc = "jk", silent = true })
@@ -102,6 +122,9 @@ map({ "i", "n" }, "<esc>", "<cmd>nohlsearch<cr><esc>", { desc = "Escape & clear 
 map({ "n" }, "<leader>o", "<cmd>source %<cr><cmd>echo 'Sourced'<cr>", { desc = "Refresh vim" })
 map({ "n" }, "n", "nzzzv", { desc = "Next " })
 map({ "n" }, "N", "Nzzzv", { desc = "Next " })
+map({ "n" }, "<D-v>", '"+p', { desc = "Next " })
+map({ "i" }, "<esc><D-v>", '"+p', { desc = "Next " })
+
 map("n", "<C-f>", "<cmd>silent !tmux neww sh ~/.config/nvim/configs/tmux-sessionizer<CR>")
 
 -- Don't yank on delete char

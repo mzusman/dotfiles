@@ -99,19 +99,79 @@ return {
     },
     opts = {},
   },
+  { "sainnhe/gruvbox-material" },
+  -- Correctly setup lspconfig for clangd 🚀
+  --
   {
     "neovim/nvim-lspconfig",
     opts = {
-      autoformat = true,
-      opts = {
-        inlay_hints = { enabled = false },
+      format = { timeout_ms = 2000 },
+      servers = {
+        -- Ensure mason installs the server
+        clangd = {
+          keys = {
+            { "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
+          },
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern(
+              "Makefile",
+              "configure.ac",
+              "configure.in",
+              "config.h.in",
+              "meson.build",
+              "meson_options.txt",
+              "build.ninja"
+            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(
+              fname
+            ) or require("lspconfig.util").find_git_ancestor(fname)
+          end,
+          capabilities = {
+            offsetEncoding = { "utf-16" },
+          },
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+          },
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+          },
+        },
       },
       setup = {
         clangd = function(_, opts)
-          opts.capabilities.offsetEncoding = { "utf-16" }
+          local clangd_ext_opts = require("lazyvim.util").opts("clangd_extensions.nvim")
+          require("clangd_extensions").setup(vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts }))
+          return false
         end,
       },
     },
+  },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "mason.nvim" },
+    opts = function()
+      local nls = require("null-ls")
+      return {
+        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
+        sources = {
+          nls.builtins.formatting.fish_indent,
+          nls.builtins.diagnostics.fish,
+          nls.builtins.formatting.stylua,
+          nls.builtins.formatting.shfmt,
+          nls.builtins.formatting.autopep8.with({
+            extra_args = { "-a", "--max-line-length=120" },
+          }),
+        },
+      }
+    end,
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -162,10 +222,13 @@ return {
   { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
   { "folke/flash.nvim", enabled = false },
+  { "rebelot/kanagawa.nvim" },
   { "tpope/vim-repeat" },
+  { "rose-pine/neovim", name = "rose-pine" },
   {
     "TimUntersberger/neogit",
     dependencies = "nvim-lua/plenary.nvim",
+    enabled = true,
     version = false,
     opts = {
       disable_builtin_notifications = false,
@@ -257,7 +320,52 @@ return {
       contrast = "hard", -- can be "hard", "soft" or empty string
     },
   },
+  { "kevinhwang91/promise-async" },
+  { "lifepillar/vim-gruvbox8" },
+  {
+    "kevinhwang91/nvim-ufo",
+    config = function()
+      require("ufo").setup({
+        provider_selector = function(bufnr, filetype, buftype)
+          return { "treesitter", "indent" }
+        end,
+      })
+    end,
+  },
+  { "nyoom-engineering/oxocarbon.nvim" },
+  { "goolord/alpha-nvim", enabled = false },
+  {
+    "gnikdroy/projections.nvim",
+    config = function()
+      require("projections").setup({
+        workspaces = { { "~/projects", { ".git" } } },
+      })
 
+      -- Bind <leader>fp to Telescope projections
+      require("telescope").load_extension("projections")
+      vim.keymap.set("n", "<leader>fp", function()
+        vim.cmd("Telescope projections")
+      end)
+
+      -- Autostore session on VimExit
+      local Session = require("projections.session")
+      vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+        callback = function()
+          Session.store(vim.loop.cwd())
+        end,
+      })
+
+      -- Switch to project if vim was started in a project dir
+      local switcher = require("projections.switcher")
+      vim.api.nvim_create_autocmd({ "VimEnter" }, {
+        callback = function()
+          if vim.fn.argc() == 0 then
+            switcher.switch(vim.loop.cwd())
+          end
+        end,
+      })
+    end,
+  },
   { "ggandor/leap.nvim", enabled = false },
   { "ggandor/flit.nvim", enabled = false },
   {
@@ -275,7 +383,9 @@ return {
   },
 
   { "kkharji/sqlite.lua" },
-  { "yorik1984/newpaper.nvim" },
+  {
+    "NLKNguyen/papercolor-theme",
+  },
   {
     "prochri/telescope-all-recent.nvim",
     config = function()
@@ -322,11 +432,13 @@ return {
       require("inc_rename").setup()
     end,
   },
+
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "rose-pine-moon",
     },
   },
 }
