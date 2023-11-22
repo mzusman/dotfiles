@@ -68,8 +68,29 @@ map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 map("n", "<S-h>", "^", { desc = "Prev buffer" })
 map("n", "<S-l>", "$", { desc = "Next buffer" })
+map(
+  "n",
+  "gr",
+  "<cmd> require('telescope.builtin').lsp_references({ trim_text = true, show_line = false, fname_width = 80 })<cr>"
+)
 map("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
+
+if vim.g.neovide == true then
+  vim.api.nvim_set_keymap(
+    "n",
+    "<C-+>",
+    ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>",
+    { silent = true }
+  )
+  vim.api.nvim_set_keymap(
+    "n",
+    "<C-->",
+    ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>",
+    { silent = true }
+  )
+  vim.api.nvim_set_keymap("n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { silent = true })
+end
 
 -- vim.keymap.del("n", "<leader>so")
 map("n", "<leader>e", function()
@@ -81,22 +102,19 @@ end)
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 -- map("n", "<leader>fp", projects)
-map("n", "<leader>gg", "<cmd>Neogit cwd=%:p:h<cr>")
+map("n", "<leader>gg", "<cmd>Neogit<cr>")
 map("n", "<leader>gb", "<cmd>Telescope git_branches<cr>")
 map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
 map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
+map("n", "<leader>gm", "<cmd>DiffviewOpen origin/master<cr>")
 map("n", "<leader>fs", "<cmd>RG<cr>")
--- map("n", "<leader>ff", "<cmd>GFiles<cr>")
+map("n", "<leader>ff", "<cmd>GFiles<cr>")
 map("n", "<leader><space>", "<cmd>Telescope find_files<cr>")
 map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
 map("n", "§", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>")
 -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
-vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
-vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
 -- vim.keymap.set("n", "K", function()
 -- local winid = require("ufo").peekFoldedLinesUnderCursor()
 -- if not winid then
@@ -105,7 +123,7 @@ vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == clo
 -- vim.lsp.buf.hover()
 -- end
 -- end)
--- map("n", "<tab>", "<cmd>Buffers<cr>")
+map("n", "<tab>", "<cmd>Buffers<cr>")
 -- map("n", "<leader><space>", )
 -- map("n", "<leader>ff", git_ls)
 

@@ -17,6 +17,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*.yaml" },
   command = "set ft=jinja",
 })
+
 local Session = require("projections.session")
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
   callback = function()

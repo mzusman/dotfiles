@@ -100,7 +100,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source ~/.ai21_zshrc
 alias vim=nvim
 alias vim="nvim"
 alias gcp="gsutil -m cp -r "
@@ -121,6 +120,7 @@ _fzf(){
   fzf --bind 'ctrl-r:reload('$FZF_COMMAND')' --header 'Press CTRL-R to reload' \
              --header-lines=1 --layout=reverse
 }
+
 _fzfm(){
   fzf -m --bind 'ctrl-r:reload('$FZF_COMMAND')' --header 'Press CTRL-R to reload' \
              --header-lines=1 --layout=reverse
@@ -138,8 +138,10 @@ job(){kubectl get jobs -A --no-headers -o custom-columns=":metadata.name" | fzf 
 
 pods(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf -m }
 wpod(){kubectl get pods -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe pod/A}
+
 wpod2(){export FZF_COMMAND='kubectl get pods -A --no-headers -o wide' 
   kubectl get pods -A --no-headers -o wide | _fzf }
+
 wpods(){kubectl get pods -A --no-headers -o wide | fzf -m}
 pod(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf }
 
@@ -190,7 +192,8 @@ gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 
 _podsync(){
   echo "Syncing $1 to $2 , pod: $3"
-  krsync -av --exclude={'*.git','tags*','*.pyc','*pycache*','*.mypy_cache/*','triton','*FasterTransformer*'} $1 $3:$2
+  krsync -av --exclude={'*.git'} $1 $3:$2
+  osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
 podsync(){
@@ -236,5 +239,7 @@ if [ -f '/Users/morzusman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 
+
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
+source ~/.ai21_zshrc

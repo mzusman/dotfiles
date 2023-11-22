@@ -20,6 +20,10 @@ return {
     end,
   },
   {
+    "nvim-treesitter/nvim-treesitter-context",
+    enabled = false,
+  },
+  {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewFileHistory", "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
     config = true,
@@ -38,7 +42,7 @@ return {
   },
   { "dhruvasagar/vim-table-mode" },
   { "ThePrimeagen/harpoon" },
-  { "ekalinin/Dockerfile.vim" },
+  -- { "ekalinin/Dockerfile.vim" },
   {
     "preservim/vim-markdown",
     ft = "markdown",
@@ -83,6 +87,9 @@ return {
     },
   },
   {
+    "tzachar/highlight-undo.nvim",
+  },
+  {
     "ThePrimeagen/refactoring.nvim",
     keys = {
       {
@@ -105,7 +112,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-      format = { timeout_ms = 2000 },
+      format = { timeout_ms = 5000 },
       servers = {
         -- Ensure mason installs the server
         clangd = {
@@ -153,26 +160,7 @@ return {
       },
     },
   },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "mason.nvim" },
-    opts = function()
-      local nls = require("null-ls")
-      return {
-        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
-        sources = {
-          nls.builtins.formatting.fish_indent,
-          nls.builtins.diagnostics.fish,
-          nls.builtins.formatting.stylua,
-          nls.builtins.formatting.shfmt,
-          nls.builtins.formatting.autopep8.with({
-            extra_args = { "-a", "--max-line-length=120" },
-          }),
-        },
-      }
-    end,
-  },
+
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -186,13 +174,18 @@ return {
       { "<leader>gc", false },
       { "<leader>fp", false },
       { "<leader><space>", false },
-      {
-        "<tab>",
-        function()
-          require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
-        end,
-        desc = "last buffers",
-      },
+      { "gr", false },
+      -- {
+      -- "<tab>",
+      -- function()
+      -- require("telescope.builtin").buffers({
+      -- layout_config = { preview_width = 0 },
+      -- sort_mru = true,
+      -- ignore_current_buffer = true,
+      -- })
+      -- end,
+      -- desc = "last buffers",
+      -- },
       {
         "<leader>fP",
         function()
@@ -206,14 +199,18 @@ return {
     opts = {
       defaults = {
         file_ignore_patterns = { "tags" },
-        layout_strategy = "vertical",
+        -- layout_strategy = "vertical",
+        dynamic_preview_title = true,
 
         layout_config = {
-          vertical = {
-            preview_height = 0.5,
+          horizontal = {
+            height = 0.95,
+            width = 0.95,
+            -- preview_width = 0.35,
           },
-          prompt_position = "top",
+          -- prompt_position = "top",
         },
+        path_display = { "smart" },
         sorting_strategy = "ascending",
         winblend = 0,
       },
@@ -320,15 +317,17 @@ return {
       contrast = "hard", -- can be "hard", "soft" or empty string
     },
   },
-  { "kevinhwang91/promise-async" },
-  { "lifepillar/vim-gruvbox8" },
   {
-    "kevinhwang91/nvim-ufo",
+    "nmac427/guess-indent.nvim",
     config = function()
-      require("ufo").setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          return { "treesitter", "indent" }
-        end,
+      require("guess-indent").setup({})
+    end,
+  },
+  {
+    "roobert/f-string-toggle.nvim",
+    config = function()
+      require("f-string-toggle").setup({
+        key_binding = "<leader>tf",
       })
     end,
   },
