@@ -127,58 +127,57 @@ _fzfm(){
 }
 
 jobs(){
-  export FZF_COMMAND='kubectl get jobs -A --no-headers -o custom-columns=":metadata.name"' 
+  export FZF_COMMAND='kubectl get jobs  --no-headers -o custom-columns=":metadata.name"' 
   _fzfm}
 wjobs(){
-  export FZF_COMMAND='kubectl get jobs -A --no-headers -o wide'
-  kubectl get jobs -A --no-headers -o wide | _fzfm}
-wjob(){kubectl get jobs -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe job.batch/A}
-wjob2(){FZF_COMMAND='kubectl get jobs -A --no-headers -o wide' fzf }
-job(){kubectl get jobs -A --no-headers -o custom-columns=":metadata.name" | fzf }
+  export FZF_COMMAND='kubectl get jobs  --no-headers -o wide'
+  kubectl get jobs  --no-headers -o wide | _fzfm}
+wjob(){kubectl get jobs --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe job.batch/A}
+wjob2(){FZF_COMMAND='kubectl get jobs  --no-headers -o wide' fzf }
+job(){kubectl get jobs  --no-headers -o custom-columns=":metadata.name" | fzf }
 
-pods(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf -m }
-wpod(){kubectl get pods -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe pod/A}
+pods(){kubectl get pods  --no-headers -o custom-columns=":metadata.name" | fzf -m }
+wpod(){kubectl get pods  --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe pod/A}
 
-wpod2(){export FZF_COMMAND='kubectl get pods -A --no-headers -o wide' 
-  kubectl get pods -A --no-headers -o wide | _fzf }
+wpod2(){export FZF_COMMAND='kubectl get pods --no-headers -o wide' 
+  kubectl get pods --no-headers -o wide | _fzf }
 
-wpods(){kubectl get pods -A --no-headers -o wide | fzf -m}
-pod(){kubectl get pods -A --no-headers -o custom-columns=":metadata.name" | fzf }
+wpods(){kubectl get pods --no-headers -o wide | fzf -m}
+pod(){kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf }
 
-wnode(){kubectl get nodes -A --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe node/A}
-wnode2(){export FZF_COMMAND='kubectl get pods -A --no-headers -o wide' 
-  kubectl get nodes -A --no-headers -o wide | _fzf }
-wnodes(){kubectl get nodes -A --no-headers -o wide | fzf -m}
-node(){kubectl get nodes -A --no-headers -o custom-columns=":metadata.name" | fzf }
+wnode(){kubectl get nodes --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe node/A}
+wnode2(){export FZF_COMMAND='kubectl get pods --no-headers -o wide' 
+  kubectl get nodes --no-headers -o wide | _fzf }
+wnodes(){kubectl get nodes --no-headers -o wide | fzf -m}
+node(){kubectl get nodes --no-headers -o custom-columns=":metadata.name" | fzf }
 
-portf(){POD=$(wpod2)
-	namespace=`echo $POD | awk '{print $1}'`
-	name=`echo $POD | awk '{print $2}'`
-	kubectl port-forward $name --namespace=$namespace $1:$2 }
+portf(){
+  POD=$(wpod2)
+	name=`echo $POD | awk '{print $1}'`
+  echo "Forwarding $1 to $2 , pod: $name"
+	kubectl port-forward $name $1:$2 }
 
 jlogs(){
 	JOB=$(wjob2)
-	namespace=`echo $JOB | awk '{print $1}'`
-	name=`echo $JOB | awk '{print $2}'`
-	kubectl logs job.batch/$name --namespace=$namespace | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+	# namespace=`echo $JOB | awk '{print $1}'`
+	name=`echo $JOB | awk '{print $1}'`
+	kubectl logs job.batch/$name | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
 }
 
 logs(){
 	POD=$(wpod2)
-	namespace=`echo $POD | awk '{print $1}'`
-	name=`echo $POD | awk '{print $2}'`
-	kubectl logs $name --namespace=$namespace | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+	name=`echo $POD | awk '{print $1}'`
+	kubectl logs $name | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
 }
 
 flogs(){ 
 	POD=$(wpod2)
-	namespace=`echo $POD | awk '{print $1}'`
-	name=`echo $POD | awk '{print $2}'`
-	kubectl logs -f $name --namespace=$namespace $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+	name=`echo $POD | awk '{print $1}'`
+	kubectl logs -f $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
 	}
-dpod(){kubectl delete pod -A `pod $1`}
+dpod(){kubectl delete pod `pod $1`}
 djob(){kubectl delete job `job $1`}
-djobs(){wjobs $1 | awk '{print $2}' | xargs kubectl delete job }
+djobs(){wjobs $1 | awk '{print $1}' | xargs kubectl delete job }
 dpods(){pods $1 | xargs kubectl delete pod }
 dpod(){pods $1 | xargs kubectl delete pod }
 h(){history | grep $1 | tail -10}

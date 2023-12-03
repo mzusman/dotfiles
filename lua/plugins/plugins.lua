@@ -64,7 +64,7 @@ return {
     "axkirillov/hbac.nvim",
     config = function()
       require("hbac").setup({
-        threshold = 30, -- hbac will start closing unedited buffers once that number is reached
+        threshold = 10, -- hbac will start closing unedited buffers once that number is reached
       })
     end,
   },
@@ -89,24 +89,6 @@ return {
   {
     "tzachar/highlight-undo.nvim",
   },
-  {
-    "ThePrimeagen/refactoring.nvim",
-    keys = {
-      {
-        "<leader>cx",
-        function()
-          require("refactoring").select_refactor()
-        end,
-        mode = "v",
-        noremap = true,
-        silent = true,
-        expr = false,
-        desc = "Refactor",
-      },
-    },
-    opts = {},
-  },
-  { "sainnhe/gruvbox-material" },
   -- Correctly setup lspconfig for clangd 🚀
   --
   {
@@ -261,6 +243,13 @@ return {
     "RRethy/vim-illuminate",
     opts = { delay = 50 },
   },
+  {
+    "RaafatTurki/corn.nvim",
+    config = function()
+      require("corn").setup({})
+    end,
+  },
+
   { "tpope/vim-fugitive" },
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -331,7 +320,6 @@ return {
       })
     end,
   },
-  { "nyoom-engineering/oxocarbon.nvim" },
   { "goolord/alpha-nvim", enabled = false },
   {
     "gnikdroy/projections.nvim",
@@ -385,17 +373,6 @@ return {
   {
     "NLKNguyen/papercolor-theme",
   },
-  {
-    "prochri/telescope-all-recent.nvim",
-    config = function()
-      require("telescope-all-recent").setup({
-        -- your config goes here
-      })
-    end,
-  },
-  {
-    "ThePrimeagen/harpoon",
-  },
   { "anuvyklack/middleclass" },
   { "anuvyklack/animation.nvim" },
   {
@@ -403,7 +380,7 @@ return {
     config = function()
       vim.o.winminwidth = 5
       vim.o.winwidth = 5
-      vim.o.equalalways = false
+      vim.o.equalalways = true
       require("windows").setup({
         autowidth = {
           enable = true,
@@ -437,7 +414,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine-moon",
+      colorscheme = "rose-pine-main",
     },
   },
 }
