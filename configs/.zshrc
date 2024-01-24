@@ -100,8 +100,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source ~/.ai21_zshrc
-alias vim=nvim
+# source ~/.ai21_zshrc
 alias vim="nvim"
 alias gcp="gsutil -m cp -r "
 alias gmv="gsutil -m mv "
@@ -112,6 +111,10 @@ alias cls="ai21 kubectl-clusters --all"
 alias viz="vim ~/.zshrc"
 alias apply="source ~/.zshrc"
 alias w="watch -n 0.5"
+
+export SOFA_ROOT="/Users/morzusman/projects/sofa_build/build/v23.06"
+export PYTHONPATH="/Users/morzusman/projects/sofa_build/build/v23.06/lib/python3/site-packages":$PYTHONPATH
+export PATH="/Users/morzusman/go/bin:$PATH"
 
 cb(){
   echo $@ | pbcopy
@@ -238,3 +241,6 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
+
+export SOFA_ROOT=/Users/morzusman/projects/sofa/build
+export SOFAPYTHON3_ROOT=/Users/morzusman/projects/sofa/build/plugins/SofaPython3

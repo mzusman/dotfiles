@@ -42,6 +42,14 @@ local function projects()
   )
 end
 
+function bibtexx()
+  vim.cmd("let $FZF_BIBTEX_SOURCES = '~/projects/bibtex.bib'")
+  vim.cmd(
+    -- "call fzf#run({'source': 'find ~/projects -maxdepth 1 -mindepth 1 -type d| sort -n', 'sink': 'FZF', 'down': '40%'})"
+    "call fzf#run({'source': 'bibtex-ls', 'sink*': function('<sid>bibtex_cite_sink'), 'down': '40%','options': '--ansi --layout=reverse-list --multi'})"
+  )
+end
+
 function fuzzyFindFiles()
   require("telescope.builtin").grep_string({
     path_display = { "smart" },
@@ -81,6 +89,8 @@ end)
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 -- map("n", "<leader>fp", projects)
+--
+map("n", "<leader>ac", bibtexx)
 map("n", "<leader>gg", "<cmd>Neogit cwd=%:p:h<cr>")
 map("n", "<leader>gb", "<cmd>Telescope git_branches<cr>")
 map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
@@ -88,6 +98,20 @@ map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
 map("n", "<leader>fs", "<cmd>RG<cr>")
+
+if vim.g.neovide then
+  vim.keymap.set("v", "<D-c>", '"+y') -- Copy
+  vim.keymap.set("n", "<D-v>", '"+P') -- Paste normal mode
+  vim.keymap.set("v", "<D-v>", '"+P') -- Paste visual mode
+  vim.keymap.set("c", "<D-v>", "<C-R>+") -- Paste command mode
+  vim.keymap.set("i", "<D-v>", '<ESC>l"+Pli') -- Paste insert mode
+end
+
+-- Allow clipboard copy paste in neovim
+vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
 -- map("n", "<leader>ff", "<cmd>GFiles<cr>")
 map("n", "<leader><space>", "<cmd>Telescope find_files<cr>")
 map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
@@ -105,7 +129,7 @@ vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == clo
 -- vim.lsp.buf.hover()
 -- end
 -- end)
--- map("n", "<tab>", "<cmd>Buffers<cr>")
+map("n", "<CR>", "<cmd>FzfLua buffers<cr>")
 -- map("n", "<leader><space>", )
 -- map("n", "<leader>ff", git_ls)
 

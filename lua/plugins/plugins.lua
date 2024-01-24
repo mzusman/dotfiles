@@ -1,24 +1,6 @@
 return {
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
-      local cmp = require("cmp")
-      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
-        {
-          name = "emoji",
-        },
-        name = "spell",
-        option = {
-          keep_all_entries = false,
-          enable_in_context = function()
-            return true
-          end,
-        },
-      }))
-    end,
-  },
+  { "jalvesaq/zotcite" },
+  { "lervag/vimtex" },
   {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewFileHistory", "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
@@ -37,7 +19,6 @@ return {
     },
   },
   { "dhruvasagar/vim-table-mode" },
-  { "ThePrimeagen/harpoon" },
   { "ekalinin/Dockerfile.vim" },
   {
     "preservim/vim-markdown",
@@ -48,12 +29,6 @@ return {
     "gbprod/substitute.nvim",
     config = function()
       require("substitute").setup({})
-    end,
-  },
-  {
-    "ethanholz/nvim-lastplace",
-    config = function()
-      require("nvim-lastplace").setup({})
     end,
   },
   {
@@ -153,58 +128,85 @@ return {
       },
     },
   },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "mason.nvim" },
-    opts = function()
-      local nls = require("null-ls")
-      return {
-        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
-        sources = {
-          nls.builtins.formatting.fish_indent,
-          nls.builtins.diagnostics.fish,
-          nls.builtins.formatting.stylua,
-          nls.builtins.formatting.shfmt,
-          nls.builtins.formatting.autopep8.with({
-            extra_args = { "-a", "--max-line-length=120" },
-          }),
-        },
-      }
-    end,
-  },
+  { "msprev/fzf-bibtex" },
+  { "shortcuts/no-neck-pain.nvim", version = "*" },
+  { "ferdinandyb/bibtexcite.vim" },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+        config = function()
+          require("telescope").load_extension("fzf")
+        end,
+      },
+      {
+        "nvim-telescope/telescope-bibtex.nvim",
+        ft = { "tex", "markdown" },
+        config = function()
+          require("telescope").load_extension("bibtex")
+        end,
+      },
+    },
+    -- Your extension configuration goes here:
+    -- extension_name = {
+    --   extension_config_key = value,
+    -- }
+    -- please take a look at the readme of the extension you want to configure
+  },
+
+  keys = {
+    { "<leader>gc", false },
+    { "<leader>fp", false },
+    { "<leader><space>", false },
+    {
+      "<tab>",
+      function()
+        require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
       end,
+      desc = "last buffers",
     },
-    keys = {
-      { "<leader>gc", false },
-      { "<leader>fp", false },
-      { "<leader><space>", false },
-      {
-        "<tab>",
-        function()
-          require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
-        end,
-        desc = "last buffers",
-      },
-      {
-        "<leader>fP",
-        function()
-          require("telescope.builtin").find_files({
-            cwd = require("lazy.core.config").options.root,
-          })
-        end,
-        desc = "Find Plugin File",
-      },
+    {
+      "<leader>fP",
+      function()
+        require("telescope.builtin").find_files({
+          cwd = require("lazy.core.config").options.root,
+        })
+      end,
+      desc = "Find Plugin File",
     },
-    opts = {
-      defaults = {
+  },
+
+  opts = {
+
+    defaults = {
+      load_extensions = { "yank_history", "bibtex" },
+      extensions = {
+        bibtex = {
+          depth = 1,
+          -- Depth for the *.bib file
+          global_files = { "/Users/morzusman/projects/bibtex.bib" },
+          -- Path to global bibliographies (placed outside of the project)
+          search_keys = { "author", "year", "title" },
+          -- Define the search keys to use in the picker
+          citation_format = "{{author}} ({{year}}), {{title}}.",
+          -- Template for the formatted citation
+          -- citation_trim_firstname = true,
+          -- Only use initials for the authors first name
+          citation_max_auth = 2,
+          -- Format to use for citation label.
+          -- Try to match the filetype by default, or use 'plain'
+          context = false,
+          -- Context awareness disabled by default
+          format = "latex",
+          context_fallback = true,
+          -- Fallback to global/directory .bib files if context not found
+          -- This setting has no effect if context = false
+          wrap = false,
+          -- Wrapping in the preview window is disabled by default
+        },
+
         file_ignore_patterns = { "tags" },
         layout_strategy = "vertical",
 
@@ -221,8 +223,18 @@ return {
   },
   { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
+  {
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      -- calling `setup` is optional for customization
+      require("fzf-lua").setup({ "max-perf" })
+    end,
+  },
   { "folke/flash.nvim", enabled = false },
   { "rebelot/kanagawa.nvim" },
+  { "miikanissi/modus-themes.nvim", priority = 1000 },
   { "tpope/vim-repeat" },
   { "rose-pine/neovim", name = "rose-pine" },
   {
@@ -366,8 +378,8 @@ return {
       })
     end,
   },
-  { "ggandor/leap.nvim", enabled = false },
-  { "ggandor/flit.nvim", enabled = false },
+  -- { "ggandor/leap.nvim", enabled = t },
+  -- { "ggandor/flit.nvim", enabled = false },
   {
     "ahmedkhalf/project.nvim",
     enabled = false,
@@ -383,9 +395,7 @@ return {
   },
 
   { "kkharji/sqlite.lua" },
-  {
-    "NLKNguyen/papercolor-theme",
-  },
+  { "NLKNguyen/papercolor-theme" },
   {
     "prochri/telescope-all-recent.nvim",
     config = function()
@@ -394,9 +404,7 @@ return {
       })
     end,
   },
-  {
-    "ThePrimeagen/harpoon",
-  },
+  { "ThePrimeagen/harpoon" },
   { "anuvyklack/middleclass" },
   { "anuvyklack/animation.nvim" },
   {
