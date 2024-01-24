@@ -21,25 +21,11 @@ return {
   { "dhruvasagar/vim-table-mode" },
   { "ekalinin/Dockerfile.vim" },
   {
-    "preservim/vim-markdown",
-    ft = "markdown",
-    dependencies = { "godlygeek/tabular" },
-  },
-  {
     "gbprod/substitute.nvim",
     config = function()
       require("substitute").setup({})
     end,
   },
-  {
-    "axkirillov/hbac.nvim",
-    config = function()
-      require("hbac").setup({
-        threshold = 30, -- hbac will start closing unedited buffers once that number is reached
-      })
-    end,
-  },
-
   { "tpope/vim-unimpaired" },
   { "Glench/Vim-Jinja2-Syntax" },
   {
@@ -58,29 +44,9 @@ return {
     },
   },
   {
-    "ThePrimeagen/refactoring.nvim",
-    keys = {
-      {
-        "<leader>cx",
-        function()
-          require("refactoring").select_refactor()
-        end,
-        mode = "v",
-        noremap = true,
-        silent = true,
-        expr = false,
-        desc = "Refactor",
-      },
-    },
-    opts = {},
-  },
-  { "sainnhe/gruvbox-material" },
-  -- Correctly setup lspconfig for clangd 🚀
-  --
-  {
     "neovim/nvim-lspconfig",
     opts = {
-      format = { timeout_ms = 2000 },
+      format = { timeout_ms = 5000 },
       servers = {
         -- Ensure mason installs the server
         clangd = {
@@ -129,7 +95,6 @@ return {
     },
   },
   { "msprev/fzf-bibtex" },
-  { "shortcuts/no-neck-pain.nvim", version = "*" },
   { "ferdinandyb/bibtexcite.vim" },
   {
     "nvim-telescope/telescope.nvim",
@@ -149,75 +114,73 @@ return {
         end,
       },
     },
-    -- Your extension configuration goes here:
-    -- extension_name = {
-    --   extension_config_key = value,
-    -- }
-    -- please take a look at the readme of the extension you want to configure
-  },
-
-  keys = {
-    { "<leader>gc", false },
-    { "<leader>fp", false },
-    { "<leader><space>", false },
-    {
-      "<tab>",
-      function()
-        require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
-      end,
-      desc = "last buffers",
+    keys = {
+      { "<leader>gc", false },
+      { "<leader>fp", false },
+      { "<leader><space>", false },
+      {
+        "<tab>",
+        function()
+          require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
+        end,
+        desc = "last buffers",
+      },
+      {
+        "<leader>fP",
+        function()
+          require("telescope.builtin").find_files({
+            cwd = require("lazy.core.config").options.root,
+          })
+        end,
+        desc = "Find Plugin File",
+      },
     },
-    {
-      "<leader>fP",
-      function()
-        require("telescope.builtin").find_files({
-          cwd = require("lazy.core.config").options.root,
-        })
-      end,
-      desc = "Find Plugin File",
-    },
-  },
 
-  opts = {
+    opts = {
 
-    defaults = {
-      load_extensions = { "yank_history", "bibtex" },
-      extensions = {
-        bibtex = {
-          depth = 1,
-          -- Depth for the *.bib file
-          global_files = { "/Users/morzusman/projects/bibtex.bib" },
-          -- Path to global bibliographies (placed outside of the project)
-          search_keys = { "author", "year", "title" },
-          -- Define the search keys to use in the picker
-          citation_format = "{{author}} ({{year}}), {{title}}.",
-          -- Template for the formatted citation
-          -- citation_trim_firstname = true,
-          -- Only use initials for the authors first name
-          citation_max_auth = 2,
-          -- Format to use for citation label.
-          -- Try to match the filetype by default, or use 'plain'
-          context = false,
-          -- Context awareness disabled by default
-          format = "latex",
-          context_fallback = true,
-          -- Fallback to global/directory .bib files if context not found
-          -- This setting has no effect if context = false
-          wrap = false,
-          -- Wrapping in the preview window is disabled by default
-        },
-
-        file_ignore_patterns = { "tags" },
-        layout_strategy = "vertical",
-
-        layout_config = {
-          vertical = {
-            preview_height = 0.5,
+      defaults = {
+        load_extensions = { "yank_history", "bibtex" },
+        extensions = {
+          bibtex = {
+            depth = 1,
+            -- Depth for the *.bib file
+            global_files = { "/Users/morzusman/projects/bibtex.bib" },
+            -- Path to global bibliographies (placed outside of the project)
+            search_keys = { "author", "year", "title" },
+            -- Define the search keys to use in the picker
+            citation_format = "{{author}} ({{year}}), {{title}}.",
+            -- Template for the formatted citation
+            -- citation_trim_firstname = true,
+            -- Only use initials for the authors first name
+            citation_max_auth = 2,
+            -- Format to use for citation label.
+            -- Try to match the filetype by default, or use 'plain'
+            context = false,
+            -- Context awareness disabled by default
+            format = "latex",
+            context_fallback = true,
+            -- Fallback to global/directory .bib files if context not found
+            -- This setting has no effect if context = false
+            wrap = false,
+            -- Wrapping in the preview window is disabled by default
           },
-          prompt_position = "top",
+
+          file_ignore_patterns = { "tags" },
+          -- layout_strategy = "vertical",
+          dynamic_preview_title = true,
+
+          layout_config = {
+            horizontal = {
+              height = 0.95,
+              width = 0.95,
+              -- preview_width = 0.35,
+            },
+            -- prompt_position = "top",
+          },
+          path_display = { "smart" },
+          sorting_strategy = "ascending",
+          winblend = 0,
         },
-        sorting_strategy = "ascending",
-        winblend = 0,
       },
     },
   },
@@ -225,7 +188,6 @@ return {
   { "junegunn/fzf.vim" },
   {
     "ibhagwan/fzf-lua",
-    -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       -- calling `setup` is optional for customization
@@ -233,15 +195,26 @@ return {
     end,
   },
   { "folke/flash.nvim", enabled = false },
-  { "rebelot/kanagawa.nvim" },
-  { "miikanissi/modus-themes.nvim", priority = 1000 },
   { "tpope/vim-repeat" },
   { "rose-pine/neovim", name = "rose-pine" },
+  { "akinsho/bufferline.nvim", enabled = false },
+  {
+    "stevearc/conform.nvim",
+    dependencies = { "mason.nvim" },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        fish = { "fish_indent" },
+        sh = { "shfmt" },
+        python = { "black", "isort" },
+      },
+    },
+  },
   {
     "TimUntersberger/neogit",
     dependencies = "nvim-lua/plenary.nvim",
     enabled = true,
-    version = false,
+    config = true,
     opts = {
       disable_builtin_notifications = false,
       auto_show_console = false,
@@ -251,13 +224,6 @@ return {
     },
   },
   { "folke/noice.nvim", enabled = false },
-  {
-    "echasnovski/mini.align",
-    version = false,
-    config = function()
-      require("mini.align").setup({})
-    end,
-  },
   {
     "echasnovski/mini.files",
     opts = {
@@ -276,75 +242,12 @@ return {
     "RRethy/vim-illuminate",
     opts = { delay = 50 },
   },
+
   { "tpope/vim-fugitive" },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    cmd = "Neotree",
     enabled = false,
-    keys = {
-      {
-        "<leader>fE",
-        function()
-          require("neo-tree.command").execute({
-            toggle = true,
-            position = "float",
-            dir = require("lazyvim.util").get_root(),
-          })
-        end,
-        desc = "Explorer NeoTree (root dir)",
-      },
-      {
-        "<leader>fe",
-        function()
-          require("neo-tree.command").execute({ toggle = true, reveal = true, position = "float", dir = vim.loop.cwd() })
-        end,
-        desc = "Explorer NeoTree (cwd)",
-      },
-      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (root dir)", remap = true },
-      { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (cwd)", remap = true },
-    },
-    deactivate = function()
-      -- Callback function to deactivate the plugin when necessary.
-      vim.cmd([[ Neotree close]])
-    end,
-    opts = {
-      close_if_last_window = true, -- Don't leave the plugin's window open as the last window
-      filesystem = {
-        filtered_items = {
-          visible = true,
-          show_hidden_count = true,
-          hide_dotfiles = false,
-          hide_gitignored = true,
-          hide_by_name = {
-            -- '.git',
-            -- '.DS_Store',
-            -- 'thumbs.db',
-          },
-          never_show = {},
-        },
-      },
-    },
   },
-  {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    opts = {
-      contrast = "hard", -- can be "hard", "soft" or empty string
-    },
-  },
-  { "kevinhwang91/promise-async" },
-  { "lifepillar/vim-gruvbox8" },
-  {
-    "kevinhwang91/nvim-ufo",
-    config = function()
-      require("ufo").setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          return { "treesitter", "indent" }
-        end,
-      })
-    end,
-  },
-  { "nyoom-engineering/oxocarbon.nvim" },
   { "goolord/alpha-nvim", enabled = false },
   {
     "gnikdroy/projections.nvim",
@@ -378,52 +281,6 @@ return {
       })
     end,
   },
-  -- { "ggandor/leap.nvim", enabled = t },
-  -- { "ggandor/flit.nvim", enabled = false },
-  {
-    "ahmedkhalf/project.nvim",
-    enabled = false,
-    opts = {},
-    event = "VeryLazy",
-    config = function(_, opts)
-      require("project_nvim").setup(opts)
-      require("telescope").load_extension("projects")
-    end,
-    keys = {
-      { "<leader>fp", false },
-    },
-  },
-
-  { "kkharji/sqlite.lua" },
-  { "NLKNguyen/papercolor-theme" },
-  {
-    "prochri/telescope-all-recent.nvim",
-    config = function()
-      require("telescope-all-recent").setup({
-        -- your config goes here
-      })
-    end,
-  },
-  { "ThePrimeagen/harpoon" },
-  { "anuvyklack/middleclass" },
-  { "anuvyklack/animation.nvim" },
-  {
-    "anuvyklack/windows.nvim",
-    config = function()
-      vim.o.winminwidth = 5
-      vim.o.winwidth = 5
-      vim.o.equalalways = false
-      require("windows").setup({
-        autowidth = {
-          enable = true,
-          winwidth = 5,
-          filetype = {
-            help = 2,
-          },
-        },
-      })
-    end,
-  },
   {
     "Wansmer/treesj",
     keys = { "<leader>m", "<leader>j", "<leader>s" },
@@ -433,20 +290,10 @@ return {
       })
     end,
   },
-
-  {
-    "smjonas/inc-rename.nvim",
-    config = function()
-      require("inc_rename").setup()
-    end,
-  },
-
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine-moon",
+      colorscheme = "rose-pine-main",
     },
   },
 }

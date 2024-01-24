@@ -59,11 +59,11 @@ function fuzzyFindFiles()
   })
 end
 
-local Workspace = require("projections.workspace")
+-- local Workspace = require("projections.workspace")
 -- Add workspace command
-vim.api.nvim_create_user_command("AddWorkspace", function()
-  Workspace.add(vim.loop.cwd())
-end, {})
+-- vim.api.nvim_create_user_command("AddWorkspace", function()
+-- Workspace.add(vim.loop.cwd())
+-- end, {})
 
 vim.keymap.set("n", "<leader>rn", ":IncRename ")
 vim.keymap.set("n", "Q", "<nop>")
@@ -76,8 +76,32 @@ map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 map("n", "<S-h>", "^", { desc = "Prev buffer" })
 map("n", "<S-l>", "$", { desc = "Next buffer" })
+-- map(
+-- "n",
+-- "gr",
+-- "<cmd> require('telescope.builtin').lsp_references({ trim_text = true, show_line = false, fname_width = 80 })<cr>"
+-- )
+map("n", "gr", "<cmd>FzfLua lsp_references<cr>")
+map("n", "gd", "<cmd>FzfLua lsp_declarations<cr>")
+map("n", "gm", "<cmd>FzfLua lsp_implementations<cr>")
 map("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
+
+if vim.g.neovide == true then
+  vim.api.nvim_set_keymap(
+    "n",
+    "<C-+>",
+    ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>",
+    { silent = true }
+  )
+  vim.api.nvim_set_keymap(
+    "n",
+    "<C-->",
+    ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>",
+    { silent = true }
+  )
+  vim.api.nvim_set_keymap("n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { silent = true })
+end
 
 -- vim.keymap.del("n", "<leader>so")
 map("n", "<leader>e", function()
@@ -116,11 +140,18 @@ vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true 
 map("n", "<leader><space>", "<cmd>Telescope find_files<cr>")
 map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
 map("n", "§", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>")
+map("n", "<leader>gg", "<cmd>Neogit<cr>")
+map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
+map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
+map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
+map("n", "<leader>gm", "<cmd>DiffviewOpen origin/master<cr>")
+map("n", "<leader>fs", "<cmd>FzfLua grep_project<cr>")
+map("n", "<leader>ff", "<cmd>FzfLua files<cr>")
+map("n", "<leader><space>", "<cmd>FzfLua lsp_live_workspace_symbols<cr>")
+
+-- map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
+-- map("n", "§", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>")
 -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
-vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
-vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
 -- vim.keymap.set("n", "K", function()
 -- local winid = require("ufo").peekFoldedLinesUnderCursor()
 -- if not winid then
