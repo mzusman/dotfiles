@@ -1,24 +1,24 @@
 return {
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
-      local cmp = require("cmp")
-      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
-        {
-          name = "emoji",
-        },
-        name = "spell",
-        option = {
-          keep_all_entries = false,
-          enable_in_context = function()
-            return true
-          end,
-        },
-      }))
-    end,
-  },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   dependencies = { "hrsh7th/cmp-emoji" },
+  --   ---@param opts cmp.ConfigSchema
+  --   opts = function(_, opts)
+  --     local cmp = require("cmp")
+  --     opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
+  --       {
+  --         name = "emoji",
+  --       },
+  --       name = "spell",
+  --       option = {
+  --         keep_all_entries = false,
+  --         enable_in_context = function()
+  --           return true
+  --         end,
+  --       },
+  --     }))
+  --   end,
+  -- },
   {
     "nvim-treesitter/nvim-treesitter-context",
     enabled = false,
@@ -41,34 +41,32 @@ return {
     },
   },
   { "dhruvasagar/vim-table-mode" },
-  { "ThePrimeagen/harpoon" },
-  -- { "ekalinin/Dockerfile.vim" },
-  {
-    "preservim/vim-markdown",
-    ft = "markdown",
-    dependencies = { "godlygeek/tabular" },
-  },
   {
     "gbprod/substitute.nvim",
     config = function()
       require("substitute").setup({})
     end,
   },
-  {
-    "ethanholz/nvim-lastplace",
-    config = function()
-      require("nvim-lastplace").setup({})
-    end,
-  },
+  -- {
+  -- "ethanholz/nvim-lastplace",
+  -- config = function()
+  -- require("nvim-lastplace").setup({})
+  -- end,
+  -- },
   {
     "axkirillov/hbac.nvim",
     config = function()
       require("hbac").setup({
-        threshold = 10, -- hbac will start closing unedited buffers once that number is reached
+        threshold = 20, -- hbac will start closing unedited buffers once that number is reached
       })
     end,
   },
 
+  {
+    "m4xshen/hardtime.nvim",
+    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    opts = {},
+  },
   { "tpope/vim-unimpaired" },
   { "Glench/Vim-Jinja2-Syntax" },
   {
@@ -86,11 +84,9 @@ return {
       end,
     },
   },
-  {
-    "tzachar/highlight-undo.nvim",
-  },
-  -- Correctly setup lspconfig for clangd 🚀
-  --
+  -- {
+  -- "tzachar/highlight-undo.nvim",
+  -- },
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -204,11 +200,51 @@ return {
   { "rebelot/kanagawa.nvim" },
   { "tpope/vim-repeat" },
   { "rose-pine/neovim", name = "rose-pine" },
+  { "akinsho/bufferline.nvim", enabled = false },
+  {
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      -- calling `setup` is optional for customization
+      require("fzf-lua").setup({})
+    end,
+  },
+  -- {
+  --   "shortcuts/no-neck-pain.nvim",
+  --   version = "*",
+  --   config = function()
+  --     require("no-neck-pain").setup({
+  --       width = 100,
+  --       buffers = {
+  --         bo = {
+  --           filetype = "md",
+  --         },
+  --         right = {
+  --           enabled = false,
+  --         },
+  --       },
+  --     })
+  --   end,
+  --   opts = {},
+  -- },
+  {
+    "stevearc/conform.nvim",
+    dependencies = { "mason.nvim" },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        fish = { "fish_indent" },
+        sh = { "shfmt" },
+        python = { "black", "isort" },
+      },
+    },
+  },
   {
     "TimUntersberger/neogit",
     dependencies = "nvim-lua/plenary.nvim",
     enabled = true,
-    version = false,
+    config = true,
     opts = {
       disable_builtin_notifications = false,
       auto_show_console = false,
@@ -243,61 +279,11 @@ return {
     "RRethy/vim-illuminate",
     opts = { delay = 50 },
   },
-  {
-    "RaafatTurki/corn.nvim",
-    config = function()
-      require("corn").setup({})
-    end,
-  },
 
   { "tpope/vim-fugitive" },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    cmd = "Neotree",
     enabled = false,
-    keys = {
-      {
-        "<leader>fE",
-        function()
-          require("neo-tree.command").execute({
-            toggle = true,
-            position = "float",
-            dir = require("lazyvim.util").get_root(),
-          })
-        end,
-        desc = "Explorer NeoTree (root dir)",
-      },
-      {
-        "<leader>fe",
-        function()
-          require("neo-tree.command").execute({ toggle = true, reveal = true, position = "float", dir = vim.loop.cwd() })
-        end,
-        desc = "Explorer NeoTree (cwd)",
-      },
-      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (root dir)", remap = true },
-      { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (cwd)", remap = true },
-    },
-    deactivate = function()
-      -- Callback function to deactivate the plugin when necessary.
-      vim.cmd([[ Neotree close]])
-    end,
-    opts = {
-      close_if_last_window = true, -- Don't leave the plugin's window open as the last window
-      filesystem = {
-        filtered_items = {
-          visible = true,
-          show_hidden_count = true,
-          hide_dotfiles = false,
-          hide_gitignored = true,
-          hide_by_name = {
-            -- '.git',
-            -- '.DS_Store',
-            -- 'thumbs.db',
-          },
-          never_show = {},
-        },
-      },
-    },
   },
   {
     "ellisonleao/gruvbox.nvim",
@@ -306,12 +292,14 @@ return {
       contrast = "hard", -- can be "hard", "soft" or empty string
     },
   },
-  {
-    "nmac427/guess-indent.nvim",
-    config = function()
-      require("guess-indent").setup({})
-    end,
-  },
+
+  -- {
+  --   "nmac427/guess-indent.nvim",
+  --   config = function()
+  --     require("guess-indent").setup({})
+  --   end,
+  -- },
+  --
   {
     "roobert/f-string-toggle.nvim",
     config = function()
@@ -353,45 +341,45 @@ return {
       })
     end,
   },
-  { "ggandor/leap.nvim", enabled = false },
-  { "ggandor/flit.nvim", enabled = false },
-  {
-    "ahmedkhalf/project.nvim",
-    enabled = false,
-    opts = {},
-    event = "VeryLazy",
-    config = function(_, opts)
-      require("project_nvim").setup(opts)
-      require("telescope").load_extension("projects")
-    end,
-    keys = {
-      { "<leader>fp", false },
-    },
-  },
+  -- { "ggandor/leap.nvim", enabled = false },
+  -- { "ggandor/flit.nvim", enabled = false },
+  -- {
+  --   "ahmedkhalf/project.nvim",
+  --   enabled = false,
+  --   opts = {},
+  --   event = "VeryLazy",
+  --   config = function(_, opts)
+  --     require("project_nvim").setup(opts)
+  --     require("telescope").load_extension("projects")
+  --   end,
+  --   keys = {
+  --     { "<leader>fp", false },
+  --   },
+  -- },
 
-  { "kkharji/sqlite.lua" },
-  {
-    "NLKNguyen/papercolor-theme",
-  },
-  { "anuvyklack/middleclass" },
-  { "anuvyklack/animation.nvim" },
-  {
-    "anuvyklack/windows.nvim",
-    config = function()
-      vim.o.winminwidth = 5
-      vim.o.winwidth = 5
-      vim.o.equalalways = true
-      require("windows").setup({
-        autowidth = {
-          enable = true,
-          winwidth = 5,
-          filetype = {
-            help = 2,
-          },
-        },
-      })
-    end,
-  },
+  -- { "kkharji/sqlite.lua" },
+  -- {
+  -- "NLKNguyen/papercolor-theme",
+  -- },
+  -- { "anuvyklack/middleclass" },
+  -- { "anuvyklack/animation.nvim" },
+  -- {
+  --   "anuvyklack/windows.nvim",
+  --   config = function()
+  --     vim.o.winminwidth = 5
+  --     vim.o.winwidth = 5
+  --     vim.o.equalalways = true
+  --     require("windows").setup({
+  --       autowidth = {
+  --         enable = true,
+  --         winwidth = 5,
+  --         filetype = {
+  --           help = 2,
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- },
   {
     "Wansmer/treesj",
     keys = { "<leader>m", "<leader>j", "<leader>s" },
@@ -409,7 +397,7 @@ return {
     end,
   },
 
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  -- { "miikanissi/modus-themes.nvim", priority = 1000 },
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",

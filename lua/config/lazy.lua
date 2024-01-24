@@ -10,6 +10,7 @@ require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- { import = "lazyvim.plugins.extras.editor.leap" },
     { import = "lazyvim.plugins.extras.coding.copilot" },
     -- { import = "lazyvim.plugins.extras.util.project" },
     { import = "lazyvim.plugins.extras.lang.clangd" },
@@ -19,11 +20,10 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.python" },
     { import = "lazyvim.plugins.extras.lsp.none-ls" },
     { import = "lazyvim.plugins.extras.formatting.black" },
-
-    -- { import = "lazyvim.plugins.extras.lang.python" },
-    -- { import = "lazyvim.plugins.extras.lang.python-semshi" },
-    -- { import = "lazyvim.plugins.extras.lang.json" },
-    { import = "lazyvim.plugins.extras.lang.docker" },
+    { import = "lazyvim.plugins.extras.lang.python" },
+    { import = "lazyvim.plugins.extras.lang.python-semshi" },
+    { import = "lazyvim.plugins.extras.lang.json" },
+    -- { import = "lazyvim.plugins.extras.lang.docker" },
     { import = "lazyvim.plugins.extras.lang.cmake" },
     -- { import = "lazyvim.plugins.extras.lang.yaml" },
 
@@ -36,10 +36,10 @@ require("lazy").setup({
     lazy = false,
     -- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
     -- have outdated releases, which may break your Neovim install.
-    version = false, -- always use the latest git commit
-    -- version = "*", -- try installing the latest stable version for plugins that support semver
+    -- version = false, -- always use the latest git commit
+    version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "gruvbox" } },
+  install = {},
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
     rtp = {

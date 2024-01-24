@@ -18,22 +18,22 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   command = "set ft=jinja",
 })
 
-local Session = require("projections.session")
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  callback = function()
-    if vim.fn.argc() ~= 0 then
-      return
-    end
-    local session_info = Session.info(vim.loop.cwd())
-    if session_info == nil then
-      Session.restore_latest()
-    else
-      Session.restore(vim.loop.cwd())
-    end
-  end,
-  desc = "Restore last session automatically",
-})
-
+-- local Session = require("projections.session")
+-- vim.api.nvim_create_autocmd({ "VimEnter" }, {
+--   callback = function()
+--     if vim.fn.argc() ~= 0 then
+--       return
+--     end
+--     local session_info = Session.info(vim.loop.cwd())
+--     if session_info == nil then
+--       Session.restore_latest()
+--     else
+--       Session.restore(vim.loop.cwd())
+--     end
+--   end,
+--   desc = "Restore last session automatically",
+-- })
+--
 --
 -- vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
 --   pattern = { "*" },
