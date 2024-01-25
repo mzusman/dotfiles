@@ -44,10 +44,6 @@ vim.opt.smartindent = true
 vim.cmd("set nofixeol")
 vim.cmd("set nofixendofline")
 
-vim.diagnostic.config({
-  virtual_text = false,
-})
-
 vim.opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 vim.g.neovide_cursor_vfx_mode = "sonicboom"
 vim.o.guifont = "FireCode Nerd Font:h14"
@@ -172,3 +168,6 @@ vim.schedule(function()
   vim.cmd("set title")
   vim.cmd("set titleold=")
 end)
+vim.diagnostic.config({
+  virtual_text = false,
+})

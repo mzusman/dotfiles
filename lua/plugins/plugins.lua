@@ -46,6 +46,9 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      diagnostics = {
+        virtual_text = false,
+      },
       format = { timeout_ms = 5000 },
       servers = {
         -- Ensure mason installs the server
@@ -223,7 +226,6 @@ return {
       },
     },
   },
-  { "folke/noice.nvim", enabled = false },
   {
     "echasnovski/mini.files",
     opts = {
@@ -248,7 +250,6 @@ return {
     "nvim-neo-tree/neo-tree.nvim",
     enabled = false,
   },
-  { "goolord/alpha-nvim", enabled = false },
   {
     "gnikdroy/projections.nvim",
     config = function()
@@ -267,16 +268,6 @@ return {
       vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
         callback = function()
           Session.store(vim.loop.cwd())
-        end,
-      })
-
-      -- Switch to project if vim was started in a project dir
-      local switcher = require("projections.switcher")
-      vim.api.nvim_create_autocmd({ "VimEnter" }, {
-        callback = function()
-          if vim.fn.argc() == 0 then
-            switcher.switch(vim.loop.cwd())
-          end
         end,
       })
     end,
