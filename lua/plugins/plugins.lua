@@ -1,4 +1,21 @@
 return {
+  { "lukas-reineke/cmp-rg" },
+  { "hrsh7th/cmp-calc" },
+  {
+    "vrslev/cmp-pypi",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    ft = "toml",
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-emoji" },
+    opts = function(_, opts)
+      table.insert(opts.sources, { name = "emoji" })
+      table.insert(opts.sources, { name = "pypi", keyword_length = 4 })
+      table.insert(opts.sources, { name = "rg", keyword_length = 3 })
+      table.insert(opts.sources, { name = "calc" })
+    end,
+  },
   { "jalvesaq/zotcite" },
   { "lervag/vimtex" },
   {
