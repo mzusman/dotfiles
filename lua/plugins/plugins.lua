@@ -17,6 +17,7 @@ return {
     end,
   },
   { "jalvesaq/zotcite" },
+  { "nyoom-engineering/oxocarbon.nvim" },
   { "lervag/vimtex" },
   {
     "sindrets/diffview.nvim",
@@ -301,7 +302,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine-main",
+      colorscheme = "oxocarbon",
     },
   },
 }
