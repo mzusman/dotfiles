@@ -1,6 +1,4 @@
 return {
-  { "lukas-reineke/cmp-rg" },
-  { "hrsh7th/cmp-calc" },
   {
     "vrslev/cmp-pypi",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -9,12 +7,7 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-emoji" },
-    opts = function(_, opts)
-      table.insert(opts.sources, { name = "emoji" })
-      table.insert(opts.sources, { name = "pypi", keyword_length = 4 })
-      table.insert(opts.sources, { name = "rg", keyword_length = 3 })
-      table.insert(opts.sources, { name = "calc" })
-    end,
+    opts = function(_, opts) end,
   },
   { "jalvesaq/zotcite" },
   { "nyoom-engineering/oxocarbon.nvim" },
@@ -36,8 +29,8 @@ return {
       },
     },
   },
-  { "dhruvasagar/vim-table-mode" },
-  { "ekalinin/Dockerfile.vim" },
+  -- { "dhruvasagar/vim-table-mode" },
+  -- { "ekalinin/Dockerfile.vim" },
   {
     "gbprod/substitute.nvim",
     config = function()
@@ -45,7 +38,7 @@ return {
     end,
   },
   { "tpope/vim-unimpaired" },
-  { "Glench/Vim-Jinja2-Syntax" },
+  -- { "Glench/Vim-Jinja2-Syntax" },
   {
     "rcarriga/nvim-notify",
     opts = {
@@ -217,7 +210,7 @@ return {
   },
   { "folke/flash.nvim", enabled = false },
   { "tpope/vim-repeat" },
-  { "rose-pine/neovim", name = "rose-pine" },
+  -- { "rose-pine/neovim", name = "rose-pine" },
   { "akinsho/bufferline.nvim", enabled = false },
   {
     "stevearc/conform.nvim",
