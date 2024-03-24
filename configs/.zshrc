@@ -288,6 +288,12 @@ _podsynca(){
   osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
+vmsync(){
+  VM=$1
+  fswatch -o $PWD/| while read f; do rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD);osascript -e 'display notification "Finished syncing!" with title "Sync"'
+  ; done;
+}
+
 podsync(){
   POD=$(wpod2)
 	name=`echo $POD | awk '{print $1}'`
