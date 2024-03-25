@@ -127,7 +127,7 @@ kcp(){
 
 
 ghp(){
-    git log jamba-2.5 --pretty=oneline | _fzfm | awk '{print $1}' | tac | xargs git cherry-pick
+    git log $1 --pretty=oneline | _fzfm | awk '{print $1}' | tac | xargs git cherry-pick
 }
 
 _fzf(){

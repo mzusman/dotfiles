@@ -133,13 +133,6 @@ return {
       { "<leader>fp", false },
       { "<leader><space>", false },
       {
-        "<tab>",
-        function()
-          require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
-        end,
-        desc = "last buffers",
-      },
-      {
         "<leader>fP",
         function()
           require("telescope.builtin").find_files({
