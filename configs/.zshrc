@@ -297,8 +297,7 @@ _podsynca(){
 
 vmsync(){
   VM=$1
-  fswatch -o $PWD/| while read f; do rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD);osascript -e 'display notification "Finished syncing!" with title "Sync"'
-  ; done;
+  fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do rsync -av --delete --ignore-errors --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD); done;
 }
 
 podsync(){
