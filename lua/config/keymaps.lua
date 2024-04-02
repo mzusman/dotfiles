@@ -65,25 +65,27 @@ end
 -- Workspace.add(vim.loop.cwd())
 -- end, {})
 
-vim.keymap.set("n", "<leader>rn", ":IncRename ")
+-- vim.keymap.set("n", "<leader>rn", ":IncRename ")
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("t", "<S-tab>", "<C-n>")
 vim.keymap.set("t", "<tab>", "<C-p>")
 vim.keymap.set("t", "<S-j>", "<C-n>")
 vim.keymap.set("t", "<S-k>", "<C-p>")
-
+map("n", "<leader>e", function()
+  require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+end)
+map("n", "<leader>E", function()
+  require("mini.files").open(vim.uv.cwd(), true)
+end)
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
-map("n", "<S-h>", "^", { desc = "Prev buffer" })
-map("n", "<S-l>", "$", { desc = "Next buffer" })
+map("n", "<S-h>", "^")
+map("n", "<S-l>", "$")
 -- map(
 -- "n",
 -- "gr",
 -- "<cmd> require('telescope.builtin').lsp_references({ trim_text = true, show_line = false, fname_width = 80 })<cr>"
 -- )
-map("n", "gr", "<cmd>FzfLua lsp_references<cr>")
-map("n", "gd", "<cmd>FzfLua lsp_declarations<cr>")
-map("n", "gm", "<cmd>FzfLua lsp_implementations<cr>")
 map("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
 
@@ -104,12 +106,7 @@ if vim.g.neovide == true then
 end
 
 -- vim.keymap.del("n", "<leader>so")
-map("n", "<leader>e", function()
-  require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
-end)
-map("n", "<leader>E", function()
-  require("mini.files").open(vim.loop.cwd(), true)
-end)
+-- map("n", "<leader>e", "<cmd>E<cr>")
 
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 -- map("n", "<leader>fp", projects)
@@ -117,11 +114,10 @@ end)
 map("n", "<leader>ac", bibtexx)
 map("n", "<leader>gg", "<cmd>Neogit cwd=%:p:h<cr>")
 map("n", "<leader>gb", "<cmd>Telescope git_branches<cr>")
-map("n", "<leader>gP", "<cmd>Dispatch git push<cr>")
-map("n", "<leader>gp", "<cmd>Dispatch git pull<cr>", { desc = "Git Pull" })
+map("n", "<leader>gP", "<cmd>Git push<cr>")
+map("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
-map("n", "<leader>fs", "<cmd>RG<cr>")
 
 if vim.g.neovide then
   vim.keymap.set("v", "<D-c>", '"+y') -- Copy
@@ -138,12 +134,6 @@ vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true 
 vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
 -- map("n", "<leader>ff", "<cmd>GFiles<cr>")
 map("n", "<leader><space>", "<cmd>Telescope find_files<cr>")
-map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
-map("n", "§", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>")
-map("n", "<leader>gg", "<cmd>Neogit<cr>")
-map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
-map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
-map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
 map("n", "<leader>gm", "<cmd>DiffviewOpen origin/master<cr>")
 map("n", "<leader>fs", "<cmd>FzfLua grep_project<cr>")
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>")

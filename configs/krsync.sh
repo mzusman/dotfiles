@@ -2,7 +2,7 @@
 
 if [ -z "$KRSYNC_STARTED" ]; then
 	export KRSYNC_STARTED=true
-	exec rsync --delete --blocking-io --rsh "$0" $@
+	exec rsync --blocking-io --rsh "$0" $@
 fi
 
 # Running as --rsh

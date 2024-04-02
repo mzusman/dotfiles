@@ -46,7 +46,6 @@ vim.cmd("set nofixendofline")
 
 vim.opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 vim.g.neovide_cursor_vfx_mode = "sonicboom"
-vim.o.guifont = "FireCode Nerd Font:h14"
 vim.opt.linespace = 0
 
 -- default list of bibfiles
