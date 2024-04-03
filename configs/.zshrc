@@ -131,13 +131,12 @@ ghp(){
 }
 
 _fzf(){
-  fzf --bind 'ctrl-r:reload('$FZF_COMMAND')' --header 'Press CTRL-R to reload' \
-             --header-lines=1 --layout=reverse
+  fzf --bind 'ctrl-r:reload('$FZF_COMMAND')'  \
+             --layout=reverse
 }
 
 _fzfm(){
-  fzf -m --bind 'ctrl-r:reload('$FZF_COMMAND')' --header 'Press CTRL-R to reload' \
-             --header-lines=1 --layout=reverse
+  fzf -m --bind 'ctrl-r:reload('$FZF_COMMAND')' --layout=reverse
 }
 
 jobs(){

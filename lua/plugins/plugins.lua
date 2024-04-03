@@ -1,10 +1,5 @@
 return {
   {
-    "vrslev/cmp-pypi",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    ft = "toml",
-  },
-  {
     "hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-emoji" },
     opts = function(_, opts) end,
@@ -39,21 +34,6 @@ return {
   },
   { "tpope/vim-unimpaired" },
   -- { "Glench/Vim-Jinja2-Syntax" },
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      timeout = 0,
-      animate = false,
-      top_down = true,
-      render = "minimal",
-      max_height = function()
-        return math.floor(vim.o.lines * 0.40)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.40)
-      end,
-    },
-  },
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -205,55 +185,50 @@ return {
   { "tpope/vim-repeat" },
   -- { "rose-pine/neovim", name = "rose-pine" },
   { "akinsho/bufferline.nvim", enabled = false },
-  {
-    "stevearc/conform.nvim",
-    dependencies = { "mason.nvim" },
-    opts = {
-      formatters_by_ft = {
-        lua = { "stylua" },
-        fish = { "fish_indent" },
-        sh = { "shfmt" },
-        python = { "black", "isort" },
-      },
-    },
-  },
+  -- {
+  --   "stevearc/conform.nvim",
+  --   dependencies = { "mason.nvim" },
+  --   opts = {
+  --     formatters_by_ft = {
+  --       lua = { "stylua" },
+  --       fish = { "fish_indent" },
+  --       sh = { "shfmt" },
+  --       python = { "black", "isort" },
+  --     },
+  --   },
+  -- },
   {
     "TimUntersberger/neogit",
     dependencies = "nvim-lua/plenary.nvim",
     enabled = true,
     config = true,
     opts = {
-      disable_builtin_notifications = false,
-      auto_show_console = false,
       integrations = {
         diffview = true,
       },
     },
   },
-  {
-    "echasnovski/mini.files",
-    opts = {
-      windows = {
-        preview = false,
-      },
-      options = {
-        -- Whether to use for editing directories
-        -- Disabled by default in LazyVim because neo-tree is used for that
-        use_as_default_explorer = true,
-      },
-    },
-  },
-
+  -- {
+  --   "echasnovski/mini.files",
+  --   opts = {
+  --     windows = {
+  --       preview = false,
+  --     },
+  --     options = {
+  --       -- Whether to use for editing directories
+  --       -- Disabled by default in LazyVim because neo-tree is used for that
+  --       use_as_default_explorer = true,
+  --     },
+  --   },
+  -- },
+  --
   {
     "RRethy/vim-illuminate",
     opts = { delay = 50 },
   },
 
   { "tpope/vim-fugitive" },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    enabled = false,
-  },
+  { "nvim-neo-tree/neo-tree.nvim", enabled = false },
   {
     "gnikdroy/projections.nvim",
     config = function()
