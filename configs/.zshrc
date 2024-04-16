@@ -299,7 +299,7 @@ _podsynca(){
 }
 
 vans(){
-    export FZF_COMMAND="vast search offers -i 'reliability > 0.98 gpu_name=RTX_4090 driver_version>=535.86.05 num_gpus=1'" 
+    export FZF_COMMAND="vast search offers -d 'reliability > 0.98 gpu_name=RTX_3090 driver_version>=535.86.05 num_gpus=1'" 
     eval $FZF_COMMAND | _fzf
 }
 
@@ -308,7 +308,7 @@ vala(){
     ID=`echo $VANS | awk '{print $1}'`
     PRICE=`echo $VANS | awk '{print $10}'`
     echo $PRICE
-    vast create instance $ID --image pytorch/pytorch --disk 80 --price $PRICE
+    vast create instance $ID --image pytorch/pytorch --disk 80 --price $PRICE --onstart-cmd "touch ~/.no_auto_tmux"
 }
 
 dva(){
@@ -334,9 +334,19 @@ vssh(){
 vsync(){
     ID=$(vali | awk '{print $1}')
     vast copy . $ID:/workspace/$(basename $PWD)
-    fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do sudo vast copy . $ID:/workspace/$(basename $PWD); done;
+    fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do vast copy . $ID:/workspace/$(basename $PWD); done;
 }
 
+vmlruns(){
+    ID=$(vali | awk '{print $1}')
+    while [ 1 ]; do
+        vast copy $ID:/workspace/endo/mlruns .
+        sleep 15
+    done
+}
+cdata(){
+    vast cloud copy --src /Archive.zip --dst /workspace/  --transfer "Cloud To Instance" --instance $(vali | awk '{print $1}') --connection $(vastai show connections | tail -1 | awk '{print $1}')
+}
 vmsync(){
   VM=$1
   rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD)
