@@ -117,6 +117,7 @@ alias cls="ai21 kubectl-clusters --all"
 alias viz="vim ~/.zshrc"
 alias apply="source ~/.zshrc"
 alias w="watch -n 0.5"
+alias vast="/Users/morzusman/projects/vast/vast"
 
 export SOFA_ROOT="/Users/morzusman/projects/sofa_build/build/v23.06"
 export PYTHONPATH="/Users/morzusman/projects/sofa_build/build/v23.06/lib/python3/site-packages":$PYTHONPATH
@@ -193,7 +194,7 @@ export FZF_COMMAND='cat /tmp/wpod2'
 }
 
 wpod2a(){export FZF_COMMAND='kubectl get pods --all-namespaces --no-headers -o wide' 
-  kubectl get pods --all-namespaces --no-headers -o wide | _fzf }
+  eval $FZF_COMMAND | _fzf }
 
 wpods(){kubectl get pods --no-headers -o wide | fzf -m}
 pod(){
@@ -212,7 +213,7 @@ poda(){kubectl get pods --all-namespaces --no-headers -o custom-columns=":metada
 
 wnode(){kubectl get nodes --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe node/A}
 wnode2(){export FZF_COMMAND='kubectl get pods --no-headers -o wide' 
-  kubectl get nodes --no-headers -o wide | _fzf }
+  eval $FZF_COMMAND | _fzf }
 wnodes(){kubectl get nodes --no-headers -o wide | fzf -m}
 node(){kubectl get nodes --no-headers -o custom-columns=":metadata.name" | fzf }
 
@@ -297,8 +298,48 @@ _podsynca(){
   # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
+vans(){
+    export FZF_COMMAND="vast search offers -i 'reliability > 0.98 gpu_name=RTX_4090 driver_version>=535.86.05 num_gpus=1'" 
+    eval $FZF_COMMAND | _fzf
+}
+
+vala(){
+    VANS=$(vans)
+    ID=`echo $VANS | awk '{print $1}'`
+    PRICE=`echo $VANS | awk '{print $10}'`
+    echo $PRICE
+    vast create instance $ID --image pytorch/pytorch --disk 80 --price $PRICE
+}
+
+dva(){
+    ID=$(vali | awk '{print $1}')
+    vast destroy instance $ID
+}
+
+vali(){
+    export FZF_COMMAND="vast show instances" 
+    eval $FZF_COMMAND | _fzf
+}
+
+vsshl(){
+    ID=$(vali | awk '{print $1}')
+    vast ssh-url $ID
+}
+
+vssh(){
+    URL=$(vsshl)
+    ssh $URL
+}
+
+vsync(){
+    ID=$(vali | awk '{print $1}')
+    vast copy . $ID:/workspace/$(basename $PWD)
+    fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do sudo vast copy . $ID:/workspace/$(basename $PWD); done;
+}
+
 vmsync(){
   VM=$1
+  rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD)
   fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD); done;
 }
 

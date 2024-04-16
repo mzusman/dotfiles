@@ -131,7 +131,7 @@ return {
           bibtex = {
             depth = 1,
             -- Depth for the *.bib file
-            global_files = { "/Users/morzusman/projects/bibtex.bib" },
+            global_files = { "/Users/morzusman/projects/bib3.bib" },
             -- Path to global bibliographies (placed outside of the project)
             search_keys = { "author", "year", "title" },
             -- Define the search keys to use in the picker
@@ -139,7 +139,7 @@ return {
             -- Template for the formatted citation
             -- citation_trim_firstname = true,
             -- Only use initials for the authors first name
-            citation_max_auth = 2,
+            citation_max_auth = 1,
             -- Format to use for citation label.
             -- Try to match the filetype by default, or use 'plain'
             context = false,
