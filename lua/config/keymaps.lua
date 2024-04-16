@@ -189,7 +189,7 @@ vim.keymap.set("x", "s", require("substitute").visual, { noremap = true })
 --
 vim.g.gui_font_default_size = 12
 vim.g.gui_font_size = vim.g.gui_font_default_size
-vim.g.gui_font_face = "JetBrains Mono NL"
+vim.g.gui_font_face = "JetBrainsMono Nerd Font"
 
 RefreshGuiFont = function()
   vim.opt.guifont = string.format("%s:h%s", vim.g.gui_font_face, vim.g.gui_font_size)
