@@ -138,6 +138,7 @@ map("n", "<leader>gm", "<cmd>DiffviewOpen origin/master<cr>")
 map("n", "<leader>fs", "<cmd>FzfLua grep_project<cr>")
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>")
 map("n", "<leader><space>", "<cmd>FzfLua lsp_live_workspace_symbols<cr>")
+map("n", "§", "<cmd>FzfLua resume<cr>")
 
 -- map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
 -- map("n", "§", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>")

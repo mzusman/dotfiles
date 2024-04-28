@@ -178,9 +178,10 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       -- calling `setup` is optional for customization
-      require("fzf-lua").setup({})
+      require("fzf-lua").setup({ "telescope" })
     end,
   },
+  { "projekt0n/github-nvim-theme" },
   { "folke/flash.nvim", enabled = false },
   { "tpope/vim-repeat" },
   -- { "rose-pine/neovim", name = "rose-pine" },
@@ -263,7 +264,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "oxocarbon",
+      colorscheme = "github_dark_high_contrast",
     },
   },
 }

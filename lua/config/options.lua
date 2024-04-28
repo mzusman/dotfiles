@@ -47,6 +47,7 @@ vim.cmd("set nofixendofline")
 vim.opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 vim.g.neovide_cursor_vfx_mode = "sonicboom"
 vim.opt.linespace = 0
+vim.g.neovide_cursor_animation_length = 0
 
 -- default list of bibfiles
 -- can be overriden by changing vim.b.bibfiles inside buffer

@@ -117,7 +117,7 @@ alias cls="ai21 kubectl-clusters --all"
 alias viz="vim ~/.zshrc"
 alias apply="source ~/.zshrc"
 alias w="watch -n 0.5"
-alias vast="/Users/morzusman/projects/vast/vast"
+alias -g vast="/Users/morzusman/projects/vast/vast"
 
 export SOFA_ROOT="/Users/morzusman/projects/sofa_build/build/v23.06"
 export PYTHONPATH="/Users/morzusman/projects/sofa_build/build/v23.06/lib/python3/site-packages":$PYTHONPATH
@@ -130,13 +130,13 @@ kcp(){
 }
 
 
+
 ghp(){
     git log $1 --pretty=oneline | _fzfm | awk '{print $1}' | tac | xargs git cherry-pick
 }
 
 _fzf(){
-  fzf --bind 'ctrl-r:reload('$FZF_COMMAND')'  \
-             --layout=reverse
+  fzf --bind 'ctrl-r:reload('$FZF_COMMAND')' --layout=reverse
 }
 
 _fzfm(){
@@ -299,31 +299,40 @@ _podsynca(){
 }
 
 vans(){
-    export FZF_COMMAND="vast search offers -d 'reliability > 0.98 gpu_name=RTX_3090 driver_version>=535.86.05 num_gpus=1'" 
-    eval $FZF_COMMAND | _fzf
+    GPU_RAM="${1:-20}"
+    TYPE="--${2:-d}"
+    export FZF_COMMAND="/Users/morzusman/projects/vast/vast search offers $TYPE 'reliability>0.99 gpu_ram>$(echo $GPU_RAM) num_gpus=1'" 
+    eval "$FZF_COMMAND" | _fzf
 }
 
 vala(){
-    VANS=$(vans)
+    VANS=$(vans $1 $2)
     ID=`echo $VANS | awk '{print $1}'`
     PRICE=`echo $VANS | awk '{print $10}'`
-    echo $PRICE
-    vast create instance $ID --image pytorch/pytorch --disk 80 --price $PRICE --onstart-cmd "touch ~/.no_auto_tmux"
+    TYPE="${2:-d}"
+    if [[ $TYPE == "i" ]]
+    then 
+        PRICE_I=`python -c "print($PRICE + 0.01)"`
+        echo "price for bidding $PRICE_I"
+        /Users/morzusman/projects/vast/vast create instance $ID --price $PRICE_I --image pytorch/pytorch --disk 50 --onstart-cmd "touch ~/.no_auto_tmux; apt install -y unzip"
+    else
+        /Users/morzusman/projects/vast/vast create instance $ID --image pytorch/pytorch --disk 50 --onstart-cmd "touch ~/.no_auto_tmux; apt install -y unzip"
+    fi
 }
 
 dva(){
     ID=$(vali | awk '{print $1}')
-    vast destroy instance $ID
+    /Users/morzusman/projects/vast/vast destroy instance $ID
 }
 
 vali(){
-    export FZF_COMMAND="vast show instances" 
+    export FZF_COMMAND="/Users/morzusman/projects/vast/vast show instances" 
     eval $FZF_COMMAND | _fzf
 }
 
 vsshl(){
     ID=$(vali | awk '{print $1}')
-    vast ssh-url $ID
+    /Users/morzusman/projects/vast/vast ssh-url $ID
 }
 
 vssh(){
@@ -333,24 +342,24 @@ vssh(){
 
 vsync(){
     ID=$(vali | awk '{print $1}')
-    vast copy . $ID:/workspace/$(basename $PWD)
-    fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do vast copy . $ID:/workspace/$(basename $PWD); done;
+    /Users/morzusman/projects/vast/vast copy . $ID:workspace/e$(basename $PWD)
+    fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do /Users/morzusman/projects/vast/vast copy . $ID:workspace/e$(basename $PWD); done;
 }
 
 vmlruns(){
     ID=$(vali | awk '{print $1}')
     while [ 1 ]; do
-        vast copy $ID:/workspace/endo/mlruns .
-        sleep 15
+        /Users/morzusman/projects/vast/vast copy $ID:workspace/eendo/mlruns .
+        sleep 30
     done
 }
-cdata(){
-    vast cloud copy --src /Archive.zip --dst /workspace/  --transfer "Cloud To Instance" --instance $(vali | awk '{print $1}') --connection $(vastai show connections | tail -1 | awk '{print $1}')
+vdata(){
+    /Users/morzusman/projects/vast/vast cloud copy --src /Archive.zip --dst /workspace/  --transfer "Cloud To Instance" --instance $(vali | awk '{print $1}') --connection $(/Users/morzusman/projects/vast/vast show connections | tail -1 | awk '{print $1}')
 }
 vmsync(){
   VM=$1
   rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD)
-  fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD); done;
+  fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do rsync -av --exclude 'venv*' --exclude '.git*'  $VM:/home/morzusman/$(basename $PWD); done;
 }
 
 podsync(){
@@ -395,7 +404,7 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
+export PATH="/Users/morzusman/.local/bin:/opt/homebrew/opt/qt@5/bin:/Users/morzusman/projects/vast/vast:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/morzusman/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/morzusman/google-cloud-sdk/path.zsh.inc'; fi
