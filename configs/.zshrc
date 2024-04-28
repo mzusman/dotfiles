@@ -123,10 +123,17 @@ export SOFA_ROOT="/Users/morzusman/projects/sofa_build/build/v23.06"
 export PYTHONPATH="/Users/morzusman/projects/sofa_build/build/v23.06/lib/python3/site-packages":$PYTHONPATH
 export PATH="/Users/morzusman/go/bin:$PATH"
 
+kkcp(){
+  DIR=$1
+  PATTEN=$2
+  export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $DIR | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:$DIR/+ +
+}
+
+
 kcp(){
   DIR=$1
   PATTEN=$2
-  export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $1 | grep $2  | xargs -P 8 -I + kubectl cp default/$POD:/app/+ +
+  export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $1 | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:/app/+ +
 }
 
 
@@ -269,11 +276,11 @@ pclean(){pip uninstall -y -r <(pip freeze)}
 kssh(){
     if [ -z "$1" ]
     then
-        kubectl exec --stdin --tty `pod` -- /bin/bash
+        kubectl exec -it `pod` -- env COLUMNS=$COLUMNS LINES=$LINES /bin/bash
         return
     fi
     echo "Connecting to $1"
-    kubectl exec --stdin --tty `pod` --container $1 -- /bin/bash
+    kubectl exec -it `pod` --container $1 env COLUMNS=$COLUMNS LINES=$LINES /bin/bash
 }
 
 kssha(){
@@ -289,13 +296,13 @@ gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 _podsync(){
   echo "Syncing $1 to $2 , pod: $3"
   krsync -av --exclude={'*.git*','*.pyc*','*.venv*'} $1 $3:$2
-  # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
+  osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
 _podsynca(){
   echo "Syncing $4 $1 to $2 , pod: $3"
   krsync -av --exclude={'*.git*','*.pyc*','*.venv*'} $1 $3@$4:$2
-  # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
+  osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
 vans(){
