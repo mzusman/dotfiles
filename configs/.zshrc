@@ -357,7 +357,7 @@ vmlruns(){
     ID=$(vali | awk '{print $1}')
     while [ 1 ]; do
         /Users/morzusman/projects/vast/vast copy $ID:workspace/eendo/mlruns .
-        sleep 30
+        sleep 5
     done
 }
 vdata(){
