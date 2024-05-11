@@ -44,7 +44,6 @@ vim.opt.smartindent = true
 vim.cmd("set nofixeol")
 vim.cmd("set nofixendofline")
 
-vim.opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 vim.g.neovide_cursor_vfx_mode = "sonicboom"
 vim.opt.linespace = 0
 vim.g.neovide_cursor_animation_length = 0
@@ -152,6 +151,7 @@ vim.api.nvim_create_autocmd("Filetype", {
   end,
 })
 
+vim.opt.sessionoptions:append("localoptions")       -- Save localoptions to session file
 vim.g.vimtex_compiler_latexmk = {
   options = {
     "-pdf",

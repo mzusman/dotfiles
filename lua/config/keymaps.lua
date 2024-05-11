@@ -113,7 +113,7 @@ end
 --
 map("n", "<leader>ac", bibtexx)
 map("n", "<leader>gg", "<cmd>Neogit cwd=%:p:h<cr>")
-map("n", "<leader>gb", "<cmd>Telescope git_branches<cr>")
+map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
 map("n", "<leader>gP", "<cmd>Git push<cr>")
 map("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })

@@ -5,7 +5,6 @@ return {
     opts = function(_, opts) end,
   },
   { "jalvesaq/zotcite" },
-  { "nyoom-engineering/oxocarbon.nvim" },
   { "lervag/vimtex" },
   {
     "sindrets/diffview.nvim",
@@ -33,7 +32,7 @@ return {
     end,
   },
   { "tpope/vim-unimpaired" },
-  -- { "Glench/Vim-Jinja2-Syntax" },
+  { "Glench/Vim-Jinja2-Syntax" },
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -178,7 +177,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       -- calling `setup` is optional for customization
-      require("fzf-lua").setup({ "telescope" })
+      require("fzf-lua").setup({ "max-perf" })
     end,
   },
   { "projekt0n/github-nvim-theme" },
@@ -199,7 +198,7 @@ return {
   --   },
   -- },
   {
-    "TimUntersberger/neogit",
+    "NeogitOrg/neogit",
     dependencies = "nvim-lua/plenary.nvim",
     enabled = true,
     config = true,
@@ -209,23 +208,19 @@ return {
       },
     },
   },
-  -- {
-  --   "echasnovski/mini.files",
-  --   opts = {
-  --     windows = {
-  --       preview = false,
-  --     },
-  --     options = {
-  --       -- Whether to use for editing directories
-  --       -- Disabled by default in LazyVim because neo-tree is used for that
-  --       use_as_default_explorer = true,
-  --     },
-  --   },
-  -- },
-  --
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("refactoring").setup()
+    end,
+  },
   {
     "RRethy/vim-illuminate",
-    opts = { delay = 50 },
+    opts = { delay = 0 },
   },
 
   { "tpope/vim-fugitive" },
@@ -240,6 +235,7 @@ return {
       -- Bind <leader>fp to Telescope projections
       require("telescope").load_extension("projections")
       vim.keymap.set("n", "<leader>fp", function()
+        vim.cmd("wa")
         vim.cmd("Telescope projections")
       end)
 
@@ -248,6 +244,16 @@ return {
       vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
         callback = function()
           Session.store(vim.loop.cwd())
+        end,
+      })
+
+      -- Switch to project if vim was started in a project dir
+      local switcher = require("projections.switcher")
+      vim.api.nvim_create_autocmd({ "VimEnter" }, {
+        callback = function()
+          if vim.fn.argc() == 0 then
+            switcher.switch(vim.loop.cwd())
+          end
         end,
       })
     end,

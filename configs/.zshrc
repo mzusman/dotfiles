@@ -241,13 +241,13 @@ jlogs(){
 	JOB=$(wjob2)
 	# namespace=`echo $JOB | awk '{print $1}'`
 	name=`echo $JOB | awk '{print $1}'`
-	kubectl logs job.batch/$name | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+	while true; do sleep 2;kubectl logs job.batch/$name | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
 }
 
 logs(){
 	POD=$(wpod2)
 	name=`echo $POD | awk '{print $1}'`
-	kubectl logs $name | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+	while true; do sleep 2;kubectl logs $name --tail=100 --timestamps=true | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
 }
 
 flogs(){ 
