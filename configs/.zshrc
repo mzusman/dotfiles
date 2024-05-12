@@ -260,7 +260,7 @@ slogs(){
 	PODS=$(wpods2)
     names=`echo $PODS | awk '{print $1}' `
     prefix=`echo $names | sed -e '$q;N;s/^\(.*\).*\n\1.*$/\1/;h;G;D'`
-    stern $prefix
+    stern  --request-timeout 1s $prefix
     	# kubectl logs -f $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
 	}
 

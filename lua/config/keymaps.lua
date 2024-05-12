@@ -133,6 +133,7 @@ vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true 
 vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
 -- map("n", "<leader>ff", "<cmd>GFiles<cr>")
+
 map("n", "<leader><space>", "<cmd>Telescope find_files<cr>")
 map("n", "<leader>gm", "<cmd>DiffviewOpen origin/master<cr>")
 map("n", "<leader>fs", "<cmd>FzfLua grep_project<cr>")
@@ -151,7 +152,7 @@ map("n", "§", "<cmd>FzfLua resume<cr>")
 -- vim.lsp.buf.hover()
 -- end
 -- end)
-map("n", "<CR>", "<cmd>FzfLua buffers<cr>")
+map("n", "<CR>", "<cmd>Buffers<cr>")
 -- map("n", "<leader><space>", )
 -- map("n", "<leader>ff", git_ls)
 
