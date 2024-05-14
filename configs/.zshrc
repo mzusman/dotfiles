@@ -118,6 +118,7 @@ alias viz="vim ~/.zshrc"
 alias apply="source ~/.zshrc"
 alias w="watch -n 0.5"
 alias -g vast="/Users/morzusman/projects/vast/vast"
+alias k="kubectl"
 
 export SOFA_ROOT="/Users/morzusman/projects/sofa_build/build/v23.06"
 export PYTHONPATH="/Users/morzusman/projects/sofa_build/build/v23.06/lib/python3/site-packages":$PYTHONPATH
@@ -129,6 +130,14 @@ kkcp(){
   export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $DIR | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:$DIR/+ +
 }
 
+
+ktcp(){
+  INPATH=$1
+  OUTPATH=$2
+  POD=`pod | awk '{print $1}'`
+  echo "kubectl cp $INPATH default/$POD:$OUTPATH"
+  kubectl cp $INPATH default/$POD:$OUTPATH
+}
 
 kcp(){
   DIR=$1
@@ -295,13 +304,13 @@ gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 
 _podsync(){
   echo "Syncing $1 to $2 , pod: $3"
-  krsync -av --exclude={'*.git*','*.pyc*','*.venv*'} $1 $3:$2
+  krsync -av --exclude={'*.git*','*.pyc*','*.venv*','*mlrun*'} $1 $3:$2
   osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
 _podsynca(){
   echo "Syncing $4 $1 to $2 , pod: $3"
-  krsync -av --exclude={'*.git*','*.pyc*','*.venv*'} $1 $3@$4:$2
+  krsync -av --exclude={'*.git*','*.pyc*','*.venv*','*mlrun*'} $1 $3@$4:$2
   osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
@@ -369,29 +378,38 @@ vmsync(){
   fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do rsync -av --exclude 'venv*' --exclude '.git*'  $VM:/home/morzusman/$(basename $PWD); done;
 }
 
-podsync(){
-  POD=$(wpod2)
-	name=`echo $POD | awk '{print $1}'`
-  _podsync $1 $2 $name
-}
-
-cpodsynca(){
+# podsync(){
+#   POD=$(wpod2)
+# 	name=`echo $POD | awk '{print $1}'`
+#   _podsync $1 $2 $name
+# }
+#
+podsynca(){
   POD=$(wpod2a)
 	name=`echo $POD | awk '{print $2}'`
 	ns=`echo $POD | awk '{print $1}'`
   ind=$1
   outd=$2
   _podsynca $ind $outd $name $ns
-  fswatch -o $1 | while read f; do _podsynca $ind $outd $name $ns; done;
+  fswatch -e ".*" -i "\\.py$" -o $1 | while read f; do _podsynca $ind $outd $name $ns; done;
 }
 
-cpodsync(){
+locsync(){
   POD=$(wpod2)
-	name=`echo $POD | awk '{print $1}'`
+  name=`echo $POD | awk '{print $1}'`
+  ind=$1
+  outd=$2
+  k rsync $name:$ind $outd
+  while true; do k rsync -- -avr $name:$ind $outd; sleep 10; done;
+}
+
+podsync(){
+  POD=$(wpod2)
+  name=`echo $POD | awk '{print $1}'`
   ind=$1
   outd=$2
   _podsync $ind $outd $name
-  fswatch -o $1 | while read f; do _podsync $ind $outd $name; done;
+  fswatch -e ".*" -i "\\.py$" -o $1 | while read f; do _podsync $ind $outd $name; done;
 }
 
 set rtp+=/opt/homebrew/opt/fzf
@@ -411,7 +429,7 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-export PATH="/Users/morzusman/.local/bin:/opt/homebrew/opt/qt@5/bin:/Users/morzusman/projects/vast/vast:$PATH"
+export PATH="/Users/morzusman/.config/nvim/k8s_scripts/:/Users/morzusman/.local/bin:/opt/homebrew/opt/qt@5/bin:/Users/morzusman/projects/vast/vast:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/morzusman/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/morzusman/google-cloud-sdk/path.zsh.inc'; fi
