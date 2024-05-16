@@ -1,0 +1,5 @@
+f1 : open -a Neovide
+f2 : open -a WezTerm
+f3 : open -a Google\ Chrome
+f4 : open -a Whatsapp
+f5 : open -a Finder

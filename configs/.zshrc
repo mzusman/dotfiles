@@ -400,7 +400,7 @@ locsync(){
   ind=$1
   outd=$2
   k rsync $name:$ind $outd
-  while true; do k rsync -- -avr $name:$ind $outd; sleep 10; done;
+  while true; do k rsync -- --exclude={"**echeckpoints/*"} -avr $name:$ind $outd; sleep 10; done;
 }
 
 podsync(){
