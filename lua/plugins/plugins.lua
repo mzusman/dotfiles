@@ -215,21 +215,6 @@ return {
       },
     },
   },
-  {
-    "ThePrimeagen/refactoring.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require("refactoring").setup()
-    end,
-  },
-  {
-    "RRethy/vim-illuminate",
-    opts = { delay = 0 },
-  },
-
   { "tpope/vim-fugitive" },
   { "nvim-neo-tree/neo-tree.nvim", enabled = false },
   {
