@@ -166,7 +166,7 @@ jobs(){
 wjobs(){
   export FZF_COMMAND='cat /tmp/wjobs'
   if ! [ -f "/tmp/wjobs" ] || ! [ -z "$1" ]; then
-    JOBS=`kubectl get jobs  --no-headers -o wide`
+    JOBS=`kubectl get jobs  --no-headers -o wide --show-labels`
     echo $JOBS >> /tmp/wjobs.tmp
     mv /tmp/wjobs.tmp /tmp/wjobs
   fi
@@ -244,7 +244,7 @@ portf(){
   POD=$(wpod2)
 	name=`echo $POD | awk '{print $1}'`
   echo "Forwarding $1 to $2 , pod: $name"
-	kubectl port-forward $name $1:$2 }
+	while true; do kubectl port-forward $name $1:$2; done; }
 
 jlogs(){
 	JOB=$(wjob2)
@@ -262,14 +262,14 @@ logs(){
 flogs(){ 
 	POD=$(wpod2)
 	name=`echo $POD | awk '{print $1}'`
-	kubectl logs -f $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+	while true; do kubectl logs -f $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
 	}
 
 slogs(){ 
 	PODS=$(wpods2)
     names=`echo $PODS | awk '{print $1}' `
     prefix=`echo $names | sed -e '$q;N;s/^\(.*\).*\n\1.*$/\1/;h;G;D'`
-    stern  --request-timeout 1s $prefix
+    stern   $prefix
     	# kubectl logs -f $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
 	}
 

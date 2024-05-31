@@ -152,7 +152,10 @@ map("n", "§", "<cmd>FzfLua resume<cr>")
 -- vim.lsp.buf.hover()
 -- end
 -- end)
-map("n", "<CR>", "<cmd>Buffers<cr>")
+map("n", "<CR>", "<cmd>FzfLua buffers<cr>")
+map("n", "<C-l>", "<cmd>bn<cr>")
+map("n", "<C-h>", "<cmd>bp<cr>")
+map("n", "<C-w><C-w>", "<cmd>bd<cr>")
 -- map("n", "<leader><space>", )
 -- map("n", "<leader>ff", git_ls)
 

@@ -191,7 +191,7 @@ return {
   { "folke/flash.nvim", enabled = false },
   { "tpope/vim-repeat" },
   -- { "rose-pine/neovim", name = "rose-pine" },
-  { "akinsho/bufferline.nvim", enabled = false },
+  -- { "akinsho/bufferline.nvim", enabled = false },
   -- {
   --   "stevearc/conform.nvim",
   --   dependencies = { "mason.nvim" },
