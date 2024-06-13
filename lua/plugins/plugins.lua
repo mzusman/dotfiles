@@ -170,6 +170,7 @@ return {
   },
   { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
+  { "projekt0n/github-nvim-theme" },
   {
     "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -246,7 +247,6 @@ return {
       })
     end,
   },
-  { "pbrisbin/vim-colors-off" },
   {
     "Wansmer/treesj",
     keys = { "<leader>m", "<leader>j", "<leader>s" },
@@ -259,7 +259,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "off",
+      colorscheme = "github_dark_high_contrast",
     },
   },
 }
