@@ -14,27 +14,6 @@ local function map(mode, lhs, rhs, opts)
   end
 end
 
-local function showFugitiveGit()
-  if vim.fn.FugitiveHead() ~= "" then
-    vim.cmd([[
-    Git
-    " wincmd H  " Open Git window in vertical split
-    " setlocal winfixwidth
-    " vertical resize 31
-    " setlocal winfixwidth
-    setlocal nonumber
-    setlocal norelativenumber
-    ]])
-  end
-end
-local function toggleFugitiveGit()
-  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then
-    vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git//$') ]])
-  else
-    showFugitiveGit()
-  end
-end
-
 local function projects()
   vim.cmd(
     -- "call fzf#run({'source': 'find ~/projects -maxdepth 1 -mindepth 1 -type d| sort -n', 'sink': 'FZF', 'down': '40%'})"
@@ -112,7 +91,7 @@ end
 -- map("n", "<leader>fp", projects)
 --
 map("n", "<leader>ac", bibtexx)
-map("n", "<leader>gg", "<cmd>Neogit cwd=%:p:h<cr>")
+map("n", "<leader>gg", "<cmd>vertical Git<cr>")
 map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
 map("n", "<leader>gP", "<cmd>Git push<cr>")
 map("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "Git Pull" })
@@ -138,7 +117,14 @@ map("n", "<leader><space>", "<cmd>Telescope find_files<cr>")
 map("n", "<leader>gm", "<cmd>DiffviewOpen origin/master<cr>")
 map("n", "<leader>fs", "<cmd>FzfLua grep_project<cr>")
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>")
-map("n", "<leader><space>", "<cmd>FzfLua lsp_live_workspace_symbols<cr>")
+map("n", "<leader><space>", "<cmd>FzfLua lsp_finder<cr>")
+
+map("n", "<leader>vd", function()
+  vim.diagnostic.open_float()
+end)
+map("n", "<leader>vd", function()
+  vim.diagnostic.open_float()
+end)
 map("n", "§", "<cmd>FzfLua resume<cr>")
 
 -- map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
@@ -164,6 +150,8 @@ map("n", "<C-w><C-w>", "<cmd>bd<cr>")
 
 map("t", "<esc>", "<C-\\><C-n>", { desc = "jk", silent = true })
 map({ "i", "t" }, "jk", "<esc>", { desc = "jk", silent = true })
+map("n", "J", "mzJ`z", { desc = "" })
+
 map({ "n", "t" }, "<C-j>", "<C-d>zz", { desc = "jk", silent = true })
 map({ "n", "t" }, "<C-k>", "<C-u>zz", { desc = "jk", silent = true })
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })

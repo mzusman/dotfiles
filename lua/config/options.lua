@@ -3,11 +3,10 @@
 -- Add any additional options herejk
 vim.g.fzf_preview_window = {}
 vim.g.fzf_buffers_jump = 1
-vim.g.wrap = "linebreak"
+vim.opt.wrap = false
 vim.cmd("let g:fzf_layout = { 'down': '40%'}")
 vim.cmd("let g:bibtexcite_bibfile = expand('~/projects/bibtex.bib')")
 vim.cmd("let g:python3_host_prog = expand('~/.pyenv/versions/3.8.10-local/bin/python') ")
-vim.cmd("set wrap linebreak")
 vim.cmd("set termguicolors")
 vim.opt.spell = false
 vim.opt.spelllang = { "en_us" }
@@ -37,14 +36,13 @@ vim.opt.expandtab = true
 
 vim.opt.nu = true
 vim.opt.relativenumber = false
-vim.opt.guicursor = ""
-
+-- vim.opt.guicursor = ""
 vim.opt.smartindent = true
 
 vim.cmd("set nofixeol")
 vim.cmd("set nofixendofline")
 
-vim.g.neovide_cursor_vfx_mode = "sonicboom"
+-- vim.g.neovide_cursor_vfx_mode = "sonicboom"
 vim.opt.linespace = 0
 vim.g.neovide_cursor_animation_length = 0
 
@@ -151,7 +149,7 @@ vim.api.nvim_create_autocmd("Filetype", {
   end,
 })
 
-vim.opt.sessionoptions:append("localoptions")       -- Save localoptions to session file
+vim.opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 vim.g.vimtex_compiler_latexmk = {
   options = {
     "-pdf",
@@ -164,7 +162,7 @@ vim.g.vimtex_compiler_latexmk = {
 -- Load the colorscheme
 vim.cmd("let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }")
 vim.schedule(function()
-  vim.o.background = "dark"
+  vim.o.background = "light"
   vim.cmd("set title")
   vim.cmd("set titleold=")
 end)

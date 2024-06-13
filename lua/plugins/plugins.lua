@@ -23,8 +23,6 @@ return {
       },
     },
   },
-  -- { "dhruvasagar/vim-table-mode" },
-  -- { "ekalinin/Dockerfile.vim" },
   {
     "gbprod/substitute.nvim",
     config = function()
@@ -187,10 +185,8 @@ return {
       })
     end,
   },
-  { "projekt0n/github-nvim-theme" },
   { "folke/flash.nvim", enabled = false },
   { "tpope/vim-repeat" },
-  -- { "rose-pine/neovim", name = "rose-pine" },
   -- { "akinsho/bufferline.nvim", enabled = false },
   -- {
   --   "stevearc/conform.nvim",
@@ -204,17 +200,17 @@ return {
   --     },
   --   },
   -- },
-  {
-    "NeogitOrg/neogit",
-    dependencies = "nvim-lua/plenary.nvim",
-    enabled = true,
-    config = true,
-    opts = {
-      integrations = {
-        diffview = true,
-      },
-    },
-  },
+  -- {
+  -- "NeogitOrg/neogit",
+  -- dependencies = "nvim-lua/plenary.nvim",
+  -- enabled = true,
+  -- config = true,
+  -- opts = {
+  -- integrations = {
+  -- diffview = true,
+  -- },
+  -- },
+  -- },
   { "tpope/vim-fugitive" },
   { "nvim-neo-tree/neo-tree.nvim", enabled = false },
   {
@@ -226,7 +222,7 @@ return {
 
       -- Bind <leader>fp to Telescope projections
       require("telescope").load_extension("projections")
-      vim.keymap.set("n", "<leader>fp", function()
+      vim.keymap.set("n", "<leader>p", function()
         vim.cmd("wa")
         vim.cmd("Telescope projections")
       end)
@@ -250,6 +246,7 @@ return {
       })
     end,
   },
+  { "pbrisbin/vim-colors-off" },
   {
     "Wansmer/treesj",
     keys = { "<leader>m", "<leader>j", "<leader>s" },
@@ -262,7 +259,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "github_dark_high_contrast",
+      colorscheme = "off",
     },
   },
 }
