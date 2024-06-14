@@ -409,7 +409,7 @@ podsync(){
   ind=$1
   outd=$2
   _podsync $ind $outd $name
-  fswatch -e ".*" -i "\\.py$" -o $1 | while read f; do _podsync $ind $outd $name; done;
+  fswatch -e ".*" -i "\\.py$" -i "\\.sh$" -o $1 | while read f; do _podsync $ind $outd $name; done;
 }
 
 set rtp+=/opt/homebrew/opt/fzf

@@ -31,6 +31,7 @@ return {
   },
   { "tpope/vim-unimpaired" },
   { "Glench/Vim-Jinja2-Syntax" },
+  { "yorik1984/newpaper.nvim", priority = 1000, config = true },
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -170,7 +171,6 @@ return {
   },
   { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
-  { "projekt0n/github-nvim-theme" },
   {
     "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -259,7 +259,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "github_dark_high_contrast",
+      colorscheme = "newpaper",
     },
   },
 }

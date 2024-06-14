@@ -3,7 +3,7 @@
 -- Add any additional options herejk
 vim.g.fzf_preview_window = {}
 vim.g.fzf_buffers_jump = 1
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.cmd("let g:fzf_layout = { 'down': '40%'}")
 vim.cmd("let g:bibtexcite_bibfile = expand('~/projects/bibtex.bib')")
 vim.cmd("let g:python3_host_prog = expand('~/.pyenv/versions/3.8.10-local/bin/python') ")
@@ -161,11 +161,13 @@ vim.g.vimtex_compiler_latexmk = {
 
 -- Load the colorscheme
 vim.cmd("let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }")
-vim.schedule(function()
-  vim.o.background = "light"
-  vim.cmd("set title")
-  vim.cmd("set titleold=")
-end)
+-- vim.schedule(function()
+-- vim.o.background = "dark"
+-- vim.cmd("set title")
+-- vim.cmd("set titleold=")
+-- end)
 vim.diagnostic.config({
   virtual_text = false,
 })
+vim.g.newpaper_style = "dark"
+-- vim.cmd("NewpaperDark")
