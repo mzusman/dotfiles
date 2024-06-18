@@ -216,7 +216,7 @@ wpods(){kubectl get pods --no-headers -o wide | fzf -m}
 pod(){
   export FZF_COMMAND='cat /tmp/pod'
   if ! [ -f "/tmp/pod" ] || ! [ -z "$1" ]; then
-    PODS=`kubectl get pods --no-headers -o custom-columns=":metadata.name" `
+    PODS=`kubectl get pods --no-headers -o wide `
     echo $PODS >> /tmp/pod.tmp
     mv /tmp/pod.tmp /tmp/pod
   fi
@@ -281,6 +281,18 @@ dpod(){pods $1 | xargs kubectl delete pod }
 h(){history | grep $1 | tail -10}
 vol(){osascript -e "set Volume $1"}
 pclean(){pip uninstall -y -r <(pip freeze)}
+
+ksc(){
+    if [ -z "$1" ]
+    then
+        POD=$(wpod2a)
+	    name=`echo $POD | awk '{print $2}'`
+        while true; do kubectl exec -it $name -- env COLUMNS=$COLUMNS LINES=$LINES screen -D -R -S debug; done
+        return
+    fi
+    # echo "Connecting to $1"
+    # kubectl exec -it `pod` --container $1 env COLUMNS=$COLUMNS LINES=$LINES tmux -c /bin/bash
+}
 
 kssh(){
     if [ -z "$1" ]
