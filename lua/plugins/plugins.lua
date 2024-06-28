@@ -31,7 +31,7 @@ return {
   },
   { "tpope/vim-unimpaired" },
   { "Glench/Vim-Jinja2-Syntax" },
-  { "yorik1984/newpaper.nvim", priority = 1000, config = true },
+  { "rose-pine/neovim", name = "rose-pine" },
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -88,6 +88,7 @@ return {
   },
   { "msprev/fzf-bibtex" },
   { "ferdinandyb/bibtexcite.vim" },
+  { "projekt0n/github-nvim-theme" },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -259,7 +260,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "newpaper",
+      colorscheme = "rose-pine-moon",
     },
   },
 }
