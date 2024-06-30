@@ -1,11 +1,10 @@
 return {
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
-    opts = function(_, opts) end,
-  },
+  -- {
+  -- "hrsh7th/nvim-cmp",
+  -- dependencies = { "hrsh7th/cmp-emoji" },
+  -- opts = function(_, opts) end,
+  -- },
   { "jalvesaq/zotcite" },
-  { "lervag/vimtex" },
   {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewFileHistory", "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
@@ -30,7 +29,7 @@ return {
     end,
   },
   { "tpope/vim-unimpaired" },
-  { "Glench/Vim-Jinja2-Syntax" },
+  -- { "Glench/Vim-Jinja2-Syntax" },
   { "rose-pine/neovim", name = "rose-pine" },
   {
     "neovim/nvim-lspconfig",
@@ -170,23 +169,6 @@ return {
       },
     },
   },
-  { "junegunn/fzf" },
-  { "junegunn/fzf.vim" },
-  {
-    "ibhagwan/fzf-lua",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      -- calling `setup` is optional for customization
-      require("fzf-lua").setup({
-        files = {
-          formatter = "path.filename_first",
-        },
-        buffers = {
-          cwd_only = true,
-        },
-      })
-    end,
-  },
   { "folke/flash.nvim", enabled = false },
   { "tpope/vim-repeat" },
   -- { "akinsho/bufferline.nvim", enabled = false },
@@ -215,39 +197,39 @@ return {
   -- },
   { "tpope/vim-fugitive" },
   { "nvim-neo-tree/neo-tree.nvim", enabled = false },
-  {
-    "gnikdroy/projections.nvim",
-    config = function()
-      require("projections").setup({
-        workspaces = { { "~/projects", { ".git" } } },
-      })
+  -- {
+  -- "gnikdroy/projections.nvim",
+  -- config = function()
+  -- require("projections").setup({
+  -- workspaces = { { "~/projects", { ".git" } } },
+  -- })
 
-      -- Bind <leader>fp to Telescope projections
-      require("telescope").load_extension("projections")
-      vim.keymap.set("n", "<leader>p", function()
-        vim.cmd("wa")
-        vim.cmd("Telescope projections")
-      end)
+  -- Bind <leader>fp to Telescope projections
+  -- require("telescope").load_extension("projections")
+  -- vim.keymap.set("n", "<leader>p", function()
+  -- vim.cmd("wa")
+  -- vim.cmd("Telescope projections")
+  -- end)
 
-      -- Autostore session on VimExit
-      local Session = require("projections.session")
-      vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
-        callback = function()
-          Session.store(vim.loop.cwd())
-        end,
-      })
+  -- Autostore session on VimExit
+  -- local Session = require("projections.session")
+  -- vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+  -- callback = function()
+  -- Session.store(vim.loop.cwd())
+  -- end,
+  -- })
 
-      -- Switch to project if vim was started in a project dir
-      local switcher = require("projections.switcher")
-      vim.api.nvim_create_autocmd({ "VimEnter" }, {
-        callback = function()
-          if vim.fn.argc() == 0 then
-            switcher.switch(vim.loop.cwd())
-          end
-        end,
-      })
-    end,
-  },
+  -- Switch to project if vim was started in a project dir
+  -- local switcher = require("projections.switcher")
+  -- vim.api.nvim_create_autocmd({ "VimEnter" }, {
+  -- callback = function()
+  -- if vim.fn.argc() == 0 then
+  -- switcher.switch(vim.loop.cwd())
+  -- end
+  -- end,
+  -- })
+  -- end,
+  -- },
   {
     "Wansmer/treesj",
     keys = { "<leader>m", "<leader>j", "<leader>s" },
