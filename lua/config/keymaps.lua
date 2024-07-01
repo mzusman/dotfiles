@@ -117,7 +117,7 @@ vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true 
 map("n", "<leader>gm", "<cmd>DiffviewOpen origin/master<cr>")
 map("n", "<leader>fs", "<cmd>FzfLua grep_project<cr>")
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>")
-map("n", "<leader><space>", "<cmd>FzfLua lsp_finder<cr>")
+map("n", "<leader><space>", "<cmd>FzfLua lsp_live_workspace_symbols<cr>")
 
 -- map("n", "<leader>vd", function()
 -- vim.diagnostic.open_float()
