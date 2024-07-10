@@ -1,17 +1,9 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
-local Util = require("lazyvim.util")
 
 local function map(mode, lhs, rhs, opts)
-  local keys = require("lazy.core.handler").handlers.keys
-  ---@cast keys LazyKeysHandler
-  -- do not create the keymap if a lazy keys handler exists
-  if not keys.active[keys.parse({ lhs, mode = mode }).id] then
-    opts = opts or {}
-    opts.silent = opts.silent ~= false
-    vim.keymap.set(mode, lhs, rhs, opts)
-  end
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 local function projects()
@@ -66,7 +58,7 @@ map("n", "<S-l>", "$")
 -- "<cmd> require('telescope.builtin').lsp_references({ trim_text = true, show_line = false, fname_width = 80 })<cr>"
 -- )
 map("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
+-- map("n", "<leader>eo", "<cmd>e /Users/morzusman/.config/nvim/lua/config/keymaps.lua<cr>")
 
 if vim.g.neovide == true then
   vim.api.nvim_set_keymap(
@@ -135,7 +127,7 @@ map("n", "§", "<cmd>FzfLua resume<cr>")
 -- vim.lsp.buf.hover()
 -- end
 -- end)
--- map("n", "<CR>", "<cmd>FzfLua buffers<cr>")
+map("n", "<CR>", "<cmd>FzfLua buffers<cr>")
 map("n", "<C-l>", "<cmd>bn<cr>")
 map("n", "<C-h>", "<cmd>bp<cr>")
 map("n", "<C-w><C-w>", "<cmd>bd<cr>")
@@ -211,3 +203,21 @@ end, opts)
 vim.keymap.set({ "n", "i" }, "<C-BS>", function()
   ResetGuiFont()
 end, opts)
+
+local autocmd = vim.api.nvim_create_autocmd
+
+autocmd('LspAttach', {
+    callback = function(e)
+        local opts = { buffer = e.buf }
+        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+        vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+        vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+        vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+        vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+        vim.keymap.set("n", "<leader>gr", function() vim.lsp.buf.references() end, opts)
+        vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, opts)
+        vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set("n", "[e", function() vim.diagnostic.goto_next() end, opts)
+        vim.keymap.set("n", "]e", function() vim.diagnostic.goto_prev() end, opts)
+    end
+})

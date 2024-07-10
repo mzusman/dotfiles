@@ -164,6 +164,7 @@ jobs(){
   _fzfm}
 
 wjobs(){
+
   export FZF_COMMAND='cat /tmp/wjobs'
   if ! [ -f "/tmp/wjobs" ] || ! [ -z "$1" ]; then
     JOBS=`kubectl get jobs  --no-headers -o wide --show-labels`
