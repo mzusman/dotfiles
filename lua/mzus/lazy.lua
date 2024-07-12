@@ -26,6 +26,7 @@ require("lazy").setup({
   spec = {
     {
       { "echasnovski/mini.surround", version = "*" },
+      { "Glench/Vim-Jinja2-Syntax" },
 
       {
         "linux-cultist/venv-selector.nvim",
