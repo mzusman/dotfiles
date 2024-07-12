@@ -373,7 +373,7 @@ require("lazy").setup({
       {
         "lewis6991/gitsigns.nvim",
         opts = {
-        linehl     = true, -- Toggle with `:Gitsigns toggle_linehl`
+          numhl = true, -- Toggle with `:Gitsigns toggle_linehl`
           on_attach = function(buffer)
             local gs = package.loaded.gitsigns
 

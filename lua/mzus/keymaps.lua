@@ -206,6 +206,24 @@ end, opts)
 
 local autocmd = vim.api.nvim_create_autocmd
 
+local diagnostic_goto = function(next, severity)
+  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function()
+    go({ severity = severity })
+  end
+end
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
+map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
+map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
+
+
 autocmd("LspAttach", {
   callback = function(e)
     local opts = { buffer = e.buf }
@@ -215,29 +233,17 @@ autocmd("LspAttach", {
     vim.keymap.set("n", "K", function()
       vim.lsp.buf.hover()
     end, opts)
-    vim.keymap.set("n", "<leader>vws", function()
-      vim.lsp.buf.workspace_symbol()
-    end, opts)
     vim.keymap.set("n", "<leader>vd", function()
       vim.diagnostic.open_float()
     end, opts)
     vim.keymap.set("n", "<leader>ca", function()
       vim.lsp.buf.code_action()
     end, opts)
-    vim.keymap.set("n", "<leader>gr", function()
-      vim.lsp.buf.references()
-    end, opts)
     vim.keymap.set("n", "<leader>cr", function()
       vim.lsp.buf.rename()
     end, opts)
     vim.keymap.set("i", "<C-h>", function()
       vim.lsp.buf.signature_help()
-    end, opts)
-    vim.keymap.set("n", "[e", function()
-      vim.diagnostic.goto_next()
-    end, opts)
-    vim.keymap.set("n", "]e", function()
-      vim.diagnostic.goto_prev()
     end, opts)
   end,
 })
