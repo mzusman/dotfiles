@@ -85,10 +85,13 @@ end
 map("n", "<leader>ac", bibtexx)
 map("n", "<leader>gg", "<cmd>vertical Git<cr>")
 map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
+map("n", "<leader>gt", "<cmd>FzfLua git_tags<cr>")
 map("n", "<leader>gP", "<cmd>Git push<cr>")
 map("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
+map("n", "]]", "*")
+map("n", "[[", "#")
 
 if vim.g.neovide then
   vim.keymap.set("v", "<D-c>", '"+y') -- Copy
@@ -128,6 +131,9 @@ map("n", "§", "<cmd>FzfLua resume<cr>")
 -- end
 -- end)
 map("n", "<CR>", "<cmd>FzfLua buffers<cr>")
+map("n", "gd", "<cmd>FzfLua lsp_definitions<cr>")
+map("n", "gr", "<cmd>FzfLua lsp_references<cr>")
+map("n", "<leader>ss", "<cmd>FzfLua lsp_document_symbols<cr>")
 map("n", "<C-l>", "<cmd>bn<cr>")
 map("n", "<C-h>", "<cmd>bp<cr>")
 map("n", "<C-w><C-w>", "<cmd>bd<cr>")
@@ -227,9 +233,9 @@ map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 autocmd("LspAttach", {
   callback = function(e)
     local opts = { buffer = e.buf }
-    vim.keymap.set("n", "gd", function()
-      vim.lsp.buf.definition()
-    end, opts)
+    -- vim.keymap.set("n", "gd", function()
+      -- vim.lsp.buf.definition()
+    -- end, opts)
     vim.keymap.set("n", "K", function()
       vim.lsp.buf.hover()
     end, opts)

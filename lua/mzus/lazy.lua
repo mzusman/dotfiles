@@ -26,24 +26,24 @@ require("lazy").setup({
   spec = {
     {
       { "echasnovski/mini.surround", version = "*" },
-      { "Glench/Vim-Jinja2-Syntax" },
-
       {
         "linux-cultist/venv-selector.nvim",
-        dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim", "mfussenegger/nvim-dap-python" },
-        opts = {
-          -- Your options go here
-          -- name = "venv",
-          auto_refresh = true,
+        dependencies = {
+          "neovim/nvim-lspconfig",
+          { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
         },
-        event = "VeryLazy", -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+        lazy = false,
+        branch = "regexp", -- This is the regexp branch, use this for the new version
+        config = function()
+          require("venv-selector").setup({
+            settings = { options = { notify_user_on_venv_activation = true } },
+          })
+        end,
         keys = {
-          -- Keymap to open VenvSelector to pick a venv.
           { "<leader>vs", "<cmd>VenvSelect<cr>" },
-          -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
-          { "<leader>vc", "<cmd>VenvSelectCached<cr>" },
         },
       },
+
       { "echasnovski/mini.files", version = "*" },
       { "jalvesaq/zotcite" },
       { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
@@ -337,41 +337,6 @@ require("lazy").setup({
         },
       },
       {
-        "RRethy/vim-illuminate",
-        opts = {
-          delay = 200,
-          large_file_cutoff = 2000,
-          large_file_overrides = {
-            providers = { "lsp" },
-          },
-        },
-        config = function(_, opts)
-          require("illuminate").configure(opts)
-
-          local function map(key, dir, buffer)
-            vim.keymap.set("n", key, function()
-              require("illuminate")["goto_" .. dir .. "_reference"](false)
-            end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-          end
-
-          map("]]", "next")
-          map("[[", "prev")
-
-          -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-          vim.api.nvim_create_autocmd("FileType", {
-            callback = function()
-              local buffer = vim.api.nvim_get_current_buf()
-              map("]]", "next", buffer)
-              map("[[", "prev", buffer)
-            end,
-          })
-        end,
-        keys = {
-          { "]]", desc = "Next Reference" },
-          { "[[", desc = "Prev Reference" },
-        },
-      },
-      {
         "lewis6991/gitsigns.nvim",
         opts = {
           numhl = true, -- Toggle with `:Gitsigns toggle_linehl`
@@ -405,6 +370,13 @@ require("lazy").setup({
         },
       },
       {
+        "echasnovski/mini.cursorword",
+        version = false,
+        config = function()
+          require("mini.cursorword").setup({ delay = 10 })
+        end,
+      },
+      {
         "echasnovski/mini.move",
         version = false,
         config = function()
@@ -413,7 +385,6 @@ require("lazy").setup({
       },
       { "tpope/vim-repeat" },
       { "tpope/vim-fugitive" },
-      { "nvim-neo-tree/neo-tree.nvim", enabled = false },
       {
         "Wansmer/treesj",
         keys = { "<leader>m", "<leader>j", "<leader>s" },

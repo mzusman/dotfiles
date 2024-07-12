@@ -1,3 +1,3 @@
 require("mzus.lazy")
-require("mzus.keymaps")
 require("mzus.options")
+require("mzus.keymaps")
