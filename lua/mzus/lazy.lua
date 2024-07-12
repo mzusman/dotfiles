@@ -373,21 +373,7 @@ require("lazy").setup({
       {
         "lewis6991/gitsigns.nvim",
         opts = {
-          signs = {
-            add = { text = "▎" },
-            change = { text = "▎" },
-            delete = { text = "" },
-            topdelete = { text = "" },
-            changedelete = { text = "▎" },
-            untracked = { text = "▎" },
-          },
-          signs_staged = {
-            add = { text = "▎" },
-            change = { text = "▎" },
-            delete = { text = "" },
-            topdelete = { text = "" },
-            changedelete = { text = "▎" },
-          },
+        linehl     = true, -- Toggle with `:Gitsigns toggle_linehl`
           on_attach = function(buffer)
             local gs = package.loaded.gitsigns
 
@@ -423,7 +409,6 @@ require("lazy").setup({
         config = function()
           require("mini.move").setup()
         end,
-      },
       },
       { "tpope/vim-repeat" },
       { "tpope/vim-fugitive" },
