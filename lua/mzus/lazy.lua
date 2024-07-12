@@ -168,7 +168,17 @@ require("lazy").setup({
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
           -- calling `setup` is optional for customization
-          require("fzf-lua").setup({})
+          require("fzf-lua").setup({
+            "fzf-vim",
+            {
+              files = {
+                formatter = "path.filename_first",
+              },
+              buffers = {
+                cwd_only = true,
+              },
+            },
+          })
         end,
       },
       {

@@ -130,7 +130,7 @@ map("n", "§", "<cmd>FzfLua resume<cr>")
 -- vim.lsp.buf.hover()
 -- end
 -- end)
-map("n", "<CR>", "<cmd>FzfLua buffers<cr>")
+map("n", "<CR>", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>")
 map("n", "gd", "<cmd>FzfLua lsp_definitions<cr>")
 map("n", "gr", "<cmd>FzfLua lsp_references<cr>")
 map("n", "<leader>ss", "<cmd>FzfLua lsp_document_symbols<cr>")
