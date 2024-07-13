@@ -37,6 +37,10 @@ end
 -- end, {})
 
 -- vim.keymap.set("n", "<leader>rn", ":IncRename ")
+vim.keymap.set("n", "<leader>qs", function()
+  require("persistence").select()
+end)
+
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("t", "<S-tab>", "<C-n>")
 vim.keymap.set("t", "<tab>", "<C-p>")
@@ -88,12 +92,12 @@ map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
 map("n", "<leader>gt", "<cmd>FzfLua git_tags<cr>")
 map("n", "<leader>gP", "<cmd>Git push<cr>")
 map("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "Git Pull" })
+map("n", "<leader>gl", "<cmd>Flogsplit<cr>", { desc = "Git log" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
 map("n", "\\", "*")
-map("n", ";", "#")
-map("v", "$", "g_")
-map("n", "$", "g_")
+map("n", "'", "#")
+map({ "v", "n" }, "$", "g_")
 
 if vim.g.neovide then
   vim.keymap.set("v", "<D-c>", '"+y') -- Copy
@@ -230,13 +234,11 @@ map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
-
-
 autocmd("LspAttach", {
   callback = function(e)
     local opts = { buffer = e.buf }
     -- vim.keymap.set("n", "gd", function()
-      -- vim.lsp.buf.definition()
+    -- vim.lsp.buf.definition()
     -- end, opts)
     vim.keymap.set("n", "K", function()
       vim.lsp.buf.hover()

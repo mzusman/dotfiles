@@ -264,8 +264,22 @@ require("lazy").setup({
         },
       },
       { "msprev/fzf-bibtex" },
+      { "jeetsukumaran/vim-pythonsense", ft = { "python" } },
+      { "machakann/vim-swap", event = "VeryLazy" },
+      {
+        "lervag/vimtex",
+        lazy = false,
+        ft = { "tex" },
+      },
+      {
+        "rbong/vim-flog",
+        lazy = true,
+        cmd = { "Flog", "Flogsplit", "Floggit" },
+        dependencies = {
+          "tpope/vim-fugitive",
+        },
+      },
       { "ferdinandyb/bibtexcite.vim" },
-      -- { "projekt0n/github-nvim-theme" },
       {
         "nvim-telescope/telescope.nvim",
         dependencies = {
