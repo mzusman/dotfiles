@@ -25,6 +25,7 @@ vim.api.nvim_set_option("clipboard", "unnamed")
 require("lazy").setup({
   spec = {
     {
+      { "rebelot/kanagawa.nvim" },
       { "echasnovski/mini.surround", version = "*" },
       {
         "linux-cultist/venv-selector.nvim",
@@ -345,6 +346,13 @@ require("lazy").setup({
             },
           },
         },
+      },
+      {
+        "mvllow/modes.nvim",
+        tag = "v0.2.0",
+        config = function()
+          require("modes").setup()
+        end,
       },
       {
         "lewis6991/gitsigns.nvim",

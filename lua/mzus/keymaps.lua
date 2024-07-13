@@ -90,8 +90,10 @@ map("n", "<leader>gP", "<cmd>Git push<cr>")
 map("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "Git Pull" })
 map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
-map("n", "]]", "*")
-map("n", "[[", "#")
+map("n", "\\", "*")
+map("n", ";", "#")
+map("v", "$", "g_")
+map("n", "$", "g_")
 
 if vim.g.neovide then
   vim.keymap.set("v", "<D-c>", '"+y') -- Copy
