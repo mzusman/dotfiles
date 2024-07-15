@@ -25,8 +25,13 @@ vim.api.nvim_set_option("clipboard", "unnamed")
 require("lazy").setup({
   spec = {
     {
-      { "rebelot/kanagawa.nvim" },
       { "echasnovski/mini.surround", version = "*" },
+      {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+      },
       {
         "linux-cultist/venv-selector.nvim",
         dependencies = {
@@ -206,7 +211,7 @@ require("lazy").setup({
         end,
       },
       { "tpope/vim-unimpaired" },
-      -- { "Glench/Vim-Jinja2-Syntax" },
+      { "Glench/Vim-Jinja2-Syntax", ft = { "yaml" } },
       -- { "rose-pine/neovim", name = "rose-pine" },
       {
         "neovim/nvim-lspconfig",
@@ -280,87 +285,6 @@ require("lazy").setup({
         },
       },
       { "ferdinandyb/bibtexcite.vim" },
-      {
-        "nvim-telescope/telescope.nvim",
-        dependencies = {
-          {
-            "nvim-telescope/telescope-fzf-native.nvim",
-            build = "make",
-            config = function()
-              require("telescope").load_extension("fzf")
-            end,
-          },
-          {
-            "nvim-telescope/telescope-bibtex.nvim",
-            ft = { "tex", "markdown" },
-            config = function()
-              require("telescope").load_extension("bibtex")
-            end,
-          },
-        },
-        keys = {
-          { "<leader>gc", false },
-          { "<leader>fp", false },
-          { "<leader><space>", false },
-          {
-            "<leader>fP",
-            function()
-              require("telescope.builtin").find_files({
-                cwd = require("lazy.core.config").options.root,
-              })
-            end,
-            desc = "Find Plugin File",
-          },
-        },
-
-        opts = {
-
-          defaults = {
-            load_extensions = { "yank_history", "bibtex" },
-            extensions = {
-              bibtex = {
-                depth = 1,
-                -- Depth for the *.bib file
-                global_files = { "/Users/morzusman/projects/bib3.bib" },
-                -- Path to global bibliographies (placed outside of the project)
-                search_keys = { "author", "year", "title" },
-                -- Define the search keys to use in the picker
-                citation_format = "{{author}} ({{year}}), {{title}}.",
-                -- Template for the formatted citation
-                -- citation_trim_firstname = true,
-                -- Only use initials for the authors first name
-                citation_max_auth = 1,
-                -- Format to use for citation label.
-                -- Try to match the filetype by default, or use 'plain'
-                context = false,
-                -- Context awareness disabled by default
-                format = "latex",
-                context_fallback = true,
-                -- Fallback to global/directory .bib files if context not found
-                -- This setting has no effect if context = false
-                wrap = false,
-                -- Wrapping in the preview window is disabled by default
-              },
-
-              file_ignore_patterns = { "tags" },
-              -- layout_strategy = "vertical",
-              dynamic_preview_title = true,
-
-              layout_config = {
-                horizontal = {
-                  height = 0.95,
-                  width = 0.95,
-                  -- preview_width = 0.35,
-                },
-                -- prompt_position = "top",
-              },
-              path_display = { "smart" },
-              sorting_strategy = "ascending",
-              winblend = 0,
-            },
-          },
-        },
-      },
       {
         "mvllow/modes.nvim",
         tag = "v0.2.0",
