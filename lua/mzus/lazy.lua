@@ -25,7 +25,6 @@ vim.api.nvim_set_option("clipboard", "unnamed")
 require("lazy").setup({
   spec = {
     {
-      { "echasnovski/mini.surround", version = "*" },
       {
         "folke/tokyonight.nvim",
         lazy = false,
@@ -324,6 +323,20 @@ require("lazy").setup({
       map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
           end,
         },
+      },
+      {
+        "echasnovski/mini.surround",
+        version = false,
+        config = function()
+          require("mini.surround").setup()
+        end,
+      },
+      {
+        "echasnovski/mini.indentscope",
+        version = false,
+        config = function()
+          require("mini.indentscope").setup()
+        end,
       },
       {
         "echasnovski/mini.cursorword",
