@@ -21,15 +21,6 @@ function bibtexx()
   )
 end
 
-function fuzzyFindFiles()
-  require("telescope.builtin").grep_string({
-    path_display = { "smart" },
-    only_sort_text = true,
-    word_match = "-w",
-    search = "",
-  })
-end
-
 -- local Workspace = require("projections.workspace")
 -- Add workspace command
 -- vim.api.nvim_create_user_command("AddWorkspace", function()
