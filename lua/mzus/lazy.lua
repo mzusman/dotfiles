@@ -25,12 +25,10 @@ vim.api.nvim_set_option("clipboard", "unnamed")
 require("lazy").setup({
   spec = {
     {
-      {
-        "folke/tokyonight.nvim",
-        lazy = false,
-        priority = 1000,
-        opts = {},
-      },
+
+      { "nvim-treesitter/nvim-treesitter-context" },
+      { "rose-pine/neovim", name = "rose-pine" },
+
       {
         "linux-cultist/venv-selector.nvim",
         dependencies = {
