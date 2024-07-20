@@ -79,6 +79,7 @@ end
 --
 map("n", "<leader>ac", bibtexx)
 map("n", "<leader>gg", "<cmd>vertical Git<cr>")
+
 map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
 map("n", "<leader>gt", "<cmd>FzfLua git_tags<cr>")
 map("n", "<leader>gP", "<cmd>Git push<cr>")
@@ -89,6 +90,7 @@ map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>")
 map("n", "\\", "*")
 map("n", "'", "#")
 map({ "v", "n" }, "$", "g_")
+map("n","<leader>db","<cmd>%bd|e#<cr>")
 
 if vim.g.neovide then
   vim.keymap.set("v", "<D-c>", '"+y') -- Copy

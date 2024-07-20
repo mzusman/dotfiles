@@ -25,8 +25,12 @@ vim.api.nvim_set_option("clipboard", "unnamed")
 require("lazy").setup({
   spec = {
     {
-      { "rebelot/kanagawa.nvim" },
-      { "echasnovski/mini.surround", version = "*" },
+      {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+      },
       {
         "linux-cultist/venv-selector.nvim",
         dependencies = {
@@ -206,7 +210,7 @@ require("lazy").setup({
         end,
       },
       { "tpope/vim-unimpaired" },
-      -- { "Glench/Vim-Jinja2-Syntax" },
+      { "Glench/Vim-Jinja2-Syntax", ft = { "yaml" } },
       -- { "rose-pine/neovim", name = "rose-pine" },
       {
         "neovim/nvim-lspconfig",
@@ -319,6 +323,20 @@ require("lazy").setup({
       map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
           end,
         },
+      },
+      {
+        "echasnovski/mini.surround",
+        version = false,
+        config = function()
+          require("mini.surround").setup()
+        end,
+      },
+      {
+        "echasnovski/mini.indentscope",
+        version = false,
+        config = function()
+          require("mini.indentscope").setup()
+        end,
       },
       {
         "echasnovski/mini.cursorword",

@@ -178,3 +178,8 @@ au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=2
 augroup END
 ]])
 
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.yaml" },
+  command = "set ft=jinja",
+})
+vim.cmd("au! FileExplorer *")
