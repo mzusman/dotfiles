@@ -25,10 +25,8 @@ vim.api.nvim_set_option("clipboard", "unnamed")
 require("lazy").setup({
   spec = {
     {
-
-      { "nvim-treesitter/nvim-treesitter-context" },
+      { 'mbbill/undotree'},
       { "rose-pine/neovim", name = "rose-pine" },
-
       {
         "linux-cultist/venv-selector.nvim",
         dependencies = {
@@ -328,6 +326,9 @@ require("lazy").setup({
         config = function()
           require("mini.surround").setup()
         end,
+      },
+      {
+    'Bekaboo/dropbar.nvim',
       },
       {
         "echasnovski/mini.indentscope",

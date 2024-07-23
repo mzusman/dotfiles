@@ -81,6 +81,8 @@ map("n", "<leader>ac", bibtexx)
 map("n", "<leader>gg", "<cmd>vertical Git<cr>")
 
 map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
+map('n', '<leader>u', vim.cmd.UndotreeToggle)
+map('n', '<leader>sw', "<cmd>FzfLua grep_cWORD<cr>")
 map("n", "<leader>gt", "<cmd>FzfLua git_tags<cr>")
 map("n", "<leader>gP", "<cmd>Git push<cr>")
 map("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "Git Pull" })

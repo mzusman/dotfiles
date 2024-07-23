@@ -9,7 +9,7 @@ export CLOUDSDK_PYTHON=/opt/homebrew/bin/python3.11
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="simple"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -234,6 +234,9 @@ wnode2(){export FZF_COMMAND='kubectl get pods --no-headers -o wide'
 wnodes(){kubectl get nodes --no-headers -o wide | fzf -m}
 node(){kubectl get nodes --no-headers -o custom-columns=":metadata.name" | fzf }
 
+wpod2a(){export FZF_COMMAND='kubectl get pods --all-namespaces --no-headers -o wide' 
+  eval $FZF_COMMAND | _fzf }
+
 portfa(){
   POD=$(wpod2a)
 	name=`echo $POD | awk '{print $2}'`
@@ -284,13 +287,10 @@ vol(){osascript -e "set Volume $1"}
 pclean(){pip uninstall -y -r <(pip freeze)}
 
 ksc(){
-    if [ -z "$1" ]
-    then
-        POD=$(wpod2a)
-	    name=`echo $POD | awk '{print $2}'`
-        while true; do kubectl exec -it $name -- env COLUMNS=$COLUMNS LINES=$LINES screen -D -R -S debug; done
-        return
-    fi
+    SESSION="${1:-debug}"
+    POD=$(wpod2a)
+    name=`echo $POD | awk '{print $2}'`
+    while true; do kubectl exec -it $name -- env COLUMNS=$COLUMNS LINES=$LINES screen -D -R -S $SESSION; done
     # echo "Connecting to $1"
     # kubectl exec -it `pod` --container $1 env COLUMNS=$COLUMNS LINES=$LINES tmux -c /bin/bash
 }
@@ -318,7 +318,7 @@ gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 _podsync(){
   echo "Syncing $1 to $2 , pod: $3"
   krsync -av --exclude={'*.git*','*.pyc*','*.venv*','*mlrun*'} $1 $3:$2
-  osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
+  # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
 _podsynca(){
@@ -422,7 +422,7 @@ podsync(){
   ind=$1
   outd=$2
   _podsync $ind $outd $name
-  fswatch -e ".*" -i "\\.py$" -i "\\.sh$" -o $1 | while read f; do _podsync $ind $outd $name; done;
+  while true; do sleep 5; _podsync $ind $outd $name; done;
 }
 
 set rtp+=/opt/homebrew/opt/fzf
