@@ -45,6 +45,9 @@ vim.cmd("set nofixendofline")
 -- vim.g.neovide_cursor_vfx_mode = "sonicboom"
 vim.opt.linespace = 0
 vim.g.neovide_cursor_animation_length = 0
+vim.g.neovide_scroll_animation_length = 0.1
+vim.g.neovide_position_animation_length = 0.05
+
 
 -- default list of bibfiles
 -- can be overriden by changing vim.b.bibfiles inside buffer
