@@ -6,20 +6,14 @@ local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-local function projects()
-  vim.cmd(
-    -- "call fzf#run({'source': 'find ~/projects -maxdepth 1 -mindepth 1 -type d| sort -n', 'sink': 'FZF', 'down': '40%'})"
-    "call fzf#run({'source': 'ls -dt ~/projects/*', 'sink': 'FZF', 'down': '40%'})"
-  )
-end
 
-function bibtexx()
-  vim.cmd("let $FZF_BIBTEX_SOURCES = '~/projects/bibtex.bib'")
-  vim.cmd(
+-- function bibtexx()
+  -- vim.cmd("let $FZF_BIBTEX_SOURCES = '~/projects/bibtex.bib'")
+  -- vim.cmd(
     -- "call fzf#run({'source': 'find ~/projects -maxdepth 1 -mindepth 1 -type d| sort -n', 'sink': 'FZF', 'down': '40%'})"
-    "call fzf#run({'source': 'bibtex-ls', 'sink*': function('<sid>bibtex_cite_sink'), 'down': '40%','options': '--ansi --layout=reverse-list --multi'})"
-  )
-end
+    -- "call fzf#run({'source': 'bibtex-ls', 'sink*': function('<sid>bibtex_cite_sink'), 'down': '40%','options': '--ansi --layout=reverse-list --multi'})"
+  -- )
+
 
 -- local Workspace = require("projections.workspace")
 -- Add workspace command
@@ -31,6 +25,7 @@ end
 vim.keymap.set("n", "<leader>qs", function()
   require("persistence").select()
 end)
+map({"n","t"}, "§", "<cmd>ToggleTerm direction=tab<cr>")
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("t", "<S-tab>", "<C-n>")
@@ -77,7 +72,7 @@ end
 -- map("n", "<tab>", "<cmd>e #<cr>", { desc = "jk" })
 -- map("n", "<leader>fp", projects)
 --
-map("n", "<leader>ac", bibtexx)
+-- map("n", "<leader>ac", bibtexx)
 map("n", "<leader>gg", "<cmd>vertical Git<cr>")
 
 map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>")
@@ -118,7 +113,7 @@ map("n", "<leader><space>", "<cmd>FzfLua lsp_live_workspace_symbols<cr>")
 -- map("n", "<leader>vd", function()
 -- vim.diagnostic.open_float()
 -- end)
-map("n", "§", "<cmd>FzfLua resume<cr>")
+-- map("n", "§", "<cmd>FzfLua resume<cr>")
 
 -- map("n", "<CR>", "<cmd>lua require('harpoon.mark').add_file()<cr>")
 -- map("n", "§", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>")

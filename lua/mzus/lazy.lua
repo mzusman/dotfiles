@@ -25,6 +25,10 @@ vim.api.nvim_set_option("clipboard", "unnamed")
 require("lazy").setup({
   spec = {
     {
+      {
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+      },
       { "mbbill/undotree" },
       { "rose-pine/neovim", name = "rose-pine" },
       {
@@ -113,8 +117,13 @@ require("lazy").setup({
           })
         end,
       },
+      { "akinsho/toggleterm.nvim", version = "*", config = true },
       {
         "gnikdroy/projections.nvim",
+        dependencies = {
+          "ibhagwan/fzf-lua", -- Customize the menu UI yourself from fzf-lua's setup.
+          "nyngwang/fzf-lua-projections.nvim",
+        },
         branch = "pre_release",
         config = function()
           require("projections").setup({
@@ -124,10 +133,9 @@ require("lazy").setup({
           })
 
           -- Bind <leader>fp to Telescope projections
-          require("telescope").load_extension("projections")
           vim.keymap.set("n", "<leader>fp", function()
             vim.cmd("wa")
-            vim.cmd("Telescope projections")
+            require("fzf-lua-p").projects()
           end)
 
           -- Autostore session on VimExit
@@ -363,7 +371,7 @@ require("lazy").setup({
         end,
       },
       -- {
-        -- "Bekaboo/dropbar.nvim",
+      -- "Bekaboo/dropbar.nvim",
       -- },
       {
         "echasnovski/mini.indentscope",
