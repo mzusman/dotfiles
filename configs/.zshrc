@@ -9,7 +9,10 @@ export CLOUDSDK_PYTHON=/opt/homebrew/bin/python3.11
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="simple"
+ZSH_THEME="eastwood"
+setopt inc_append_history
+setopt share_history
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
