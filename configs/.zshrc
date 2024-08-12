@@ -106,7 +106,7 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 if [ -f ~/.ai21_zshrc ]; then
-  source ~/.ai21_zshrc
+    source ~/.ai21_zshrc
 fi
 alias vim="nvim"
 alias gcp="gsutil -m cp -r "
@@ -127,24 +127,24 @@ export PYTHONPATH="/Users/morzusman/projects/sofa_build/build/v23.06/lib/python3
 export PATH="/Users/morzusman/go/bin:$PATH"
 
 kkcp(){
-  DIR=$1
-  PATTEN=$2
-  export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $DIR | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:$DIR/+ +
+    DIR=$1
+    PATTEN=$2
+    export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $DIR | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:$DIR/+ +
 }
 
 
 ktcp(){
-  INPATH=$1
-  OUTPATH=$2
-  POD=`pod | awk '{print $1}'`
-  echo "kubectl cp $INPATH default/$POD:$OUTPATH"
-  kubectl cp $INPATH default/$POD:$OUTPATH
+    INPATH=$1
+    OUTPATH=$2
+    POD=`pod | awk '{print $1}'`
+    echo "kubectl cp $INPATH default/$POD:$OUTPATH"
+    kubectl cp $INPATH default/$POD:$OUTPATH
 }
 
 kcp(){
-  DIR=$1
-  PATTEN=$2
-  export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $1 | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:/app/+ +
+    DIR=$1
+    PATTEN=$2
+    export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $1 | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:/app/+ +
 }
 
 
@@ -154,28 +154,22 @@ ghp(){
 }
 
 _fzf(){
-  fzf --bind 'ctrl-r:reload('$FZF_COMMAND')' --layout=reverse
+    fzf --bind 'ctrl-r:reload('$FZF_COMMAND')' --layout=reverse
 }
 
 _fzfm(){
-  fzf -m --bind 'ctrl-r:reload('$FZF_COMMAND')' --layout=reverse
+    fzf -m --bind 'ctrl-r:reload('$FZF_COMMAND')' --layout=reverse
 }
 
 jobs(){
-  export FZF_COMMAND='kubectl get jobs  --no-headers -o custom-columns=":metadata.name"' 
-  _fzfm}
+    export FZF_COMMAND='kubectl get jobs  --no-headers -o custom-columns=":metadata.name"' 
+    eval $FZF_COMMAND | _fzfm
+}
 
 wjobs(){
-
-  export FZF_COMMAND='cat /tmp/wjobs'
-  if ! [ -f "/tmp/wjobs" ] || ! [ -z "$1" ]; then
-    JOBS=`kubectl get jobs  --no-headers -o wide --show-labels`
-    echo $JOBS >> /tmp/wjobs.tmp
-    mv /tmp/wjobs.tmp /tmp/wjobs
-  fi
-  if [ -z "$1" ]; then
-    cat /tmp/wjobs | _fzfm
-  fi}
+    export FZF_COMMAND='kubectl get jobs  --no-headers -o wide --show-labels' 
+    eval $FZF_COMMAND | _fzfm
+}
 
 auto(){
     python ~/.config/nvim/configs/auto-refresh.py $1
@@ -186,98 +180,78 @@ wjob2(){FZF_COMMAND='kubectl get jobs  --no-headers -o wide' fzf }
 job(){kubectl get jobs  --no-headers -o custom-columns=":metadata.name" | fzf }
 
 pods(){kubectl get pods  --no-headers -o custom-columns=":metadata.name" | fzf -m }
-wpod(){kubectl get pods  --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe pod/A}
+wpod(){kubectl get pods  --no-headers -o wide | fzf | awk '{print $1}' | xargs kubectl describe pod }
 
 wpods2(){
-export FZF_COMMAND='cat /tmp/wpod2'
-  if ! [ -f "/tmp/wpod2" ] || ! [ -z "$1" ]; then
-    WPOD2=`kubectl get pods --no-headers -o wide`
-    echo $WPOD2 >> /tmp/wpod2.tmp
-    mv /tmp/wpod2.tmp /tmp/wpod2
-  fi
-  if [ -z "$1" ]; then
-    cat /tmp/wpod2 | _fzfm
-  fi
+    export FZF_COMMAND='kubectl get pods --no-headers -o wide' 
+    eval $FZF_COMMAND | _fzfm
 }
 
 wpod2(){
-export FZF_COMMAND='cat /tmp/wpod2'
-  if ! [ -f "/tmp/wpod2" ] || ! [ -z "$1" ]; then
-    WPOD2=`kubectl get pods --no-headers -o wide`
-    echo $WPOD2 >> /tmp/wpod2.tmp
-    mv /tmp/wpod2.tmp /tmp/wpod2
-  fi
-  if [ -z "$1" ]; then
-    cat /tmp/wpod2 | _fzf 
-  fi
+    export FZF_COMMAND='kubectl get pods --no-headers -o wide' 
+    eval $FZF_COMMAND | _fzf
 }
 
-wpod2a(){export FZF_COMMAND='kubectl get pods --all-namespaces --no-headers -o wide' 
-  eval $FZF_COMMAND | _fzf }
+wpod2a(){export FZF_COMMAND='kubectl get pods --all-namespaces --no-headers -o wide'
+eval $FZF_COMMAND | _fzf }
 
-wpods(){kubectl get pods --no-headers -o wide | fzf -m}
+wpods(){export FZF_COMMAND='kubectl get pods --no-headers -o wide' 
+    eval $FZF_COMMAND | _fzfm}
 pod(){
-  export FZF_COMMAND='cat /tmp/pod'
-  if ! [ -f "/tmp/pod" ] || ! [ -z "$1" ]; then
-    PODS=`kubectl get pods --no-headers -o wide `
-    echo $PODS >> /tmp/pod.tmp
-    mv /tmp/pod.tmp /tmp/pod
-  fi
-  if [ -z "$1" ]; then
-      cat /tmp/pod | _fzf
-  fi
+    export FZF_COMMAND='kubectl get pods --no-headers -o wide' 
+    eval $FZF_COMMAND | _fzfm
 }
 
 poda(){kubectl get pods --all-namespaces --no-headers -o custom-columns=":metadata.name" | fzf }
 
 wnode(){kubectl get nodes --no-headers -o wide | fzf | awk '{print $2}' | xargs -I A kubectl describe node/A}
-wnode2(){export FZF_COMMAND='kubectl get pods --no-headers -o wide' 
-  eval $FZF_COMMAND | _fzf }
+wnode2(){export FZF_COMMAND='kubectl get pods --no-headers -o wide'
+eval $FZF_COMMAND | _fzf }
 wnodes(){kubectl get nodes --no-headers -o wide | fzf -m}
 node(){kubectl get nodes --no-headers -o custom-columns=":metadata.name" | fzf }
 
-wpod2a(){export FZF_COMMAND='kubectl get pods --all-namespaces --no-headers -o wide' 
-  eval $FZF_COMMAND | _fzf }
+wpod2a(){export FZF_COMMAND='kubectl get pods --all-namespaces --no-headers -o wide'
+eval $FZF_COMMAND | _fzf }
 
 portfa(){
-  POD=$(wpod2a)
-	name=`echo $POD | awk '{print $2}'`
-	namespace=`echo $POD | awk '{print $1}'`
-  echo "Forwarding $1 to $2 , pod: $name"
-	kubectl port-forward -n $namespace $name $1:$2 }
+    POD=$(wpod2a)
+    name=`echo $POD | awk '{print $2}'`
+    namespace=`echo $POD | awk '{print $1}'`
+    echo "Forwarding $1 to $2 , pod: $name"
+kubectl port-forward -n $namespace $name $1:$2 }
 
 portf(){
-  POD=$(wpod2)
-	name=`echo $POD | awk '{print $1}'`
-  echo "Forwarding $1 to $2 , pod: $name"
-	while true; do kubectl port-forward $name $1:$2; done; }
+    POD=$(wpod2)
+    name=`echo $POD | awk '{print $1}'`
+    echo "Forwarding $1 to $2 , pod: $name"
+while true; do kubectl port-forward $name $1:$2; done; }
 
 jlogs(){
-	JOB=$(wjob2)
-	# namespace=`echo $JOB | awk '{print $1}'`
-	name=`echo $JOB | awk '{print $1}'`
-	while true; do sleep 2;kubectl logs job.batch/$name | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
+    JOB=$(wjob2)
+    # namespace=`echo $JOB | awk '{print $1}'`
+    name=`echo $JOB | awk '{print $1}'`
+    while true; do sleep 2;kubectl logs job.batch/$name | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
 }
 
 logs(){
-	POD=$(wpod2)
-	name=`echo $POD | awk '{print $1}'`
-	while true; do sleep 2;kubectl logs $name --tail=100 --timestamps=true | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
+    POD=$(wpod2)
+    name=`echo $POD | awk '{print $1}'`
+    while true; do sleep 2;kubectl logs $name --timestamps=true | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
 }
 
-flogs(){ 
-	POD=$(wpod2)
-	name=`echo $POD | awk '{print $1}'`
-	while true; do kubectl logs -f $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
-	}
+flogs(){
+    POD=$(wpod2)
+    name=`echo $POD | awk '{print $1}'`
+    while true; do kubectl logs -f --tail=100 $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")';done
+}
 
-slogs(){ 
-	PODS=$(wpods2)
+slogs(){
+    PODS=$(wpods2)
     names=`echo $PODS | awk '{print $1}' `
     prefix=`echo $names | sed -e '$q;N;s/^\(.*\).*\n\1.*$/\1/;h;G;D'`
     while true; do sleep 2;stern  $prefix --no-follow;done;
-    	# kubectl logs -f $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
-	}
+    # kubectl logs -f $name $1 | tee >(grep -v "eventTime") | grep "^{" | jq -r '[.eventTime , .severity , .message] | join(" | ")'
+}
 
 dpod(){kubectl delete pod `pod $1`}
 djob(){kubectl delete job `job $1`}
@@ -308,31 +282,33 @@ kssh(){
 }
 
 kssha(){
-  POD=$(wpod2a)
-	name=`echo $POD | awk '{print $2}'`
-	ns=`echo $POD | awk '{print $1}'`
-  kubectl exec --stdin --tty $name --namespace $ns -- /bin/bash}
+    POD=$(wpod2a)
+    name=`echo $POD | awk '{print $2}'`
+    ns=`echo $POD | awk '{print $1}'`
+    kubectl exec --stdin --tty $name --namespace $ns -- /bin/bash
+}
 cssh(){portf $1 9999 22 &;sleep 10;ssh root@127.0.0.1 -p 9999}
 mon(){clear;while $1 $2; do sleep 2;clear; done}
+
 qq(){ while true; do clear; date; "$@" ; sleep 5; done; }
 gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 
 _podsync(){
-  echo "Syncing $1 to $2 , pod: $3"
-  krsync -av --exclude={'*.git*','*.pyc*','*.venv*','*mlrun*'} $1 $3:$2
-  # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
+    echo "Syncing $1 to $2 , pod: $3"
+    krsync -av --exclude={'*.git*','*.pyc*','*.venv*','*mlrun*'} $1 $3:$2
+    # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
 _podsynca(){
-  echo "Syncing $4 $1 to $2 , pod: $3"
-  krsync -av --exclude={'*.git*','*.pyc*','*.venv*','*mlrun*'} $1 $3@$4:$2
-  osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
+    echo "Syncing $4 $1 to $2 , pod: $3"
+    krsync -av --exclude={'*.git*','*.pyc*','*.venv*','*mlrun*'} $1 $3@$4:$2
+    osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
 vans(){
     GPU_RAM="${1:-20}"
     TYPE="--${2:-d}"
-    export FZF_COMMAND="/Users/morzusman/projects/vast/vast search offers $TYPE 'reliability>0.99 gpu_ram>$(echo $GPU_RAM) num_gpus=1'" 
+    export FZF_COMMAND="/Users/morzusman/projects/vast/vast search offers $TYPE 'reliability>0.99 gpu_ram>$(echo $GPU_RAM) num_gpus=1'"
     eval "$FZF_COMMAND" | _fzf
 }
 
@@ -342,7 +318,7 @@ vala(){
     PRICE=`echo $VANS | awk '{print $10}'`
     TYPE="${2:-d}"
     if [[ $TYPE == "i" ]]
-    then 
+    then
         PRICE_I=`python -c "print($PRICE + 0.01)"`
         echo "price for bidding $PRICE_I"
         /Users/morzusman/projects/vast/vast create instance $ID --price $PRICE_I --image pytorch/pytorch --disk 50 --onstart-cmd "touch ~/.no_auto_tmux; apt install -y unzip"
@@ -357,7 +333,7 @@ dva(){
 }
 
 vali(){
-    export FZF_COMMAND="/Users/morzusman/projects/vast/vast show instances" 
+    export FZF_COMMAND="/Users/morzusman/projects/vast/vast show instances"
     eval $FZF_COMMAND | _fzf
 }
 
@@ -388,9 +364,9 @@ vdata(){
     /Users/morzusman/projects/vast/vast cloud copy --src /Archive.zip --dst /workspace/  --transfer "Cloud To Instance" --instance $(vali | awk '{print $1}') --connection $(/Users/morzusman/projects/vast/vast show connections | tail -1 | awk '{print $1}')
 }
 vmsync(){
-  VM=$1
-  rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD)
-  fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do rsync -av --exclude 'venv*' --exclude '.git*'  $VM:/home/morzusman/$(basename $PWD); done;
+    VM=$1
+    rsync -av --exclude 'venv*' --exclude '.git*' $PWD/ $VM:/home/morzusman/$(basename $PWD)
+    fswatch -e ".*" -i "\\.py$" -o $PWD/| while read f; do rsync -av --exclude 'venv*' --exclude '.git*'  $VM:/home/morzusman/$(basename $PWD); done;
 }
 
 # podsync(){
@@ -400,31 +376,31 @@ vmsync(){
 # }
 #
 podsynca(){
-  POD=$(wpod2a)
-	name=`echo $POD | awk '{print $2}'`
-	ns=`echo $POD | awk '{print $1}'`
-  ind=$1
-  outd=$2
-  _podsynca $ind $outd $name $ns
-  fswatch -e ".*" -i "\\.py$" -o $1 | while read f; do _podsynca $ind $outd $name $ns; done;
+    POD=$(wpod2a)
+    name=`echo $POD | awk '{print $2}'`
+    ns=`echo $POD | awk '{print $1}'`
+    ind=$1
+    outd=$2
+    _podsynca $ind $outd $name $ns
+    fswatch -e ".*" -i "\\.py$" -o $1 | while read f; do _podsynca $ind $outd $name $ns; done;
 }
 
 locsync(){
-  POD=$(wpod2)
-  name=`echo $POD | awk '{print $1}'`
-  ind=$1
-  outd=$2
-  k rsync $name:$ind $outd
-  while true; do k rsync -- --exclude={"**echeckpoints/*"} -avr $name:$ind $outd; sleep 10; done;
+    POD=$(wpod2)
+    name=`echo $POD | awk '{print $1}'`
+    ind=$1
+    outd=$2
+    k rsync $name:$ind $outd
+    while true; do k rsync -- --exclude={"**echeckpoints/*"} -avr $name:$ind $outd; sleep 10; done;
 }
 
 podsync(){
-  POD=$(wpod2)
-  name=`echo $POD | awk '{print $1}'`
-  ind=$1
-  outd=$2
-  _podsync $ind $outd $name
-  while true; do sleep 5; _podsync $ind $outd $name; done;
+    POD=$(wpod2)
+    name=`echo $POD | awk '{print $1}'`
+    ind=$1
+    outd=$2
+    _podsync $ind $outd $name
+    while true; do sleep 5; _podsync $ind $outd $name; done;
 }
 
 set rtp+=/opt/homebrew/opt/fzf
@@ -433,13 +409,13 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 fancy-ctrl-z () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="fg"
-    zle accept-line
-  else
-    zle push-input
-    zle clear-screen
-  fi
+    if [[ $#BUFFER -eq 0 ]]; then
+        BUFFER="fg"
+        zle accept-line
+    else
+        zle push-input
+        zle clear-screen
+    fi
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z

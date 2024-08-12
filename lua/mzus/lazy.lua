@@ -124,7 +124,6 @@ require("lazy").setup({
           })
         end,
       },
-      { "akinsho/toggleterm.nvim", version = "*", config = true },
       {
         "gnikdroy/projections.nvim",
         dependencies = {
