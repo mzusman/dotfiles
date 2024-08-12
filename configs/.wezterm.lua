@@ -1,4 +1,4 @@
--- Pull in the wezterm API
+-- ln -sf ~/projects/nvim/configs/.wezterm.lua ~/.wezterm.lua
 local wezterm = require("wezterm")
 
 return {
