@@ -3,7 +3,6 @@ local wezterm = require("wezterm")
 
 return {
 	default_cursor_style = "BlinkingBlock",
-	color_scheme = "Poimandres",
 	colors = {
 		cursor_bg = "#A6ACCD",
 		cursor_border = "#A6ACCD",
