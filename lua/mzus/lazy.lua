@@ -46,19 +46,19 @@ require("lazy").setup({
           },
         },
       },
-      {
-        "shortcuts/no-neck-pain.nvim",
-        version = "*",
-        config = function()
-          require("no-neck-pain").setup({
-            autocmds = {
-              enableOnVimEnter = true,
-            },
-            scratchPad = { enabled = true, location = "~/Documents/" },
-            bo = { filetype = "md" },
-          })
-        end,
-      },
+      -- {
+        -- "shortcuts/no-neck-pain.nvim",
+        -- version = "*",
+        -- config = function()
+          -- require("no-neck-pain").setup({
+            -- autocmds = {
+              -- enableOnVimEnter = true,
+            -- },
+            -- scratchPad = { enabled = true, location = "~/Documents/" },
+            -- bo = { filetype = "md" },
+          -- })
+        -- end,
+      -- },
       {
         "nvim-neorg/neorg",
         lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
@@ -263,6 +263,207 @@ require("lazy").setup({
           require("fzf-lua").setup({
             "fzf-vim",
             {
+              {
+                "linrongbin16/gitlinker.nvim",
+                cmd = "GitLink",
+                opts = {},
+                keys = {
+                  { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
+                  { "<leader>gY", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
+                },
+              },
+            },
+          })
+        end,
+      },
+      { "mbbill/undotree" },
+
+      { "rose-pine/neovim", name = "rose-pine" },
+      {
+        "linux-cultist/venv-selector.nvim",
+        dependencies = {
+          "neovim/nvim-lspconfig",
+          { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+        },
+        lazy = false,
+        branch = "regexp", -- This is the regexp branch, use this for the new version
+        config = function()
+          require("venv-selector").setup({
+            settings = { options = { notify_user_on_venv_activation = true } },
+          })
+        end,
+        keys = {
+          { "<leader>vs", "<cmd>VenvSelect<cr>" },
+        },
+      },
+      { "echasnovski/mini.files", version = "*" },
+      { "jalvesaq/zotcite" },
+      { "projekt0n/github-nvim-theme" },
+
+      { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+      {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+          "williamboman/mason.nvim",
+          "williamboman/mason-lspconfig.nvim",
+          "hrsh7th/cmp-nvim-lsp",
+          "hrsh7th/cmp-buffer",
+          "hrsh7th/cmp-path",
+          "hrsh7th/cmp-cmdline",
+          "hrsh7th/nvim-cmp",
+          "L3MON4D3/LuaSnip",
+          "saadparwaiz1/cmp_luasnip",
+          "j-hui/fidget.nvim",
+        },
+
+        config = function()
+          local cmp = require("cmp")
+          local cmp_lsp = require("cmp_nvim_lsp")
+          local capabilities = vim.tbl_deep_extend(
+            "force",
+            {},
+            vim.lsp.protocol.make_client_capabilities(),
+            cmp_lsp.default_capabilities()
+          )
+
+          require("fidget").setup({})
+          require("mason").setup()
+          require("mason-lspconfig").setup({
+            handlers = {
+              function(server_name) -- default handler (optional)
+                require("lspconfig")[server_name].setup({
+                  capabilities = capabilities,
+                })
+              end,
+            },
+          })
+
+          local cmp_select = { behavior = cmp.SelectBehavior.Select }
+
+          cmp.setup({
+            mapping = cmp.mapping.preset.insert({
+              ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+              ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+              ["<CR>"] = cmp.mapping.confirm({ select = true }),
+              ["<C-Space>"] = cmp.mapping.complete(),
+            }),
+            sources = cmp.config.sources({
+              { name = "nvim_lsp" },
+            }, {
+              { name = "buffer" },
+            }),
+          })
+
+          vim.diagnostic.config({
+            -- update_in_insert = true,
+            float = {
+              focusable = false,
+              style = "minimal",
+              border = "rounded",
+              source = "always",
+              header = "",
+              prefix = "",
+            },
+          })
+        end,
+      },
+      {
+        "gnikdroy/projections.nvim",
+        dependencies = {
+          "ibhagwan/fzf-lua", -- Customize the menu UI yourself from fzf-lua's setup.
+          "nyngwang/fzf-lua-projections.nvim",
+        },
+        branch = "pre_release",
+        config = function()
+          require("projections").setup({
+            workspaces = { -- Default workspaces to search for
+              { "~/projects", { ".git" } }, -- Documents/dev is a workspace. patterns = { ".git" }
+            },
+          })
+
+          -- Bind <leader>fp to Telescope projections
+          vim.keymap.set("n", "<leader>fp", function()
+            vim.cmd("wa")
+            require("fzf-lua-p").projects()
+          end)
+
+          -- Autostore session on VimExit
+          local Session = require("projections.session")
+          vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+            callback = function()
+              Session.store(vim.loop.cwd())
+            end,
+          })
+
+          -- Switch to project if vim was started in a project dir
+          local switcher = require("projections.switcher")
+          vim.api.nvim_create_autocmd({ "VimEnter" }, {
+            callback = function()
+              if vim.fn.argc() == 0 then
+                switcher.switch(vim.loop.cwd())
+              end
+            end,
+          })
+        end,
+      },
+      {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function()
+          require("nvim-treesitter.configs").setup({
+            -- A list of parser names, or "all"
+            ensure_installed = {
+              "vimdoc",
+              "python",
+              "c",
+              "lua",
+              "bash",
+            },
+
+            -- Install parsers synchronously (only applied to `ensure_installed`)
+            sync_install = false,
+
+            -- Automatically install missing parsers when entering buffer
+            -- Recommendation: set to false if you don"t have `tree-sitter` CLI installed locally
+            auto_install = true,
+
+            indent = {
+              enable = true,
+            },
+
+            highlight = {
+              -- `false` will disable the whole extension
+              enable = true,
+
+              -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+              -- Set this to `true` if you depend on "syntax" being enabled (like for indentation).
+              -- Using this option may slow down your editor, and you may see some duplicate highlights.
+              -- Instead of true it can also be a list of languages
+              additional_vim_regex_highlighting = { "markdown" },
+            },
+          })
+
+          local treesitter_parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+          treesitter_parser_config.templ = {
+            install_info = {
+              url = "https://github.com/vrischmann/tree-sitter-templ.git",
+              files = { "src/parser.c", "src/scanner.c" },
+              branch = "master",
+            },
+          }
+
+          vim.treesitter.language.register("templ", "templ")
+        end,
+      },
+      {
+        "ibhagwan/fzf-lua",
+        -- optional for icon support
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+          -- calling `setup` is optional for customization
+          require("fzf-lua").setup({
+            "fzf-vim",
+            {
               files = {
                 formatter = "path.filename_first",
               },
@@ -277,18 +478,6 @@ require("lazy").setup({
         "sindrets/diffview.nvim",
         cmd = { "DiffviewFileHistory", "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
         config = true,
-        keys = {
-          {
-            "<leader>gd",
-            "<cmd>DiffviewOpen<cr>",
-            desc = "DiffView",
-          },
-          {
-            "<leader>gl",
-            "<cmd>DiffviewFileHistory %<cr>",
-            desc = "DiffView",
-          },
-        },
       },
       {
         "gbprod/substitute.nvim",
