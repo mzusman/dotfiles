@@ -31,24 +31,61 @@ require("lazy").setup({
           cmd = "GitLink",
           opts = {},
           keys = {
-            { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
-            { "<leader>gY", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
+            {
+              "<leader>gy",
+              "<cmd>GitLink<cr>",
+              mode = { "n", "v" },
+              desc = "Yank git link",
+            },
+            {
+              "<leader>gY",
+              "<cmd>GitLink!<cr>",
+              mode = { "n", "v" },
+              desc = "Open git link",
+            },
           },
         },
       },
+      {
+        "shortcuts/no-neck-pain.nvim",
+        version = "*",
+        config = function()
+          require("no-neck-pain").setup({
+            autocmds = {
+              enableOnVimEnter = true,
+            },
+            scratchPad = { enabled = true, location = "~/Documents/" },
+            bo = { filetype = "md" },
+          })
+        end,
+      },
+      {
+        "nvim-neorg/neorg",
+        lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+        version = "*", -- Pin Neorg to the latest stable release
+        config = true,
+      },
       { "mbbill/undotree" },
       { "rose-pine/neovim", name = "rose-pine" },
+      { "projekt0n/github-nvim-theme" },
+
       {
         "linux-cultist/venv-selector.nvim",
         dependencies = {
           "neovim/nvim-lspconfig",
-          { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+          {
+            "nvim-telescope/telescope.nvim",
+            branch = "0.1.x",
+            dependencies = { "nvim-lua/plenary.nvim" },
+          },
         },
         lazy = false,
         branch = "regexp", -- This is the regexp branch, use this for the new version
         config = function()
           require("venv-selector").setup({
-            settings = { options = { notify_user_on_venv_activation = true } },
+            settings = {
+              options = { notify_user_on_venv_activation = true },
+            },
           })
         end,
         keys = {
@@ -123,6 +160,11 @@ require("lazy").setup({
             },
           })
         end,
+      },
+      {
+        "MeanderingProgrammer/render-markdown.nvim",
+        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+        opts = {},
       },
       {
         "gnikdroy/projections.nvim",
@@ -347,25 +389,25 @@ require("lazy").setup({
               vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
             end
 
-      -- stylua: ignore start
-      map("n", "]h", function()
-        if vim.wo.diff then
-          vim.cmd.normal({ "]c", bang = true })
-        else
-          gs.nav_hunk("next")
-        end
-      end, "Next Hunk")
-      map("n", "[h", function()
-        if vim.wo.diff then
-          vim.cmd.normal({ "[c", bang = true })
-        else
-          gs.nav_hunk("prev")
-        end
-      end, "Prev Hunk")
-      map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-      map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-      map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-      map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
+                        -- stylua: ignore start
+                        map("n", "]h", function()
+                            if vim.wo.diff then
+                                vim.cmd.normal({ "]c", bang = true })
+                            else
+                                gs.nav_hunk("next")
+                            end
+                        end, "Next Hunk")
+                        map("n", "[h", function()
+                            if vim.wo.diff then
+                                vim.cmd.normal({ "[c", bang = true })
+                            else
+                                gs.nav_hunk("prev")
+                            end
+                        end, "Prev Hunk")
+                        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+                        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+                        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
+                        map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
           end,
         },
       },

@@ -66,7 +66,7 @@ if [[ -z "$KUBECTL_RSYNC_RSH" ]]; then
 	export KUBE_CONTEXT POD_NAMESPACE POD_CONTAINER
 
 	set -x
-	exec rsync --blocking-io --rsh="$0" "$@"
+	exec rsync -z --blocking-io --rsh="$0" "$@"
 fi
 
 # Running under --rsh

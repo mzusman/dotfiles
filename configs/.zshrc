@@ -9,7 +9,7 @@ export CLOUDSDK_PYTHON=/opt/homebrew/bin/python3.11
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="eastwood"
+ZSH_THEME="robbyrussell"
 setopt share_history
 
 
@@ -109,6 +109,8 @@ if [ -f ~/.ai21_zshrc ]; then
     source ~/.ai21_zshrc
 fi
 alias vim="nvim"
+# alias python="python3.11"
+# alias pip="python3.11 -m pip"
 alias gcp="gsutil -m cp -r "
 alias gmv="gsutil -m mv "
 alias grm="gsutil -m rm -r "
@@ -128,7 +130,7 @@ export PATH="/Users/morzusman/go/bin:$PATH"
 
 kkcp(){
     DIR=$1
-    PATTEN=$2
+    PATTERN=$2
     export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $DIR | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:$DIR/+ +
 }
 
@@ -143,7 +145,7 @@ ktcp(){
 
 kcp(){
     DIR=$1
-    PATTEN=$2
+    PATTERN=$2
     export POD=`pod | awk '{print $1}'`;kubectl exec $POD -- ls $1 | grep $PATTERN  | xargs -P 8 -I + kubectl cp default/$POD:/app/+ +
 }
 
@@ -295,7 +297,7 @@ gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 
 _podsync(){
     echo "Syncing $1 to $2 , pod: $3"
-    krsync -av --exclude={'*.git*','*.pyc*','*.venv*','*mlrun*'} $1 $3:$2
+    krsync -av --exclude={'*.git*','*.pyc*','*venv*','*mlrun*'} $1 $3:$2
     # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
@@ -422,12 +424,6 @@ bindkey '^Z' fancy-ctrl-z
 
 export PATH="/Users/morzusman/.config/nvim/k8s_scripts/:/Users/morzusman/.local/bin:/opt/homebrew/opt/qt@5/bin:/Users/morzusman/projects/vast/vast:$PATH"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/morzusman/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/morzusman/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/morzusman/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/morzusman/google-cloud-sdk/completion.zsh.inc'; fi
-
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 
@@ -437,3 +433,9 @@ bindkey "^[[1;3D" backward-word
 
 export SOFA_ROOT=/Users/morzusman/projects/sofa/build
 export SOFAPYTHON3_ROOT=/Users/morzusman/projects/sofa/build/plugins/SofaPython3
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/morzusman/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/morzusman/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/morzusman/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/morzusman/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
