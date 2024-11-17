@@ -297,7 +297,7 @@ gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 
 _podsync(){
     echo "Syncing $1 to $2 , pod: $3"
-    krsync -av --exclude={'*.git*','*.pyc*','*venv*','*mlrun*'} $1 $3:$2
+    krsync -av --exclude={'*.git*','*.pyc*','*venv*','*mlrun*','data/','logs/'} $1 $3:$2
     # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 

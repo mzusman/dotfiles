@@ -46,19 +46,6 @@ require("lazy").setup({
           },
         },
       },
-      -- {
-        -- "shortcuts/no-neck-pain.nvim",
-        -- version = "*",
-        -- config = function()
-          -- require("no-neck-pain").setup({
-            -- autocmds = {
-              -- enableOnVimEnter = true,
-            -- },
-            -- scratchPad = { enabled = true, location = "~/Documents/" },
-            -- bo = { filetype = "md" },
-          -- })
-        -- end,
-      -- },
       {
         "nvim-neorg/neorg",
         lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
