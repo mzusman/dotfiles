@@ -2,5 +2,10 @@
 require("mzus")
 vim.g.loaded_netrw       = 1
 vim.g.loaded_netrwPlugin = 1
-vim.cmd.colorscheme "github_light"
-vim.cmd.colorscheme "github_light"
+vim.opt.background = "light" -- set this to dark or light
+
+-- vim.cmd.colorscheme "jd"
+-- vim.cmd.colorscheme "jd"
+vim.cmd.colorscheme "default"
+
+

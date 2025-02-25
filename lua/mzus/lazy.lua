@@ -26,6 +26,51 @@ require("lazy").setup({
   spec = {
     {
       {
+        -- {
+        -- "hinell/lsp-timeout.nvim",
+        -- dependencies = { "neovim/nvim-lspconfig" },
+        -- },
+        {
+          "kawre/leetcode.nvim",
+          build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
+          dependencies = {
+            "nvim-telescope/telescope.nvim",
+            -- "ibhagwan/fzf-lua",
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+          },
+          opts = {
+            -- configuration goes here
+          },
+        },
+        {
+          "nvim-lualine/lualine.nvim",
+          dependencies = { "nvim-tree/nvim-web-devicons" },
+          config = function()
+            require("lualine").setup({})
+          end,
+        },
+        {
+          "nvim-treesitter/nvim-treesitter-context",
+          dependencies = { "nvim-treesitter/nvim-treesitter" },
+          config = function()
+            require("treesitter-context").setup({
+              enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+              multiwindow = false, -- Enable multiwindow support.
+              max_lines = 2, -- How many lines the window should span. Values <= 0 mean no limit.
+              min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+              line_numbers = true,
+              multiline_threshold = 2, -- Maximum number of lines to show for a single context
+              trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+              mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
+              -- Separator between context and content. Should be a single character string, like '-'.
+              -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+              separator = nil,
+              zindex = 20, -- The Z-index of the context window
+              on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attachin
+            })
+          end,
+        },
         {
           "linrongbin16/gitlinker.nvim",
           cmd = "GitLink",
@@ -46,10 +91,6 @@ require("lazy").setup({
           },
         },
       },
-      { "mbbill/undotree" },
-      { "rose-pine/neovim", name = "rose-pine" },
-      { "projekt0n/github-nvim-theme" },
-
       {
         "linux-cultist/venv-selector.nvim",
         dependencies = {
@@ -73,9 +114,6 @@ require("lazy").setup({
           { "<leader>vs", "<cmd>VenvSelect<cr>" },
         },
       },
-      { "echasnovski/mini.files", version = "*" },
-      { "jalvesaq/zotcite" },
-      { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
       {
         "neovim/nvim-lspconfig",
         dependencies = {
@@ -84,11 +122,61 @@ require("lazy").setup({
           "hrsh7th/cmp-nvim-lsp",
           "hrsh7th/cmp-buffer",
           "hrsh7th/cmp-path",
-          "hrsh7th/cmp-cmdline",
           "hrsh7th/nvim-cmp",
-          "L3MON4D3/LuaSnip",
-          "saadparwaiz1/cmp_luasnip",
           "j-hui/fidget.nvim",
+        },
+        opts = {
+          diagnostics = {
+            virtual_text = false,
+          },
+          format = { timeout_ms = 5000 },
+          servers = {
+            -- Ensure mason installs the servers
+
+            clangd = {
+              keys = {
+                { "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
+              },
+              root_dir = function(fname)
+                return require("lspconfig.util").root_pattern(
+                  "Makefile",
+                  "configure.ac",
+                  "configure.in",
+                  "config.h.in",
+                  "meson.build",
+                  "meson_options.txt",
+                  "build.ninja"
+                )(fname) or require("lspconfig.util").root_pattern(
+                  "compile_commands.json",
+                  "compile_flags.txt"
+                )(fname) or require("lspconfig.util").find_git_ancestor(fname)
+              end,
+              capabilities = {
+                offsetEncoding = { "utf-16" },
+              },
+              cmd = {
+                "clangd",
+                "--background-index",
+                "--clang-tidy",
+                "--header-insertion=iwyu",
+                "--completion-style=detailed",
+                "--function-arg-placeholders",
+                "--fallback-style=llvm",
+              },
+              init_options = {
+                usePlaceholders = true,
+                completeUnimported = true,
+                clangdFileStatus = true,
+              },
+            },
+          },
+          setup = {
+            clangd = function(_, opts)
+              local clangd_ext_opts = require("lazyvim.util").opts("clangd_extensions.nvim")
+              require("clangd_extensions").setup(vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts }))
+              return false
+            end,
+          },
         },
 
         config = function()
@@ -235,53 +323,7 @@ require("lazy").setup({
           vim.treesitter.language.register("templ", "templ")
         end,
       },
-      {
-        "ibhagwan/fzf-lua",
-        -- optional for icon support
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function()
-          -- calling `setup` is optional for customization
-          require("fzf-lua").setup({
-            "fzf-vim",
-            {
-              {
-                "linrongbin16/gitlinker.nvim",
-                cmd = "GitLink",
-                opts = {},
-                keys = {
-                  { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
-                  { "<leader>gY", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
-                },
-              },
-            },
-          })
-        end,
-      },
-      { "mbbill/undotree" },
-
-      { "rose-pine/neovim", name = "rose-pine" },
-      {
-        "linux-cultist/venv-selector.nvim",
-        dependencies = {
-          "neovim/nvim-lspconfig",
-          { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
-        },
-        lazy = false,
-        branch = "regexp", -- This is the regexp branch, use this for the new version
-        config = function()
-          require("venv-selector").setup({
-            settings = { options = { notify_user_on_venv_activation = true } },
-          })
-        end,
-        keys = {
-          { "<leader>vs", "<cmd>VenvSelect<cr>" },
-        },
-      },
       { "echasnovski/mini.files", version = "*" },
-      { "jalvesaq/zotcite" },
-      { "projekt0n/github-nvim-theme" },
-
-      { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
       {
         "neovim/nvim-lspconfig",
         dependencies = {
@@ -349,101 +391,21 @@ require("lazy").setup({
         end,
       },
       {
-        "gnikdroy/projections.nvim",
-        dependencies = {
-          "ibhagwan/fzf-lua", -- Customize the menu UI yourself from fzf-lua's setup.
-          "nyngwang/fzf-lua-projections.nvim",
-        },
-        branch = "pre_release",
-        config = function()
-          require("projections").setup({
-            workspaces = { -- Default workspaces to search for
-              { "~/projects", { ".git" } }, -- Documents/dev is a workspace. patterns = { ".git" }
-            },
-          })
-
-          -- Bind <leader>fp to Telescope projections
-          vim.keymap.set("n", "<leader>fp", function()
-            vim.cmd("wa")
-            require("fzf-lua-p").projects()
-          end)
-
-          -- Autostore session on VimExit
-          local Session = require("projections.session")
-          vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
-            callback = function()
-              Session.store(vim.loop.cwd())
-            end,
-          })
-
-          -- Switch to project if vim was started in a project dir
-          local switcher = require("projections.switcher")
-          vim.api.nvim_create_autocmd({ "VimEnter" }, {
-            callback = function()
-              if vim.fn.argc() == 0 then
-                switcher.switch(vim.loop.cwd())
-              end
-            end,
-          })
-        end,
-      },
-      {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        config = function()
-          require("nvim-treesitter.configs").setup({
-            -- A list of parser names, or "all"
-            ensure_installed = {
-              "vimdoc",
-              "python",
-              "c",
-              "lua",
-              "bash",
-            },
-
-            -- Install parsers synchronously (only applied to `ensure_installed`)
-            sync_install = false,
-
-            -- Automatically install missing parsers when entering buffer
-            -- Recommendation: set to false if you don"t have `tree-sitter` CLI installed locally
-            auto_install = true,
-
-            indent = {
-              enable = true,
-            },
-
-            highlight = {
-              -- `false` will disable the whole extension
-              enable = true,
-
-              -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-              -- Set this to `true` if you depend on "syntax" being enabled (like for indentation).
-              -- Using this option may slow down your editor, and you may see some duplicate highlights.
-              -- Instead of true it can also be a list of languages
-              additional_vim_regex_highlighting = { "markdown" },
-            },
-          })
-
-          local treesitter_parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-          treesitter_parser_config.templ = {
-            install_info = {
-              url = "https://github.com/vrischmann/tree-sitter-templ.git",
-              files = { "src/parser.c", "src/scanner.c" },
-              branch = "master",
-            },
-          }
-
-          vim.treesitter.language.register("templ", "templ")
-        end,
-      },
-      {
         "ibhagwan/fzf-lua",
         -- optional for icon support
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
           -- calling `setup` is optional for customization
           require("fzf-lua").setup({
-            "fzf-vim",
+            "max-perf",
+            winopts = {
+              fullscreen = true,
+              preview = {
+                -- default = "cat",
+                horizontal = "right:50%",
+                layout = "horizontal",
+              },
+            },
             {
               files = {
                 formatter = "path.filename_first",
@@ -468,64 +430,7 @@ require("lazy").setup({
       },
       { "tpope/vim-unimpaired" },
       { "Glench/Vim-Jinja2-Syntax", ft = { "yaml" } },
-      -- { "rose-pine/neovim", name = "rose-pine" },
-      {
-        "neovim/nvim-lspconfig",
-        opts = {
-          diagnostics = {
-            virtual_text = false,
-          },
-          format = { timeout_ms = 5000 },
-          servers = {
-            -- Ensure mason installs the server
-            clangd = {
-              keys = {
-                { "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
-              },
-              root_dir = function(fname)
-                return require("lspconfig.util").root_pattern(
-                  "Makefile",
-                  "configure.ac",
-                  "configure.in",
-                  "config.h.in",
-                  "meson.build",
-                  "meson_options.txt",
-                  "build.ninja"
-                )(fname) or require("lspconfig.util").root_pattern(
-                  "compile_commands.json",
-                  "compile_flags.txt"
-                )(fname) or require("lspconfig.util").find_git_ancestor(fname)
-              end,
-              capabilities = {
-                offsetEncoding = { "utf-16" },
-              },
-              cmd = {
-                "clangd",
-                "--background-index",
-                "--clang-tidy",
-                "--header-insertion=iwyu",
-                "--completion-style=detailed",
-                "--function-arg-placeholders",
-                "--fallback-style=llvm",
-              },
-              init_options = {
-                usePlaceholders = true,
-                completeUnimported = true,
-                clangdFileStatus = true,
-              },
-            },
-          },
-          setup = {
-            clangd = function(_, opts)
-              local clangd_ext_opts = require("lazyvim.util").opts("clangd_extensions.nvim")
-              require("clangd_extensions").setup(vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts }))
-              return false
-            end,
-          },
-        },
-      },
       { "msprev/fzf-bibtex" },
-      { "jeetsukumaran/vim-pythonsense", ft = { "python" } },
       { "machakann/vim-swap", event = "VeryLazy" },
       {
         "lervag/vimtex",
@@ -605,13 +510,6 @@ require("lazy").setup({
           require("mini.cursorword").setup({ delay = 10 })
         end,
       },
-      {
-        "echasnovski/mini.move",
-        version = false,
-        config = function()
-          require("mini.move").setup()
-        end,
-      },
       { "tpope/vim-repeat" },
       { "tpope/vim-fugitive" },
       {
@@ -625,5 +523,5 @@ require("lazy").setup({
       },
     },
   },
-  change_detection = { notify = false },
+  change_detection = { notify = true },
 })

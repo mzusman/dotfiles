@@ -10,7 +10,11 @@ vim.cmd("let g:python3_host_prog = expand('~/.pyenv/versions/3.8.10-local/bin/py
 vim.cmd("set termguicolors")
 vim.opt.spell = false
 vim.opt.spelllang = { "en_us" }
-
+vim.diagnostic.config({
+  underline = {
+    severity = { min = vim.diagnostic.severity.ERROR },
+  },
+})
 vim.opt.foldmethod = "indent"
 vim.o.foldcolumn = "0" -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
@@ -47,7 +51,6 @@ vim.opt.linespace = 0
 vim.g.neovide_cursor_animation_length = 0
 vim.g.neovide_scroll_animation_length = 0.1
 vim.g.neovide_position_animation_length = 0.05
-
 
 -- default list of bibfiles
 -- can be overriden by changing vim.b.bibfiles inside buffer
