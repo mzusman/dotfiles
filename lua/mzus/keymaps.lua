@@ -7,6 +7,7 @@ local function map(mode, lhs, rhs, opts)
 end
 
 
+
 -- function bibtexx()
   -- vim.cmd("let $FZF_BIBTEX_SOURCES = '~/projects/bibtex.bib'")
   -- vim.cmd(

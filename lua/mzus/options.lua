@@ -189,3 +189,9 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   command = "set ft=jinja",
 })
 vim.cmd("au! FileExplorer *")
+
+vim.api.nvim_create_autocmd("SessionLoadPost", {
+	callback = function()
+		require("vuffers").on_session_loaded()
+	end,
+})

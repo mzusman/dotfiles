@@ -300,6 +300,13 @@ xsc(){
     # kubectl exec -it `pod` --container $1 env COLUMNS=$COLUMNS LINES=$LINES tmux -c /bin/bash
 }
 
+xssh(){
+    SESSION="${1:-debug}"
+    xpanes -d -B "kubectl exec -it {} -- env COLUMNS=$COLUMNS LINES=$LINES /bin/bash" `pods`
+    # echo "Connecting to $1"
+    # kubectl exec -it `pod` --container $1 env COLUMNS=$COLUMNS LINES=$LINES tmux -c /bin/bash
+}
+
 kssh(){
     if [ -z "$1" ]
     then
@@ -322,9 +329,10 @@ mon(){clear;while $1 $2; do sleep 2;clear; done}
 qq(){ while true; do clear; date; "$@" ; sleep 5; done; }
 gsmkd(){mkdir /tmp/$1;touch /tmp/$1/dummy;gcp cp -r /tmp/$1 $2;rm -rf /tmp/$1}
 
+
 _podsync(){
     echo "Syncing $1 to $2 , pod: $3"
-    krsync -av --max-size=1mb --exclude={'*.git*','*.pyc*','*venv*','*mlrun*','*ncu*','*nsys*','*MAC*','*zip*','data/','logs/'} $1 $3:$2
+    krsync -av --max-size=1mb --exclude={'*.git*','*mypy_cache*','*.pyc*','*venv*','*mlrun*','*ncu*','*nsys*','*MAC*','*zip*','data/','logs/'} $1 $3:$2
     # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
 }
 
@@ -438,6 +446,11 @@ ktail(){
     multitail -f -CS $1 -l 'kubectl logs '$names' -f'
 }
 
+_podsync(){
+    echo "Syncing $1 to $2 , pod: $3"
+    krsync -av --max-size=1mb --exclude={'*.git*','*mypy_cache*','*.pyc*','*venv*','*mlrun*','*ncu*','*nsys*','*MAC*','*zip*','data/','logs/'} $1 $3:$2
+    # osascript -e 'display notification "Finished syncing with '$3'!" with title "Sync"'
+}
 
 podsync(){
     POD=$(wpod2)
@@ -446,6 +459,12 @@ podsync(){
     outd=$2
     _podsync $ind $outd $name
     while true; do sleep 5; _podsync $ind $outd $name; done;
+}
+
+xpodsync1(){
+    ind=$1
+    outd=$2
+    xpanes -B "_podsync $ind $outd {}" `pods`
 }
 
 xpodsync(){
