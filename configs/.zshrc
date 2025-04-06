@@ -514,8 +514,36 @@ if [ -f '/Users/morzusman/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/U
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/morzusman/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/morzusman/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
-source ~/.ai21_zshrc
+# source ~/.ai21_zshrc
 
+# Save original cd command
+cd_original=$(command -v cd)
+
+# Function to activate venv if it exists
+function activate_venv_if_exists() {
+    if [[ -f ".venv/bin/activate" ]]; then
+        # Avoid reactivating the same venv
+        if [[ "$VIRTUAL_ENV" != "$(pwd)/.venv" ]]; then
+            source .venv/bin/activate
+            echo "Activated virtual environment in $(pwd)"
+        fi
+    else
+        # Optional: deactivate if we're leaving a venv directory
+        if [[ -n "$VIRTUAL_ENV" ]]; then
+            deactivate
+            echo "Deactivated virtual environment"
+        fi
+    fi
+}
+
+# Override the cd command
+cd() {
+    builtin cd "$@" || return
+    activate_venv_if_exists
+}
+
+# Initial check if you're already in a dir with .venv
+activate_venv_if_exists
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/morzusman/.rd/bin:$PATH"
+# export PATH="/Users/morzusman/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
